@@ -367,18 +367,53 @@ const instance = new Razorpay({
 });
 
 
+// app.post('/api/checkout', async (req, res) => {
+//   // console.log(req.body);
+//   const amount = req.body.amount;
+//   const planName = req.body.planName; // Get plan name from the request body
+//   const username = req.body.username; // Get username from the request body
+//   const date = req.body.date; // Get date from the request body
+//   const isoString = new Date(date).toISOString();
+//   const formattedDate = isoString.slice(0, 10);
+//   // const reverseDate = formattedDate.reverse();
+//   console.log("User  Email from session:", username);
+//   console.log("Current Date:", formattedDate); 
+//   console.log("Amount is ",amount);
+//   console.log("Plan Name :", planName);
+  
+//   const options = {
+//     amount: Number(req.body.amount * 100), // Convert to subunits
+//     currency: "INR",
+//     receipt: `receipt_order_${Math.random()}`, // Optional: Add a receipt ID
+//     notes: {
+//       plan: req.body.planName, // Add plan name to notes
+//       username: username, // Optionally add username to notes
+//       date: new Date(date).toISOString(), // Optionally add date to notes
+//     },
+//   };
+
+//   try {
+//     const order = await instance.orders.create(options);
+//     res.status(200).json(order); // Send the order details as a response
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Failed to create order' }); // Handle errors
+//   }
+// });
+
 app.post('/api/checkout', async (req, res) => {
-  // console.log(req.body);
   const amount = req.body.amount;
   const planName = req.body.planName; // Get plan name from the request body
   const username = req.body.username; // Get username from the request body
   const date = req.body.date; // Get date from the request body
+  const endDate = req.body.endDate; // Get end date from the request body
   const isoString = new Date(date).toISOString();
   const formattedDate = isoString.slice(0, 10);
-  // const reverseDate = formattedDate.reverse();
-  console.log("User  Email from session:", username);
-  console.log("Current Date:", formattedDate); 
-  console.log("Amount is ",amount);
+
+  console.log("UserName:", username);
+  console.log("Start Date:", formattedDate); 
+  console.log("End Date:", endDate); // Log the end date
+  console.log("Amount is ", amount);
   console.log("Plan Name :", planName);
   
   const options = {
@@ -389,6 +424,7 @@ app.post('/api/checkout', async (req, res) => {
       plan: req.body.planName, // Add plan name to notes
       username: username, // Optionally add username to notes
       date: new Date(date).toISOString(), // Optionally add date to notes
+      endDate: endDate // Include end date in notes
     },
   };
 

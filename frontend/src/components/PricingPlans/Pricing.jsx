@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import './Pricing.css';
 import axios from 'axios';
@@ -8,6 +7,7 @@ import '../../index.css';
 const Pricing = () => {
   const [key, setKey] = useState('');
   const [loading, setLoading] = useState(false);
+  const [endDate, setEndDate] = useState(''); // State to hold the end date
 
   const getData = async (data) => {
     console.log("Local payment data: " + JSON.stringify(data));
@@ -37,16 +37,116 @@ const Pricing = () => {
     fetchKey();
   }, []);
 
+  const calculateEndDate = (planName) => {
+    const currentDate = new Date();
+    let endDate;
+
+    switch (planName) {
+      case 'Beginner':
+        endDate = new Date(currentDate.setDate(currentDate.getDate() + 7));
+        break;
+      case 'Intermediate':
+        endDate = new Date(currentDate.setMonth(currentDate.getMonth() + 3));
+        break;
+      case 'Advance':
+        endDate = new Date(currentDate.setFullYear(currentDate.getFullYear() + 1));
+        break;
+      default:
+        endDate = currentDate;
+    }
+
+    return endDate.toISOString().split('T')[0]; // Format the date as YYYY-MM-DD
+  };
+
+  // const checkoutHandler = async (amount, planName) => {
+  //   try {
+  //     const username = localStorage.getItem('Login User'); // Retrieve username from local storage
+  //     const currentDate = Date.now(); // Get current date in milliseconds
+  //     const response = await axios.post('http://localhost:8080/api/checkout', { amount, planName, username, date: currentDate }); // Include date in the request body
+  //     console.log('Checkout response:', response.data);
+  
+  //     if (response.data && response.data.id) {
+  //       const { id, amount: orderAmount } = response.data;
+  
+  //       const options = {
+  //         key,
+  //         amount: orderAmount,
+  //         currency: 'INR',
+  //         name: 'Emails',
+  //         description: 'Emails for Your Business to grow more easily',
+  //         image: image,
+  //         order_id: id,
+  //         callback_url: 'http://localhost:8080/api/paymentverification',
+  //         prefill: {
+  //           name: 'NELLI SURESH',
+  //           email: 'divya1267@gmail.com',
+  //           contact: '7515209223'
+  //         },
+  //         notes: {
+  //           address: 'Razorpay Corporate Office',
+  //           plan: planName, // Pass the plan name
+  //           date: new Date().toISOString().split('T')[0], 
+  //         },
+  //         theme: {
+  //           color: '#528FF0'
+  //         },
+  //       };
+  
+  //       const razor = new window.Razorpay(options);
+  //       razor.open();
+  
+  //       // Add an event listener for the payment success
+  //       razor.on('payment.success', async (paymentData) => {
+  //         const paymentVerificationData = {
+  //           razorpay_payment_id: paymentData.razorpay_payment_id,
+  //           razorpay_order_id: paymentData.razorpay_order_id,
+  //           razorpay_signature: paymentData.razorpay_signature,
+  //           plan: planName,
+  //           date: new Date().toISOString().split('T')[0],
+  //         };
+  
+  //         // Send the payment verification data to the backend
+  //         await axios.post('http://localhost:8080/api/paymentverification', paymentVerificationData, {
+  //           headers: {
+  //             username: username // Pass the username in headers
+  //           }
+  //         });
+  //       });
+
+  //       // Calculate and set the end date
+  //       const calculatedEndDate = calculateEndDate(planName);
+  //       setEndDate(calculatedEndDate); // Update the end date state
+  //       console.log(calculatedEndDate);
+  //     } else {
+  //       console.error('Order is undefined in the response:', response.data);
+  //       alert('There was an issue processing your order. Please try again later.');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error during checkout:', error);
+  //     alert('An error occurred during checkout. Please try again later.');
+  //   }
+  // };
+
+
   const checkoutHandler = async (amount, planName) => {
     try {
       const username = localStorage.getItem('Login User'); // Retrieve username from local storage
       const currentDate = Date.now(); // Get current date in milliseconds
-      const response = await axios.post('http://localhost:8080/api/checkout', { amount, planName, username, date: currentDate }); // Include date in the request body
-      console.log('Checkout response:', response.data);
+      const calculatedEndDate = calculateEndDate(planName); // Calculate the end date
   
+      const response = await axios.post('http://localhost:8080/api/checkout', { 
+        amount, 
+        planName, 
+        username, 
+        date: currentDate, 
+        endDate: calculatedEndDate // Send the calculated end date
+      }); 
+  
+      console.log('Checkout response:', response.data);
+    
       if (response.data && response.data.id) {
         const { id, amount: orderAmount } = response.data;
-  
+    
         const options = {
           key,
           amount: orderAmount,
@@ -64,16 +164,17 @@ const Pricing = () => {
           notes: {
             address: 'Razorpay Corporate Office',
             plan: planName, // Pass the plan name
-            date: new Date().toISOString().split('T')[0], // Pass today's date
+            date: new Date().toISOString().split('T')[0], 
+            endDate: calculatedEndDate // Pass the end date
           },
           theme: {
             color: '#528FF0'
           },
         };
-  
+    
         const razor = new window.Razorpay(options);
         razor.open();
-  
+    
         // Add an event listener for the payment success
         razor.on('payment.success', async (paymentData) => {
           const paymentVerificationData = {
@@ -82,8 +183,9 @@ const Pricing = () => {
             razorpay_signature: paymentData.razorpay_signature,
             plan: planName,
             date: new Date().toISOString().split('T')[0],
+            endDate: calculatedEndDate // Include end date in payment verification data
           };
-  
+    
           // Send the payment verification data to the backend
           await axios.post('http://localhost:8080/api/paymentverification', paymentVerificationData, {
             headers: {
@@ -91,6 +193,10 @@ const Pricing = () => {
             }
           });
         });
+  
+        // Set the end date in the state
+        setEndDate(calculatedEndDate);
+        console.log(calculatedEndDate);
       } else {
         console.error('Order is undefined in the response:', response.data);
         alert('There was an issue processing your order. Please try again later.');
@@ -100,7 +206,6 @@ const Pricing = () => {
       alert('An error occurred during checkout. Please try again later.');
     }
   };
-
   return (
     <>
       <section className="pricing_Wrapper">
@@ -109,6 +214,7 @@ const Pricing = () => {
             <h2 className='title'>Pricing Plans</h2>
             <h3>Streamline Your Email Campaigns with Dummy Mails</h3>
             <p>Powerful, User-Friendly and Scalable Email Solution.</p>
+            {endDate && <h4>Your plan is valid until: {endDate}</h4>} {/* Display the end date */}
           </div>
           <div className="row">
             <div className="col-12 col-md-3 card_border">
@@ -161,5 +267,3 @@ const Pricing = () => {
 };
 
 export default Pricing;
-
-
