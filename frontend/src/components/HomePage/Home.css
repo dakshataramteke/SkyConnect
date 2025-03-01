@@ -1,0 +1,56 @@
+/* 
+Tabs.jsx file and Home.jsx
+ */
+
+/* Tabs  */
+.homesection_wrapper .nav-link {
+    color: black !important; /* Inactive link color */
+    cursor: pointer; /* Change cursor to pointer for better UX */
+    text-decoration: none; /* Remove underline from links */
+    padding:  1rem 1.75rem !important;
+    /* transition: all 0.5s ease-in-out; */
+  }
+  
+  .homesection_wrapper .nav-link.active {
+    padding:  1rem 1.75rem !important;
+    text-align: center;
+  }
+
+  .homesection_wrapper .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  background-color:white;
+  border-bottom: 5px solid #4ca2ff !important;
+  border-radius: 0;
+  transform: scaleX(1.2);
+  }
+
+
+  /* 
+  Responsive of .homesection_wrapper of Tabs 
+   */
+   
+   .homesection_wrapper{
+    margin-top: 4.5rem !important;
+  }
+
+  @media(max-width:991px){
+    .homesection_wrapper{
+      margin-top: 4.25rem !important;
+    }
+  }
+@media(max-width:768px){
+  .homesection_wrapper{
+      margin-top: 3.125rem !important;
+    }
+}
+@media(max-width:430px){
+    .homesection_wrapper{
+        margin-top: 2rem !important;
+      }
+    .nav-pills .nav-link{
+        padding: 0.5rem 0.75rem;
+    }
+    .nav-pills .nav-item{
+        padding-left: 0;
+    }
+}
+ 

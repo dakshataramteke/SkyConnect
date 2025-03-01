@@ -1,0 +1,146 @@
+/* 
+Navbar.jsx file 
+ */
+
+:root{
+    --cream: #f0ece5;
+}
+li{
+    list-style: none;
+    display: inline-block;
+    margin: 0 10px; 
+}
+li a{
+    color:  var(--cream);
+    font-size: 1em !important;
+}
+
+.navbar_wrapper{
+    background-color: var(--navColor) ;
+}
+
+.navbar .logo{
+    height: 60px;
+    width: 80px;
+}
+.activeLink{
+   position: relative !important;
+ 
+}
+.activeLink::after{
+    position: absolute !important;
+    content: '';
+    bottom: -5px;
+    left:0;
+    height:2px;
+   background-color: #fff;
+    width:0% ;
+    transition:  all 0.3s ease-in-out !important;
+   
+}
+.activeLink:hover::after,
+.activeLink:active::after {
+    width:100% !important;
+}
+
+@media(max-width:991px){
+    .activeLink:hover::after,
+.activeLink:active::after {
+    width:10% !important;
+}
+.navbar-nav{
+    padding-bottom:2rem !important;
+}
+}
+@media(max-width:430px){
+    .activeLink:hover::after,
+.activeLink:active::after {
+    width:15% !important;
+}
+
+}
+
+
+/* Responsive for logo  */
+@media (max-width: 768px) {
+    .navbar .logo{
+        height: 50px;
+        width: 70px;
+    }
+}
+@media(max-width: 430px){
+    .navbar .logo{
+        height: 40px;
+        width: 60px;
+    }
+}
+
+
+.navbar .social_icons .css-1umw9bq-MuiSvgIcon-root{
+   font-size: 1.75rem;
+}
+
+.navbar-brand{
+    font-size: 2rem;
+}
+
+
+.navbar .navbar-toggler{
+    padding: 0;
+    cursor: pointer;
+    border:none
+}
+
+.navbar .navbar-toggler:focus{
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+
+/* Material UI Size  */
+.nav_toggle .css-1umw9bq-MuiSvgIcon-root{
+    font-size: 2rem;
+    fill: #f0ece5;
+}
+.navbar-collapse {
+    justify-content: center;
+}
+
+
+/* Social Links */
+
+.ul_links {
+    list-style-type: none; 
+    padding: 0; 
+    margin: 0; 
+    display: flex; 
+    justify-content: center; 
+    transition: 2s ease-in-out;
+}
+
+.ul_links li {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+   
+}
+.ul_links a:hover{
+color: var(--cream);
+
+}
+
+/* Responsive  */
+@media (max-width: 768px) {
+    .navbar-brand{
+        font-size: 1.5rem;
+    }
+    /* Material UI Size  */
+    .navbar .social_icons .css-1umw9bq-MuiSvgIcon-root{
+        font-size: 1.5rem;
+     }
+    .nav_toggle .css-1umw9bq-MuiSvgIcon-root{
+        font-size: 2rem;
+    }
+    
+}

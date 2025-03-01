@@ -1,0 +1,288 @@
+/***
+ == Login Page and SignUp Page ==
+***/
+
+
+/* 
+====    Login Page ====
+*/
+
+.home_wrapper {
+  height: 100vh;
+  overflow: auto !important;
+  display: flex;
+  justify-content: end;
+  align-items: center; 
+  background-color: #fff;
+}
+
+.form-control{
+  border-radius: 0 !important;
+}
+
+.home_wrapper .home_formPage {
+  position:relative; 
+}
+
+.login_Page {
+  background-image: url("../../assests/login3.png");
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border-radius: 8px 0 0 8px;
+  background-color: #fff;
+  min-height: 100vh;
+  width:100vh;
+}
+
+.home_form {
+  width: 100%;
+  background-color:#fff;
+  z-index: 11;
+  border-radius: 0 8px 8px 0;
+  position:relative;
+}
+
+.home_wrapper .home_form::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  clip-path: polygon(
+    0% 0%,
+    0% 100%,
+    0 96%,
+    0 0,
+    78% 0,
+    100% 36%,
+    100% 100%,
+    0 98%,
+    100% 100%,
+    100% 0%
+  );
+  background-color: #2664af; 
+  z-index: -1; 
+}
+
+.home_form .pg{
+position:relative;
+top:50%;
+left: 50%;
+transform: translate(-50%,-50%);
+
+}
+
+
+/* Input field border for Home and Sign up */
+.home_form input[type="email"] ,
+.home_form input[type="password"] ,
+.signup_wrapper input[type="email"],
+.signup_wrapper input[type="password"],
+.signup_wrapper input[type="text"] {
+  width: 90%;
+  padding: 10px;
+  font-size: 16px;
+  letter-spacing: 1px;
+  margin-bottom: 20px; 
+  border: none;
+  border-bottom: 2px solid #84a6d6 !important;
+  background: transparent;
+}
+
+.home_form input:focus,
+.signup_wrapper input:focus {
+  border-bottom: 2px solid #2664af!important;
+}
+
+.form-label {
+  margin-left: 8px !important;
+  
+}
+
+.form-control:focus {
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.home_wrapper .form-check-input{
+  border:2px solid #2664af;
+}
+
+@media(max-width:430px){
+    .login_Page {
+        border-radius: 0;
+    }
+    .home_form{
+        border-radius: 0;
+    }
+    .home_form::after{
+        clip-path: polygon(
+            0% 0%,
+            0% 100%,
+            0 96%,
+            0 0,
+            78% 0,
+            100% 29%,
+            100% 100%,
+            0 98%,
+            100% 100%,
+            100% 0%
+          );
+          border-radius: 0;
+    }
+}
+@media (max-width: 767px) {
+  .login_Page {
+    min-height: 45vh;
+    margin-top: 7rem;
+  }
+}
+
+
+/*** 
+*
+=== Sign Up Page ===
+*
+***/
+
+.signup_wrapper {
+  background-color: #fff;
+  height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+.signup_wrapper .signup_sidebar {
+  background-image: url("../../assests/signup1.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  min-height: 60vh;
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;  
+}
+
+.signup_wrapper .signup_righsidebar {
+  background-color: #fff;
+  position: relative;
+  z-index: 11;
+  border-radius: 0 1rem 1rem 0;
+}
+
+.signup_righsidebar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 0 1rem 1rem 0;
+  background-color: #2664af;
+  z-index: -1;
+  clip-path: polygon(
+    0% 0%,
+    0% 100%,
+    0 96%,
+    0 0,
+    80% 0,
+    100% 20%,
+    100% 100%,
+    0 98%,
+    100% 100%,
+    100% 0%
+  );
+}
+
+
+/* Signup Sidebar  */
+@media (max-width: 768px) {
+  .signup_wrapper .signup_formPage {
+    border-radius: 0;
+  }
+}
+
+.signup_wrapper input[type="text"],
+.signup_wrapper input[type="password"],
+.signup_wrapper input[type="email"] {
+  width: 90%;
+}
+.home_wrapper .btn-primary,
+.home_wrapper .btn-outline-secondary,
+.signup_wrapper .btn-primary {
+  letter-spacing: 1px;
+  font-weight: 600;
+  border-radius: 3rem;
+  padding: 0.5rem 1.5rem;
+}
+
+@media(max-width: 430px){
+  .home_wrapper .btn-primary,
+.home_wrapper .btn-outline-secondary,
+.signup_wrapper .btn-primary {
+
+  border-radius: 2rem;
+  padding: 0.5rem 1.75rem;
+}
+}
+.home_wrapper .btn-outline-secondary:hover{
+  background-color: #0b5ed7;
+}
+
+/*** 
+Responsive Image 
+***/
+
+@media (max-width: 1024px) {
+  .signup_wrapper {
+    padding: 1rem;
+  }
+  .signup_wrapper .signup_sidebar {
+    background-size: contain;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .signup_wrapper {
+    padding: 0;
+  }
+
+  .signup_wrapper .signup_sidebar {
+    border-radius: 0;
+    background-size: cover;
+  }
+
+  .signup_righsidebar::after {
+    border-radius: 0;
+  }
+}
+@media (max-width: 430px) {
+  .signup_wrapper input,
+  .signup_wrapper .btn-primary {
+    width: 100%;
+  }
+}
+
+
+/* Home Page Button  */
+@media (max-width: 430px) {
+  .home_form input[type="email"],
+  .home_form input[type="password"],
+  .home_wrapper .btn-outline-secondary,
+  .home_wrapper .btn-primary {
+    width: 100%;
+  }
+
+  .signup_righsidebar::after {
+    clip-path: polygon(  0% 0% 0% 100% 0 96%, 0 0,  85% 0, 100% 14%,  100% 100%, 0 98%,  100% 100%, 100% 0%
+    );
+  }
+}
+
+
+/* Sweet Alert Pop Up After Login */
+div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
+    background-color: #4ca2ff!important;
+    border: none !important;
+}

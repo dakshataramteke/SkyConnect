@@ -1,0 +1,283 @@
+/* 
+Single Mail & Multiple Mail & Preview.jsx
+ */
+
+  .form_body {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin: 1rem auto 0!important;
+    border-radius:0.725rem;
+    min-height: 600px;
+    background-color: white;
+  }
+.form_body .form-label {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Align labels to the right */
+  width: 100px; /* Adjust width for consistency */
+  color: grey;
+}
+
+.form_body .form-control {
+  flex-grow: 1; 
+  padding: 20px 12px;
+  
+} 
+
+.form_body .d-flex.justify-content-center {
+  display: flex;
+  align-items: center;
+  gap: 40px; /* Add spacing between label and input */
+}
+
+  /* Form Data  */
+  .form_body .title{
+   color: var(--yellow) ;
+  }
+  .multiple_wrapper .form_data{
+    padding-bottom: 1.75rem;
+    border-radius: 0.25rem;
+  }
+  .form_data input{
+    margin-bottom: 2px !important;
+    border-radius: 0.325rem !important;
+  }
+
+  label{
+  margin-left: 8px !important;
+  }
+
+  .form_data input[type="text"],
+  .form_data input[type="email"],
+  .form_data input[type="password"]{ 
+    border: 2px solid rgb(199, 198, 198);
+    outline: none !important;
+  }
+  
+  .form_data input[type="text"]:focus,
+  .form_data input[type="email"]:focus,
+  .form_data input[type="password"]:focus{
+    border: 2px solid #4ca2ff !important;
+    box-shadow: 0 2px 5px 10px #4ca2ff;
+  }
+
+  /* Focus Mode  */
+  .form-control:focus{
+    box-shadow: none !important;
+  }
+  
+  /* Banner Mail */
+.banner_Mail {
+  background-image: url('../../assests/Mail.jpg');
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.7;
+  height:auto; 
+  overflow: hidden; 
+}
+
+/* Send  */
+  .btn_send{
+    background-color: var(--darkgreen) !important;
+    color:var(--cream) !important;
+    border-radius: 1.25rem !important;
+    padding: 0.5rem 1rem !important;
+  }
+  .btn_send:hover {
+    background-color: var(--blue); 
+    transform: translateY(-2px); 
+  }
+  
+
+  /* Invalid Feedback  */
+  .invalid-feedback {
+    margin:0 0 0 .75rem;
+}
+
+
+/***** ========  Responsive  =======  *******/
+@media(max-width:991px){
+  .btn_send{
+    margin-top: 3rem !important;
+  }
+}
+/* Media query for smaller screens */
+@media (max-width: 767px) {
+  .container{
+    padding: 0 1rem !important;
+  }
+  .banner_Mail {
+      height: 300px; 
+      border-radius: 0.75rem;
+  }
+ 
+
+  .form_body{
+    margin: 0 0.5rem;
+  }
+  
+}
+
+@media(max-width:430px){
+  .multiple_wrapper .form_data{
+    padding-bottom: 3.75rem;
+    border-bottom-left-radius:0.25rem;
+
+  }
+}
+  
+
+
+
+
+/**** ===== Dummy Mail  ===== ****/
+.dummy_form input{
+  margin-bottom: 2px !important;
+
+}
+.dummy_form input[type="text"],
+  .dummy_form input[type="email"],
+  .dummy_form input[type="password"]{
+    border: 2px solid rgb(199, 198, 198);
+    outline: none !important;
+    border-radius: 0.325rem !important;
+  }
+  
+  .dummy_form input[type="text"]:focus,
+  .dummy_form input[type="email"]:focus,
+  .dummy_form input[type="password"]:focus{
+
+    border: 2px solid #4ca2ff !important;
+    box-shadow: 0 2px 5px 10px #4ca2ff;
+  
+  }
+.dummy_form,
+.preview_form {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 8px; 
+    margin:  1.5rem   auto !important;
+}
+@media(max-width:430px){
+.dummy_form,
+  .preview_form {
+    margin-top: 0 !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .form_body{
+    padding-bottom: 1.75rem !important;
+  }
+}
+
+/*  */
+.dummy_mail h4{
+  position: relative;
+}
+.dummy_mail h4::after{
+  position: absolute;
+  content: "";
+  height: 2px;
+  width: 12%;
+  background-color: #4ca2ff;
+  left: 45%;
+  bottom: -10px;
+}
+.dummy_mail input{
+  border-radius: 0!important;
+}
+
+/* Set the width and height of the color input */
+input[type="color"] {
+  width: 40px; 
+  height: 40px; 
+  padding: 4px; 
+  border-radius: 4px !important;
+  margin-left: 0.75rem;
+  cursor: pointer; 
+}
+
+/*  ==== Preview ==== */
+
+.logo_box{
+  border-radius: 0.75 5.25 0 0 !important;
+}
+.company_Logo {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  margin: 0.625rem 1.25rem;
+}
+
+.company_Name {
+  text-align: center;
+  padding:0.5rem 0.75rem;
+}
+
+.banner_url {
+  background-size: cover; 
+  background-position: center; 
+  height: 350px;
+  width:350px;
+}
+
+.preview_btn .css-1umw9bq-MuiSvgIcon-root{
+  width: 0.75em !important;
+  height: 0.75em !important;
+  margin-left: 0.25rem !important;
+}
+
+/* Best Regard  */
+
+.best_regards h6{
+  color: var(--primary);
+}
+
+/* Loader Spinner Submit Button  */
+.spinner-border-sm {
+  --bs-spinner-width:0 !important;
+  --bs-spinner-height:0 !important;
+  --bs-spinner-border-width: 0 !important;
+}
+.spinner-border{
+  border: none !important;
+  --bs-spinner-width:0 !important;
+    --bs-spinner-height: 0 !important;
+}
+
+
+/* Quill Effect Changes  */
+.ql-toolbar.ql-snow ,
+.ql-container.ql-snow{
+  border: 2px solid rgb(199, 198, 198)
+}
+.ql-toolbar.ql-snow:focus,
+.ql-container.ql-snow:focus,
+.ql-container.ql-snow:focus-within ,
+.ql-container.ql-snow.active:focus-within,
+.ql-toolbar.ql-snow.active,
+.ql-container.ql-snow.active,
+.ql-container.ql-snow:focus-within {
+  border: 2px solid #4ca2ff;
+}
+
+/* Change the border color when the Quill editor is focused */
+.ql-toolbar.ql-snow:focus-within,
+
+.ql-container.ql-snow.active:focus-within,
+.ql-container.ql-snow:focus-within ,
+.ql-toolbar.ql-snow.active:focus-within,
+.ql-container.ql-snow:focus-within {
+  border:2px solid  #4ca2ff !important; 
+}
+/* Progress Bar  */
+.progress .progress-stacked{
+ height:0.75rem !important;
+}
+
+/* Validation green tick  */
+.form-control.is-valid, .was-validated .form-control:valid{
+  background-image: none !important;;
+}
+
+
+

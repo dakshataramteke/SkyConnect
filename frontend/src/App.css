@@ -1,0 +1,27 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body{
+  font-family: "Montserrat", serif !important;
+}
+:root{
+  --navColor: #4ca2ff;
+  --primary : #007bff;
+  --grey: rgb(199, 198, 198);
+  --darkblue: #2664af;
+  --black: black;
+  --white: #fff;
+  --yellow: #ffc107;
+
+}
+.full_background{
+    background-color: #fefcfc ;
+  }
+  
+.spinner-border-sm {
+  --bs-spinner-width: none;
+  --bs-spinner-height: none;
+  --bs-spinner-border-width:none;
+}
