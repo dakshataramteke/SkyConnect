@@ -125,6 +125,9 @@ li a{
     align-items: center; 
    
 }
+.ul_links a{
+    transition: all 0.3s ease;
+}
 .ul_links a:hover{
 color: var(--cream);
 

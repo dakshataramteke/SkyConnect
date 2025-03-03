@@ -57,77 +57,6 @@ const Pricing = () => {
 
     return endDate.toISOString().split('T')[0]; // Format the date as YYYY-MM-DD
   };
-
-  // const checkoutHandler = async (amount, planName) => {
-  //   try {
-  //     const username = localStorage.getItem('Login User'); // Retrieve username from local storage
-  //     const currentDate = Date.now(); // Get current date in milliseconds
-  //     const response = await axios.post('http://localhost:8080/api/checkout', { amount, planName, username, date: currentDate }); // Include date in the request body
-  //     console.log('Checkout response:', response.data);
-  
-  //     if (response.data && response.data.id) {
-  //       const { id, amount: orderAmount } = response.data;
-  
-  //       const options = {
-  //         key,
-  //         amount: orderAmount,
-  //         currency: 'INR',
-  //         name: 'Emails',
-  //         description: 'Emails for Your Business to grow more easily',
-  //         image: image,
-  //         order_id: id,
-  //         callback_url: 'http://localhost:8080/api/paymentverification',
-  //         prefill: {
-  //           name: 'NELLI SURESH',
-  //           email: 'divya1267@gmail.com',
-  //           contact: '7515209223'
-  //         },
-  //         notes: {
-  //           address: 'Razorpay Corporate Office',
-  //           plan: planName, // Pass the plan name
-  //           date: new Date().toISOString().split('T')[0], 
-  //         },
-  //         theme: {
-  //           color: '#528FF0'
-  //         },
-  //       };
-  
-  //       const razor = new window.Razorpay(options);
-  //       razor.open();
-  
-  //       // Add an event listener for the payment success
-  //       razor.on('payment.success', async (paymentData) => {
-  //         const paymentVerificationData = {
-  //           razorpay_payment_id: paymentData.razorpay_payment_id,
-  //           razorpay_order_id: paymentData.razorpay_order_id,
-  //           razorpay_signature: paymentData.razorpay_signature,
-  //           plan: planName,
-  //           date: new Date().toISOString().split('T')[0],
-  //         };
-  
-  //         // Send the payment verification data to the backend
-  //         await axios.post('http://localhost:8080/api/paymentverification', paymentVerificationData, {
-  //           headers: {
-  //             username: username // Pass the username in headers
-  //           }
-  //         });
-  //       });
-
-  //       // Calculate and set the end date
-  //       const calculatedEndDate = calculateEndDate(planName);
-  //       setEndDate(calculatedEndDate); // Update the end date state
-  //       console.log(calculatedEndDate);
-  //     } else {
-  //       console.error('Order is undefined in the response:', response.data);
-  //       alert('There was an issue processing your order. Please try again later.');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error during checkout:', error);
-  //     alert('An error occurred during checkout. Please try again later.');
-  //   }
-  // };
-
-
   const checkoutHandler = async (amount, planName) => {
     try {
       const username = localStorage.getItem('Login User'); // Retrieve username from local storage
@@ -189,7 +118,7 @@ const Pricing = () => {
           // Send the payment verification data to the backend
           await axios.post('http://localhost:8080/api/paymentverification', paymentVerificationData, {
             headers: {
-              username: username // Pass the username in headers
+              username: username 
             }
           });
         });

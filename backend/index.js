@@ -21,7 +21,7 @@ const port = 8080;
 
 app.use(cors({
 
-  origin: 'http://localhost:3001',
+  origin: 'http://localhost:3000',
   // origin: 'http://192.168.1.16:3000' ,
   credentials: true
 }));
@@ -453,7 +453,7 @@ app.post('/api/paymentverification', async (req, res) => {
 
   if (isAuthentic) {
     // Redirect or respond with success
-    res.redirect(`http://localhost:3001/home/Pricing`);
+    res.redirect(`http://localhost:3000/home/Pricing`);
   } else {
     res.status(404).send("Payment Verification Failure");
   }
