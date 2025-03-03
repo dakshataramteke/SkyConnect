@@ -236,7 +236,7 @@ const ContactMail = () => {
               {currentEmails.length > 0 ? (
                 currentEmails.map((item, index) => (
                   <li key={index} className="list-group-item">
-                    <div className="row text-muted">
+                    <div className="row text-muted p-3">
                       <div className="form-check">
                         <input
                           className="form-check-input"
