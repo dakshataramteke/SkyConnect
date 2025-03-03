@@ -7,7 +7,24 @@ import '../../index.css';
 const Pricing = () => {
   const [key, setKey] = useState('');
   const [loading, setLoading] = useState(false);
-  const [endDate, setEndDate] = useState(''); // State to hold the end date
+  const [endDate, setEndDate] = useState('');
+  const [generatedId, setGeneratedId] = useState(0);
+
+  useEffect(() => {
+    const storedId = localStorage.getItem('generatedId');
+    if (storedId) {
+      setGeneratedId(Number(storedId));
+    } else {
+      localStorage.setItem('generatedId', 0);
+    }
+  }, []);
+
+  const generateId = () => {
+    const newId = generatedId + 1;
+    localStorage.setItem('generatedId', newId);
+    setGeneratedId(newId);
+    return newId;
+  };
 
   const getData = async (data) => {
     console.log("Local payment data: " + JSON.stringify(data));
@@ -55,22 +72,25 @@ const Pricing = () => {
         endDate = currentDate;
     }
 
-    return endDate.toISOString().split('T')[0]; // Format the date as YYYY-MM-DD
+    return endDate.toISOString().split('T')[0];
   };
+
   const checkoutHandler = async (amount, planName) => {
     try {
-      const username = localStorage.getItem('Login User'); // Retrieve username from local storage
-      const currentDate = Date.now(); // Get current date in milliseconds
-      const calculatedEndDate = calculateEndDate(planName); // Calculate the end date
-  
+      const username = localStorage.getItem('Login User'); 
+      const currentDate = Date.now(); 
+      const calculatedEndDate = calculateEndDate(planName); 
+      const newId = generateId();
+
       const response = await axios.post('http://localhost:8080/api/checkout', { 
         amount, 
         planName, 
         username, 
         date: currentDate, 
-        endDate: calculatedEndDate // Send the calculated end date
+        endDate: calculatedEndDate, 
+        generatedId: newId 
       }); 
-  
+
       console.log('Checkout response:', response.data);
     
       if (response.data && response.data.id) {
@@ -92,9 +112,10 @@ const Pricing = () => {
           },
           notes: {
             address: 'Razorpay Corporate Office',
-            plan: planName, // Pass the plan name
+            plan: planName, 
             date: new Date().toISOString().split('T')[0], 
-            endDate: calculatedEndDate // Pass the end date
+            endDate: calculatedEndDate, 
+            generatedId: newId
           },
           theme: {
             color: '#528FF0'
@@ -104,7 +125,6 @@ const Pricing = () => {
         const razor = new window.Razorpay(options);
         razor.open();
     
-        // Add an event listener for the payment success
         razor.on('payment.success', async (paymentData) => {
           const paymentVerificationData = {
             razorpay_payment_id: paymentData.razorpay_payment_id,
@@ -112,10 +132,10 @@ const Pricing = () => {
             razorpay_signature: paymentData.razorpay_signature,
             plan: planName,
             date: new Date().toISOString().split('T')[0],
-            endDate: calculatedEndDate // Include end date in payment verification data
+            endDate: calculatedEndDate, 
+            generatedId: newId 
           };
     
-          // Send the payment verification data to the backend
           await axios.post('http://localhost:8080/api/paymentverification', paymentVerificationData, {
             headers: {
               username: username 
@@ -123,7 +143,6 @@ const Pricing = () => {
           });
         });
   
-        // Set the end date in the state
         setEndDate(calculatedEndDate);
         console.log(calculatedEndDate);
       } else {
@@ -135,6 +154,7 @@ const Pricing = () => {
       alert('An error occurred during checkout. Please try again later.');
     }
   };
+
   return (
     <>
       <section className="pricing_Wrapper">
@@ -143,7 +163,6 @@ const Pricing = () => {
             <h2 className='title'>Pricing Plans</h2>
             <h3>Streamline Your Email Campaigns with Dummy Mails</h3>
             <p>Powerful, User-Friendly and Scalable Email Solution.</p>
-            {endDate && <h4>Your plan is valid until: {endDate}</h4>} {/* Display the end date */}
           </div>
           <div className="row">
             <div className="col-12 col-md-3 card_border">
