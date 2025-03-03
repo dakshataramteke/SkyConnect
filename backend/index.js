@@ -366,81 +366,73 @@ const instance = new Razorpay({
   key_secret: Razorpay_Secret_key,
 });
 
-
-// app.post('/api/checkout', async (req, res) => {
-//   // console.log(req.body);
-//   const amount = req.body.amount;
-//   const planName = req.body.planName; // Get plan name from the request body
-//   const username = req.body.username; // Get username from the request body
-//   const date = req.body.date; // Get date from the request body
-//   const isoString = new Date(date).toISOString();
-//   const formattedDate = isoString.slice(0, 10);
-//   // const reverseDate = formattedDate.reverse();
-//   console.log("User  Email from session:", username);
-//   console.log("Current Date:", formattedDate); 
-//   console.log("Amount is ",amount);
-//   console.log("Plan Name :", planName);
-  
-//   const options = {
-//     amount: Number(req.body.amount * 100), // Convert to subunits
-//     currency: "INR",
-//     receipt: `receipt_order_${Math.random()}`, // Optional: Add a receipt ID
-//     notes: {
-//       plan: req.body.planName, // Add plan name to notes
-//       username: username, // Optionally add username to notes
-//       date: new Date(date).toISOString(), // Optionally add date to notes
-//     },
-//   };
-
-//   try {
-//     const order = await instance.orders.create(options);
-//     res.status(200).json(order); // Send the order details as a response
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Failed to create order' }); // Handle errors
-//   }
-// });
+// Checkout endpoint
 
 app.post('/api/checkout', async (req, res) => {
   const amount = req.body.amount;
-  const planName = req.body.planName; // Get plan name from the request body
-  const username = req.body.username; // Get username from the request body
-  const date = req.body.date; // Get date from the request body
-  const endDate = req.body.endDate; // Get end date from the request body
-  const isoString = new Date(date).toISOString();
-  const formattedDate = isoString.slice(0, 10);
+  const planName = req.body.planName; 
+  const username = req.body.username; 
+  const date = req.body.date;
+  const endDate = req.body.endDate; 
 
-  console.log("UserName:", username);
-  console.log("Start Date:", formattedDate); 
-  console.log("End Date:", endDate); // Log the end date
+  // Convert the date and endDate from milliseconds to MySQL format
+  const startDate = new Date(date).toISOString().slice(0, 10).replace('T', ' '); // Format: YYYY-MM-DD HH:MM:SS
+  const formattedEndDate = new Date(endDate).toISOString().slice(0, 10).replace('T', ' '); // Format: YYYY-MM-DD HH:MM:SS
+
+  console.log("User   Name:", username);
+  console.log("Start Date:", startDate); 
+  console.log("End Date:", formattedEndDate); 
   console.log("Amount is ", amount);
   console.log("Plan Name :", planName);
   
   const options = {
-    amount: Number(req.body.amount * 100), // Convert to subunits
+    amount: Number(req.body.amount * 100),
     currency: "INR",
-    receipt: `receipt_order_${Math.random()}`, // Optional: Add a receipt ID
+    receipt: `receipt_order_${Math.random()}`, 
     notes: {
-      plan: req.body.planName, // Add plan name to notes
-      username: username, // Optionally add username to notes
-      date: new Date(date).toISOString(), // Optionally add date to notes
-      endDate: endDate // Include end date in notes
+      plan: req.body.planName, 
+      username: username, 
+      date: startDate, 
+      endDate: formattedEndDate 
     },
   };
 
-  try {
-    const order = await instance.orders.create(options);
-    res.status(200).json(order); // Send the order details as a response
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to create order' }); // Handle errors
-  }
+  // Prepare the SQL query
+  const sql = `INSERT INTO pricing (plan_Name, user_Name, startDate, endDate) VALUES (?, ?, ?, ? )`;
+  const values = [planName, username, startDate, formattedEndDate]; 
+
+  // Insert into the database
+  connection.query(sql, values, async (error, results) => {
+    if (error) {
+      console.error('Database error:', error);
+      return res.status(500).send('Database error');
+    }
+
+    try {
+      const order = await instance.orders.create(options);
+      // Update the order ID in the database after creating the order
+      const updateSql = `UPDATE pricing SET razorpay_order_id = ? WHERE id = ?`; // Assuming you have an 'id' column
+      const updateValues = [order.id, results.insertId]; // Use the last inserted ID
+      connection.query(updateSql, updateValues, (updateError) => {
+        if (updateError) {
+          console.error('Database error during update:', updateError);
+          return res.status(500).send('Database error during update');
+        }
+        res.status(200).json(order); // Send the order details as a response
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Failed to create order' }); // Handle errors
+    }
+  });
 });
-app.get('/api/getkey', (req, res) => {
+ app.get('/api/getkey', (req, res) => {
   res.status(200).json({ key_id: Razorpay_API_key });
 });
 
 // Payment Verification
+
+
 app.post('/api/paymentverification', async (req, res) => {
   console.log(req.body);
   
@@ -450,102 +442,37 @@ app.post('/api/paymentverification', async (req, res) => {
   const expectedSignature = crypto.createHmac("sha256", Razorpay_Secret_key).update(body.toString()).digest('hex');
   const isAuthentic = expectedSignature === razorpay_signature;
 
+  if (!isAuthentic) {
+    return res.status(404).send("Payment Verification Failure");
+  }
 
-  if (isAuthentic) {
-    // Redirect or respond with success
-    res.redirect(`http://localhost:3000/home/Pricing`);
-  } else {
-    res.status(404).send("Payment Verification Failure");
+  // Prepare the SQL query
+  const sql = `UPDATE pricing SET razor_PaymentId = ? WHERE razorpay_order_id = ?`;
+  const values = [razorpay_payment_id, razorpay_order_id]; // Include both values
+
+  try {
+    // Use a promise-based approach for the database query
+    await new Promise((resolve, reject) => {
+      connection.query(sql, values, (error, results) => {
+        if (error) {
+          console.error('Database error:', error);
+          return reject('Database error');
+        }
+        resolve(results);
+      });
+    });
+
+    // Send a single response after successful database insertion
+    if (isAuthentic) {
+      // Redirect or respond with success
+      res.redirect(`http://localhost:3000/home/Pricing`);
+    } else {
+      res.status(404).send("Payment Verification Failure");
+    }
+  } catch (error) {
+    res.status(500).send(error);
   }
 });
-
-
-/*
- Patym Payment Gateway
-*/
-
-// app.post('/api/callback', async (req, res) => {
-//   console.log("Payment Gateway is Calling .......")
-//   try {
-//       console.log(req.body);
-//       const { ORDERID, RESPMSG } = req.body;
-
-//       var paytmChecksum = req.body.CHECKSUMHASH;
-//       delete req.body.CHECKSUMHASH;
-
-//       var isVerifySignature = PaytmChecksum.verifySignature(req.body, key, paytmChecksum);
-      
-//       if (isVerifySignature) {
-//           console.log("Checksum Matched");
-//           if (req.body.STATUS === "TXN_SUCCESS") {
-//               return res.redirect(`http://localhost:3000/success?orderId=${ORDERID}&message=${RESPMSG}`);
-//           } else {
-//               return res.redirect(`http://localhost:3000/failure?orderId=${ORDERID}&message=${RESPMSG}`);
-//           }
-//       } else {
-//           console.log("Checksum Mismatched");
-//           return res.send("something went wrong");
-//       }
-      
-//   } catch (error) {
-//       console.error(error);
-//       res.status(500).send("Internal Server Error");
-//   }
-// });
-
-// app.post("/api/payment", (req, res) => {
-//   console.log("Payment received from client side");
-//   const { amount, email } = req.body;
-//   const totalAmount = JSON.stringify(amount);
-
-//   var orderId = `ORDERID_${Date.now()}`;
-//   var custId = `CUST_${Date.now()}`;
-//   var params = {};
-
-//   params["MID"] = mid;
-//   params["WEBSITE"] = "WEBSTAGING"; // Use the test website
-//   params["CHANNEL_ID"] = "WEB";
-//   params["INDUSTRY_TYPE_ID"] = "Retail";
-//   params["ORDER_ID"] = orderId;
-//   params["CUST_ID"] = custId;
-//   params["TXN_AMOUNT"] = totalAmount;
-//   params["CALLBACK_URL"] = "http://localhost:8080//api/callback"; // Ensure this is correct
-//   params["EMAIL"] = email;
-//   params["MOBILE_NO"] = "7498608775"; // Use a test mobile number
-
-//   var paytmChecksum = PaytmChecksum.generateSignature(params, key);
-//   paytmChecksum
-//     .then(function (checksum) {
-//       let paytmParams = {
-//         ...params,
-//         CHECKSUMHASH: checksum,
-//       };
-//       res.json(paytmParams);
-//     })
-//     .catch(function (error) {
-//       console.log(error);
-//     });
-// });
-
-
-// // Google PE 
-// app.post('/api/payment/verify', (req, res) => {
-//   console.log("Payment Verification is in progress");
-//   const paymentData = req.body;
-
-//   // Here you would typically verify the payment with your payment gateway
-//   console.log('Payment verification data received:', paymentData);
-
-//   // Simulate a successful payment verification
-//   const isPaymentValid = true; // Change this based on actual verification logic
-
-//   if (isPaymentValid) {
-//     res.status(200).json({ success: true, message: 'Payment verified successfully!' });
-//   } else {
-//     res.status(400).json({ success: false, message: 'Payment verification failed.' });
-//   }
-// });
-
 app.listen(port,()=>{
     console.log(`Server is listening on port ${port}`);
 })

@@ -78,10 +78,10 @@ const Pricing = () => {
   const checkoutHandler = async (amount, planName) => {
     try {
       const username = localStorage.getItem('Login User'); 
-      const currentDate = Date.now(); 
+      const currentDate = new Date().toISOString().slice(0, 10).replace('T', ' '); // Format: YYYY-MM-DD HH:MM:SS
       const calculatedEndDate = calculateEndDate(planName); 
       const newId = generateId();
-
+  
       const response = await axios.post('http://localhost:8080/api/checkout', { 
         amount, 
         planName, 
@@ -90,12 +90,12 @@ const Pricing = () => {
         endDate: calculatedEndDate, 
         generatedId: newId 
       }); 
-
+  
       console.log('Checkout response:', response.data);
     
       if (response.data && response.data.id) {
         const { id, amount: orderAmount } = response.data;
-    
+  
         const options = {
           key,
           amount: orderAmount,
@@ -113,34 +113,32 @@ const Pricing = () => {
           notes: {
             address: 'Razorpay Corporate Office',
             plan: planName, 
-            date: new Date().toISOString().split('T')[0], 
-            endDate: calculatedEndDate, 
-            generatedId: newId
+            date: currentDate, 
+            endDate: calculatedEndDate,
+            username: username
           },
           theme: {
             color: '#528FF0'
           },
         };
-    
+  
         const razor = new window.Razorpay(options);
         razor.open();
-    
+  
         razor.on('payment.success', async (paymentData) => {
           const paymentVerificationData = {
             razorpay_payment_id: paymentData.razorpay_payment_id,
             razorpay_order_id: paymentData.razorpay_order_id,
             razorpay_signature: paymentData.razorpay_signature,
-            plan: planName,
-            date: new Date().toISOString().split('T')[0],
-            endDate: calculatedEndDate, 
-            generatedId: newId 
+            username: username,
+            startDate: currentDate,
+            endDate: calculatedEndDate,
+            planName: planName,
+            notes: options.notes // Pass notes to backend
           };
-    
-          await axios.post('http://localhost:8080/api/paymentverification', paymentVerificationData, {
-            headers: {
-              username: username 
-            }
-          });
+            console.log(paymentVerificationData);
+          await axios.post('http://localhost:8080/api/paymentverification', paymentVerificationData);
+          console.log(paymentVerificationData);
         });
   
         setEndDate(calculatedEndDate);
@@ -154,7 +152,6 @@ const Pricing = () => {
       alert('An error occurred during checkout. Please try again later.');
     }
   };
-
   return (
     <>
       <section className="pricing_Wrapper">
