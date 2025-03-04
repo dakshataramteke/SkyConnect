@@ -6,7 +6,7 @@ const mysql = require('mysql2');
 const cors = require('cors');
 const nodemailer = require("nodemailer");
 const bodyParser = require('body-parser');
-const connection = require('./models/db.js');  // Database Connection 
+const connection = require('./models/db.js');   
 const bcrypt = require('bcrypt');
 const Razorpay = require('razorpay');
 const config = require('./config/config.js');
@@ -148,7 +148,7 @@ app.post('/login', (req, res) => {
         // Send name in response
         const response = {
           message: "Logged in successfully",
-          name: user.name, // Assuming 'name' is the field in your database
+          name: user.name, 
         };
 
         return res.status(200).json(response);
