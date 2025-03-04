@@ -16,8 +16,10 @@
   background-color: #fff;
 }
 
-.form-control{
-  border-radius: 0 !important;
+
+.input-group-text{
+  background-color: white !important;
+  border: none !important;
 }
 
 .home_wrapper .home_formPage {
@@ -101,10 +103,15 @@ transform: translate(-50%,-50%);
   margin-left: 8px !important;
   font-size:1.25rem !important;
 }
-
+.form-control{
+  border-radius: 0 !important;
+  border: none !important;
+  border-bottom: 2px solid #84a6d6 !important;
+}
 .form-control:focus {
   box-shadow: none;
   background-color: transparent;
+  border: none !important ;
 }
 
 .home_wrapper .form-check-input{
@@ -179,7 +186,7 @@ transform: translate(-50%,-50%);
   left: 0;
   right: 0;
   bottom: 0;
-  border-radius: 0 1rem 1rem 0;
+  border-radius: 0 0 1rem 0;
   background-color: #2664af;
   z-index: -1;
   clip-path: polygon(
