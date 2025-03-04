@@ -233,9 +233,12 @@ const ImportContact = () => {
 
           {noEmailsFound && ( // Show message if no emails are found
             <div className="text-center mt-3">
-              <div className="alert alert-danger" role="alert">
+              <div className="alert alert-danger alert-dismissible fade show" role="alert">
                 <h2>There are No Emails in the Uploaded File</h2>
                 <p className="mt-3">Please upload another file that contains emails.</p>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
               </div>
             </div>
           )}
