@@ -12,7 +12,7 @@ import Home from "../HomePage/Home";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import LogoutIcon from '@mui/icons-material/Logout';
 import "./Navbar.css";
-
+import Swal from 'sweetalert2';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const handleToggle = () => {
@@ -30,12 +30,24 @@ const Navbar = () => {
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
-
-  const handleLogout = ()=>{
-    // logout();
-    // Optionally, redirect the user or show a message
-    window.location.href = '/'; // Redirect to login page
-  }
+  const handleLogout = async () => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You will be logged out of your account.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No, keep me logged in'
+    });
+  
+    if (result.isConfirmed) {
+      // Perform logout action here
+      // logout(); // Uncomment this line if you have a logout function
+      window.location.href = '/'; // Redirect to login page
+    }
+  };
   const location = useLocation();
 
   return (
