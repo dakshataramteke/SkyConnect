@@ -4,11 +4,13 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import ClearIcon from "@mui/icons-material/Clear";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import YouTubeIcon from '@mui/icons-material/YouTube';
+import YouTubeIcon from "@mui/icons-material/YouTube";
 import { Link, NavLink } from "react-router-dom";
 import { Outlet, useLocation } from "react-router";
 import logo from "../../assests/skylogo.png";
 import Home from "../HomePage/Home";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import LogoutIcon from '@mui/icons-material/Logout';
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -29,6 +31,11 @@ const Navbar = () => {
     setIsHovered(false);
   };
 
+  const handleLogout = ()=>{
+    // logout();
+    // Optionally, redirect the user or show a message
+    window.location.href = '/'; // Redirect to login page
+  }
   const location = useLocation();
 
   return (
@@ -40,7 +47,7 @@ const Navbar = () => {
               <img src={logo} alt="logo" className="logo" />
             </Link>
 
-            <div className="social_icons order-lg-last">
+            <div className="social_icons order-lg-3">
               <ul className="ul_links">
                 <li>
                   <a
@@ -94,51 +101,78 @@ const Navbar = () => {
                 {isOpen ? <ClearIcon /> : <ClearAllIcon />}
               </span>
             </button>
+
             <div
-              className={`collapse navbar-collapse ${isOpen ? "show" : ""}`}
+              className={`collapse navbar-collapse ${isOpen ? "show" : ""} order-lg-2`}
               id="navbarNav"
             >
- 
+              <ul className="navbar-nav">
+                <li
+                  className="nav-item"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <NavLink
+                    className={({ isActive }) =>
+                      `nav-link text-white ${
+                        isActive || isHovered ? "activeLink" : ""
+                      }`
+                    }
+                    to="/home"
+                    end
+                    onClick={handleLinkClick} // Close navbar on click
+                  >
+                    Home
+                  </NavLink>
+                </li>
+                <li
+                  className="nav-item"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <NavLink
+                    className={({ isActive }) =>
+                      `nav-link text-white ${
+                        isActive || isHovered ? "activeLink" : ""
+                      }`
+                    }
+                    to="Pricing" // Ensure this points to the correct route
+                    end
+                    onClick={handleLinkClick}
+                  >
+                    Pricing
+                  </NavLink>
+                </li>
+                <li
+                  className="nav-item"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <NavLink
+                    className={({ isActive }) =>
+                      `nav-link text-white ${
+                        isActive || isHovered ? "activeLink" : ""
+                      }`
+                    }
+                    to="/home/Contact" // Ensure this points to the correct route
+                    end
+                    onClick={handleLinkClick}
+                  >
+                    Contact
+                  </NavLink>
+                </li>
 
-    <ul className="navbar-nav">
-      <li className="nav-item" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-        <NavLink
-          className={({ isActive }) => 
-            `nav-link text-white ${isActive || isHovered ? 'activeLink' : ''}`
-          }
-          to="/home"
-          end
-          onClick={handleLinkClick} // Close navbar on click
-        >
-          Home
-        </NavLink>
-      </li>
-      <li className="nav-item" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-        <NavLink
-          className={({ isActive }) => 
-            `nav-link text-white ${isActive || isHovered ? 'activeLink' : ''}`
-          }
-          to="Pricing" // Ensure this points to the correct route
-          end
-          onClick={handleLinkClick}
-        >
-          Pricing
-        </NavLink>
-      </li>
-      <li className="nav-item" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-        <NavLink
-          className={({ isActive }) => 
-            `nav-link text-white ${isActive || isHovered ? 'activeLink' : ''}`
-          }
-          to="/home/Contact" // Ensure this points to the correct route
-          end
-          onClick={handleLinkClick}
-        >
-          Contact
-        </NavLink>
-      </li>
-    </ul>
-
+                <li
+                  className="nav-item logout_btn d-md-none py-2"
+                >
+                 <Link href="#" onClick={handleLogout}>
+                  Log Out <LogoutIcon/>
+                 </Link>
+                </li>
+              </ul>
+            </div>
+            <div className="d-lg-block d-none text-white order-lg-4 ms-5" onClick={handleLogout}>
+              <PowerSettingsNewIcon />
             </div>
           </div>
         </nav>
@@ -149,4 +183,3 @@ const Navbar = () => {
   );
 };
 export default Navbar;
-

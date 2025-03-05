@@ -11,8 +11,9 @@ li{
     margin: 0 10px; 
 }
 li a{
-    color:  var(--cream);
+    color:  white;
     font-size: 1em !important;
+    text-decoration: none;
 }
 
 .navbar_wrapper{

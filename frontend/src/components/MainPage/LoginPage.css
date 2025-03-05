@@ -17,10 +17,7 @@
 }
 
 
-.input-group-text{
-  background-color: white !important;
-  border: none !important;
-}
+
 
 .home_wrapper .home_formPage {
   position:relative; 
@@ -91,6 +88,7 @@ transform: translate(-50%,-50%);
   border: none;
   border-bottom: 2px solid #84a6d6 !important;
   background: transparent;
+  border-radius:0 ;
 }
 
 .home_form input:focus,
@@ -99,16 +97,15 @@ transform: translate(-50%,-50%);
 }
 
 
-.form-label {
+.login_Page .form-label {
   margin-left: 8px !important;
-  font-size:1.25rem !important;
 }
-.form-control{
+.login_Page .form-control{
   border-radius: 0 !important;
-  border: none !important;
+  /* border: none !important; */
   border-bottom: 2px solid #84a6d6 !important;
 }
-.form-control:focus {
+.login_Page .form-control:focus {
   box-shadow: none;
   background-color: transparent;
   border: none !important ;
@@ -202,7 +199,10 @@ transform: translate(-50%,-50%);
     100% 0%
   );
 }
-
+.signup_wrapper .form-label {
+  margin-left: 8px !important;
+  font-size:1.25rem !important;
+}
 
 /* Signup Sidebar  */
 @media (max-width: 768px) {
