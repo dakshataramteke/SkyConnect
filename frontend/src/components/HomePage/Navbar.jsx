@@ -43,7 +43,7 @@ const Navbar = () => {
       <header className="header">
         <nav className="navbar navbar-expand-lg navbar_wrapper fixed-top p-0">
           <div className="container">
-            <Link className="navbar-brand" to={"/"}>
+            <Link className="navbar-brand">
               <img src={logo} alt="logo" className="logo" />
             </Link>
 
@@ -120,7 +120,7 @@ const Navbar = () => {
                     }
                     to="/home"
                     end
-                    onClick={handleLinkClick} // Close navbar on click
+                    onClick={handleLinkClick} 
                   >
                     Home
                   </NavLink>

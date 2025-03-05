@@ -36,7 +36,20 @@
     margin: 0;
 }
 
-/*
+/* Search Icons  */
+.search_icon{
+   position: absolute;
+   right:15px; 
+  bottom: 2px;
+  }
+  
+  .search_icon svg{
+    color:#dee2e6 !important;
+  }
+  .contact_maildata .form-control:focus ~ .search_icon  svg{
+    color: #4CA2FF !important;
+}
+  /*
  === For Date picker table ===
  */
 .date-picker-container{

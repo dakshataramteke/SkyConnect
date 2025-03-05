@@ -329,4 +329,3 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
 
 export default PreviewMail;
 
-

@@ -237,7 +237,7 @@ const Mail = ({ emails }) => {
                   <div className="col-12 col-md-11 ">
                     <div className="my-md-3 my-4 d-flex align-items-center">
                       <label htmlFor="to" className="form-label">
-                        To : <span style={{ color: "red" }}> *</span>
+                        To  <span style={{ color: "red", marginLeft:"4px"  }}> *</span>
                       </label>
                       <input
                         type="text"
@@ -255,7 +255,7 @@ const Mail = ({ emails }) => {
                     </div>
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="from" className="form-label">
-                        From : <span style={{ color: "red" }}> *</span>{" "}
+                        From  <span style={{ color: "red", marginLeft:"4px"  }}> *</span>{" "}
                       </label>
                       <input
                         type="email"
@@ -274,7 +274,7 @@ const Mail = ({ emails }) => {
 
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="Password" className="form-label">
-                        Password : <span style={{ color: "red" }}> *</span>
+                        Password  <span style={{ color: "red", marginLeft:"4px"  }}> *</span>
                       </label>
                       <input
                         type="password"
@@ -292,7 +292,7 @@ const Mail = ({ emails }) => {
                     </div>
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="subject" className="form-label">
-                        Subject: <span style={{ color: "red" }}> *</span>
+                        Subject <span style={{ color: "red", marginLeft:"4px"  }}> *</span>
                       </label>
                       <input
                         type="text"
@@ -311,7 +311,7 @@ const Mail = ({ emails }) => {
 
                     <div className="mb-5 d-flex align-items-center">
                       <label htmlFor="message" className="form-label">
-                        Message :<span style={{ color: "red" }}> *</span>
+                        Message <span style={{ color: "red" , marginLeft:"4px" }}> *</span>
                       </label>
                       <ReactQuill
                         theme="snow"

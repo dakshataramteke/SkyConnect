@@ -25,11 +25,9 @@ const SingleMail = () => {
   const formRef = useRef(null);
 
   useEffect(() => {
-    // Retrieve the user's name from local storage
     const storedUserName = localStorage.getItem("Login User");
-    // console.log("Stored  "+storedUserName);
     if (storedUserName) {
-      setUserName(storedUserName); // Set the user's name in state
+      setUserName(storedUserName); 
       console.log("Stored Single List : "+storedUserName);
     }
   }, []);
@@ -38,19 +36,19 @@ const SingleMail = () => {
     const { name, value } = e.target;
     setValue((prevState) => ({
       ...prevState,
-      [name]: value,
+      [name]: value.trim(),
     }));
   };
 
   // Quill's onChange will update editorHtml
   const handleQuillChange = (content, delta, source, editor) => {
     const htmlContent = editor.getHTML();
-    setEditorHtml(htmlContent); // Keep track of the editor's content in HTML
+    setEditorHtml(htmlContent);
     setValue((prevState) => ({
       ...prevState,
-      message: htmlContent, // Update the message state to be the HTML
+      message: htmlContent, 
     }));
-    setError(""); // Clear error specific to the message field
+    setError("");
   };
 
   // Validate email format
@@ -283,13 +281,13 @@ const SingleMail = () => {
                   <div className="col-12 col-md-11">
                     <div className="my-4 d-flex align-items-center">
                       <label htmlFor="to" className="form-label">
-                        To: <span style={{ color: "red" }}> *</span>
+                        To <span style={{ color: "red" }}> *</span>
                       </label>
                       <input
                         type="text"
                         className="form-control"
                         id="to"
-                        placeholder="name@gmail.com"
+                        placeholder="Enter recipients email address"
                         name="to"
                         value={value.to}
                         onChange={handleChange}
@@ -302,13 +300,13 @@ const SingleMail = () => {
 
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="to" className="form-label">
-                        From : <span style={{ color: "red" }}> *</span>
+                        From  <span style={{ color: "red", marginLeft:"4px"  }}> *</span>
                       </label>
                       <input
                         type="text"
                         className="form-control"
                         id="from"
-                        placeholder="name@gmail.com"
+                        placeholder="Enter sender email address"
                         name="from"
                         value={value.from}
                         onChange={handleChange}
@@ -320,7 +318,7 @@ const SingleMail = () => {
                     </div>
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="Password" className="form-label ">
-                        Password: <span style={{ color: "red" }}> *</span>
+                        Password: <span style={{ color: "red" , marginLeft:"4px" }}> *</span>
                       </label>
                       <input
                         type="password"
@@ -338,7 +336,7 @@ const SingleMail = () => {
                     </div>
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="subject" className="form-label ">
-                        Subject: <span style={{ color: "red" }}> *</span>
+                        Subject <span style={{ color: "red", marginLeft:"4px"  }}> *</span>
                       </label>
                       <input
                         type="text"
@@ -357,7 +355,7 @@ const SingleMail = () => {
 
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="message" className="form-label">
-                        Message: <span style={{ color: "red" }}> *</span>
+                        Message <span style={{ color: "red" , marginLeft:"4px" }}> *</span>
                       </label>
                       <ReactQuill
                         theme="snow"

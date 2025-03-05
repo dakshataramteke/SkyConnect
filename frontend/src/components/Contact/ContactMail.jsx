@@ -14,7 +14,7 @@ import Mail from "../Mails/Mail.jsx";
 import axios from "axios";
 import myImage from '../../assests/logo.jpg'; 
 import datanotFound from '../../assests/datanotfound.jpg';
-
+import SearchIcon from '@mui/icons-material/Search';
 const ContactMail = () => {
   const [emails, setEmails] = useState([]);
   const [selectedEmails, setSelectedEmails] = useState([]);
@@ -209,14 +209,15 @@ const ContactMail = () => {
                 </div>
 
                 {showSearchInput && (
-                  <div className="search-input-container">
+                  <div className="search-input-container d-flex align-items-center">
                     <input
                       type="text"
                       value={searchInput}
                       onChange={handleSearchInputChange}
                       placeholder="Search email..."
-                      className="form-control"
+                      className="form-control position-relative"
                     />
+                    <span className="search_icon"><SearchIcon/></span>
                   </div>
                 )}
 
