@@ -165,13 +165,13 @@ const Navbar = () => {
                 <li
                   className="nav-item logout_btn d-md-none py-2"
                 >
-                 <Link href="#" onClick={handleLogout}>
+                 <Link href="#" onClick={handleLogout} >
                   Log Out <LogoutIcon/>
                  </Link>
                 </li>
               </ul>
             </div>
-            <div className="d-lg-block d-none text-white order-lg-4 ms-5" onClick={handleLogout}>
+            <div className="d-lg-block d-none text-white order-lg-4 ms-5" title="Log Out" onClick={handleLogout} style={{cursor:"pointer"}}>
               <PowerSettingsNewIcon />
             </div>
           </div>

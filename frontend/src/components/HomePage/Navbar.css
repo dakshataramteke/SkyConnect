@@ -134,6 +134,7 @@ color: var(--cream);
 
 }
 
+
 /* Responsive  */
 @media (max-width: 768px) {
     .navbar-brand{

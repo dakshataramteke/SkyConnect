@@ -7,6 +7,7 @@ import CryptoJS from "crypto-js";
 import "./LoginPage.css";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import zIndex from "@mui/material/styles/zIndex";
 
 const LoginPage = () => {
   const SECRET_KEY = "abhishek";
@@ -120,25 +121,42 @@ const LoginPage = () => {
                     <label htmlFor="password" className="form-label ">
                       <b>Password </b>
                     </label>
-                    <div className="input-group toggleeye" style={{width:"90%", position:"relative"}}> 
-                      <input
-                        type={showPassword ? "text" : "password"}
-                       
-                        className="form-control"
-                        id="password"
-                        name="password"
-                        placeholder="Enter your password"
-                        value={values.password}
-                        onChange={handleChange}
-                        autoComplete="off"
-                        aria-describedby="password"
-                        style={{ letterSpacing: "1px",  padding: '10px', marginBottom: "5px" ,borderRadius:'0', border:'none', borderBottom: "2px solid #84a6d6"}}
-
-                      />
-                         <span className="input-group-text eyeshow" onClick={handlePasswordVisibilityToggle} style={{ cursor: 'pointer', backgroundColor : 'white',  position:"absolute", right:"0", bottom:"6px", border:"none"}}>
-                        {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                      </span>
-                    </div>
+                    <div className="input-group toggleeye" style={{ width: "90%", position: "relative" }}>
+      <input
+        type={showPassword ? "text" : "password"}
+        className="form-control"
+        id="password"
+        name="password"
+        placeholder="Enter your password"
+        value={values.password}
+        onChange={handleChange}
+        autoComplete="off"
+        aria-describedby="password"
+        style={{
+          letterSpacing: "1px",
+          padding: '10px',
+          marginBottom: "5px",
+          borderRadius: '0',
+          border: 'none',
+          borderBottom: "2px solid #84a6d6"
+        }}
+      />
+      <span
+        className="input-group-text eyeshow"
+        onClick={handlePasswordVisibilityToggle}
+        style={{
+          cursor: 'pointer',
+          backgroundColor: 'white',
+          position: "fixed",
+          right: "50px",
+          zIndex: 11,
+          // bottom: "8px",
+          border: "none"
+        }}
+      >
+        {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+      </span>
+    </div>
                   </div>
                 
                   <div className="my-4 d-flex justify-content-center">
