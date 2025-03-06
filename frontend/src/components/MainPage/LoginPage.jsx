@@ -148,7 +148,7 @@ const LoginPage = () => {
           cursor: 'pointer',
           backgroundColor: 'white',
           position: "fixed",
-          right: "50px",
+          right: "55px",
           zIndex: 11,
           // bottom: "8px",
           border: "none"

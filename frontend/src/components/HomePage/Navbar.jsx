@@ -38,7 +38,7 @@ const Navbar = () => {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes',
+      confirmButtonText: 'Log Out',
       cancelButtonText: 'No, keep me logged in'
     });
   
@@ -175,7 +175,7 @@ const Navbar = () => {
                 </li>
 
                 <li
-                  className="nav-item logout_btn d-md-none py-2"
+                  className="nav-item logout_btn d-lg-none py-2"
                 >
                  <Link href="#" onClick={handleLogout} >
                   Log Out <LogoutIcon/>

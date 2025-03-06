@@ -281,7 +281,7 @@ const SingleMail = () => {
                   <div className="col-12 col-md-11">
                     <div className="my-4 d-flex align-items-center">
                       <label htmlFor="to" className="form-label">
-                        To <span style={{ color: "red" }}> *</span>
+                        To <span style={{ color: "red" , marginLeft:"4px" }}> *</span>
                       </label>
                       <input
                         type="text"
