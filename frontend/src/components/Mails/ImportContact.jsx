@@ -24,7 +24,7 @@ const ImportContact = () => {
   const [isFirstRowBold, setIsFirstRowBold] = useState(true); // State to control bold styling of the first row
   const [noEmailsFound, setNoEmailsFound] = useState(false); // New state to track if no emails are found
   const [showUpward, setShowUpward] = useState(false);
-
+  const [filename, setFilename] = useState(""); // State to hold the filename
   // Scroll event listener
   useEffect(() => {
     const handleScroll = () => {
@@ -47,14 +47,19 @@ const ImportContact = () => {
   const handleDrop = (event) => {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
-    if (file) processFile(file);
+    if (file) {
+      setFilename(file.name); // Set the filename
+      processFile(file);
+    }
   };
-
+  
   const handleFileInput = (event) => {
     const file = event.target.files[0];
-    if (file) processFile(file);
+    if (file) {
+      setFilename(file.name); // Set the filename
+      processFile(file);
+    }
   };
-
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -197,9 +202,11 @@ const ImportContact = () => {
                 style={{ display: "none" }}
                 onChange={handleFileInput}
               />
+                <p className="m-0 " style={{fontSize:'0.895rem'}}>{filename}</p>
             </div>
+           
           </div>
-
+        
           {tableData.length > 0 && (
             <div className="table-responsive mt-4 table_section">
               <div className="mt-3 text-center mb-3">
