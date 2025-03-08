@@ -41,6 +41,7 @@ table {
 
 .table tr:first-child{
     font-weight: bold !important;
+    text-transform: uppercase;
   }
 
 

@@ -7,7 +7,7 @@ import CryptoJS from "crypto-js";
 import "./LoginPage.css";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import zIndex from "@mui/material/styles/zIndex";
+// import zIndex from "@mui/material/styles/zIndex";
 
 const LoginPage = () => {
   const SECRET_KEY = "abhishek";
@@ -18,7 +18,7 @@ const LoginPage = () => {
   });
 
   const [isAgreed, setIsAgreed] = useState(false); // New state for checkbox
-  const [showPassword, setShowPassword] = useState(false); // New state for password visibility
+  const [showPassword, setShowPassword] = useState(false); 
 
   const navigate = useNavigate();
 

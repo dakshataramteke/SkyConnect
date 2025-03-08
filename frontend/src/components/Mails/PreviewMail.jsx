@@ -4,7 +4,10 @@ import { CLoadingButton } from "@coreui/react-pro";
 
 const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingleMail, progress }) => {
   const [loading, setLoading] = useState(false);
-   const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState("");
+  const [error, setError] = useState('');
+  const [url, setUrl] = useState('');
+  const [isValid, setIsValid] = useState(true);
   const [values, setValues] = useState({
     logoUrl: "",
     bannerUrl: "",
@@ -19,27 +22,41 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
     // Retrieve the user's name from local storage
     const storedUserName = localStorage.getItem('Login User');
     if (storedUserName) {
-      setUserName(storedUserName); // Set the user's name in state
-     
+      setUserName(storedUserName); 
     }
   }, []);
-  
 
   const formRef = useRef(null);
-
+  const validateUrl = (inputUrl) => {
+    const pattern = /^(https?:\/\/)/; 
+    return pattern.test(inputUrl);
+};
   const handleChanges = (e) => {
     const { name, value } = e.target;
     setValues((prevState) => ({
       ...prevState,
-      [name]: value,
+      [name]: value.trim(),
     }));
+    const inputUrl = e.target.value;
+    setUrl(inputUrl);
+    setIsValid(validateUrl(inputUrl)); 
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const form = formRef.current;
-    if (loading) return; 
+    if (loading) return;
 
+    // Clear previous error message
+    setError('');
+
+    // Custom validation for company name
+    const companyNamePattern = /^[a-zA-Z0-9]*$/;
+    if (!companyNamePattern.test(values.companyName)) {
+      setError('only contain letters and numbers.');
+      return; // Stop the submission if there's an error
+    }
+   
     const isValid = validateSingleMail();
     if (!isValid || !form.checkValidity()) {
       Swal.fire({
@@ -51,20 +68,20 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
     }
 
     const bannerData = {
-      logoUrl: values.logoUrl.trim() ,
-      bannerUrl: values.bannerUrl.trim() ,
+      logoUrl: values.logoUrl.trim(),
+      bannerUrl: values.bannerUrl.trim(),
       companyName: values.companyName.trim(),
-      buttonName: values.buttonName.trim() ,
-      buttonUrl: values.buttonUrl.trim() ,
-      selectedColor: values.selectedColor ,
-      selectedbuttonColor: values.selectedbuttonColor ,
+      buttonName: values.buttonName.trim(),
+      buttonUrl: values.buttonUrl.trim(),
+      selectedColor: values.selectedColor,
+      selectedbuttonColor: values.selectedbuttonColor,
     };
 
-
     try {
-      setLoading(true); 
+      setLoading(true);
       await sendEmail(bannerData);
 
+      // Reset form values
       setValues({
         logoUrl: "",
         bannerUrl: "",
@@ -98,7 +115,7 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
               <form onSubmit={handleSubmit} ref={formRef} noValidate>
                 <div className="mb-3">
                   <label htmlFor="selectedColor" className="form-label">
-                    Header Color :
+                    Header Color 
                   </label>
                   <input
                     type="color"
@@ -112,7 +129,7 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
 
                 <div className="mb-3">
                   <label htmlFor="companyName" className="form-label">
-                    Company Name :
+                    Company Name 
                   </label>
                   <input
                     type="text"
@@ -122,42 +139,46 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
                     name="companyName"
                     value={values.companyName}
                     onChange={handleChanges}
+                    pattern="^[a-zA-Z0-9 ]*$"
                   />
+                  {error && <div style={{ color: 'red' }}>{error}</div>}
                 </div>
 
                 <div className="mb-3 mt-1">
                   <label htmlFor="logoUrl" className="form-label">
-                    Company Logo URL :
+                    Company Logo URL 
                   </label>
                   <input
                     type="text"
                     className="form-control"
                     id="logoUrl"
-                    placeholder="Enter logo URL"
+                    placeholder="Enter Logo URL"
                     name="logoUrl"
                     value={values.logoUrl}
                     onChange={handleChanges}
                   />
+                   {!isValid && <p style={{ color: 'red' }}>Please enter a valid URL starting with http or https.</p>}
                 </div>
 
                 <div className="mb-3">
                   <label htmlFor="bannerUrl" className="form-label">
-                    Banner Image URL :
+                    Banner Image URL 
                   </label>
                   <input
                     type="text"
                     className="form-control"
                     id="bannerUrl"
-                    placeholder="Enter Banner image URL"
+                    placeholder="Enter Banner Image URL"
                     name="bannerUrl"
                     value={values.bannerUrl}
                     onChange={handleChanges}
                   />
+                    {!isValid && <p style={{ color: 'red' }}>Please enter a valid URL starting with http or https.</p>}
                 </div>
 
                 <div className="mb-3">
                   <label htmlFor="buttonUrl" className="form-label">
-                    Button URL :
+                    Button URL 
                   </label>
                   <input
                     type="text"
@@ -172,7 +193,7 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
 
                 <div className="mb-3">
                   <label htmlFor="buttonName" className="form-label">
-                    Button Name :
+                    Button Name 
                   </label>
                   <input
                     type="text"
@@ -184,7 +205,6 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
                     onChange={handleChanges}
                   />
                 </div>
-               
 
                 {loading && (
                   <div className="progress mb-3">
@@ -220,8 +240,12 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
                 </div>
 
                 <div className="text-center mt-3">
-                  <p style={{color: 'green' , margin:'0.25rem'}}> <span style={{ fontWeight:'500'}}>Delivered Mail:</span> {sentCount}</p>
-                  <p style={{color:'red'}}> <span style={{ fontWeight:'500'}}>UnDelivered Mail:</span> {notSentCount}</p>
+                  <p style={{ color: 'green', margin: '0.25rem' }}>
+                    <span style={{ fontWeight: '500' }}>Delivered Mail:</span> {sentCount}
+                  </p>
+                  <p style={{ color: 'red' }}>
+                    <span style={{ fontWeight: '500' }}>Undelivered Mail:</span> {notSentCount}
+                  </p>
                 </div>
               </form>
             </div>
@@ -276,7 +300,7 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    width: "100%",
+                     width: "100%",
                   }}
                 >
                   <a href={values.buttonUrl} style={{ textDecoration: "none" }}>
@@ -328,4 +352,3 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
 };
 
 export default PreviewMail;
-

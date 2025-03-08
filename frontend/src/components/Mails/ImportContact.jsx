@@ -147,7 +147,7 @@ const ImportContact = () => {
         <div className="container shadow-none" style={{ marginTop: "1rem" }}>
           <h2 className="text-center title">Multiple Mail Wave</h2>
           <p className="text-center" style={{ padding: "0 2rem", lineHeight: "2rem" }}>
-            Sending Multiple messages and information to Organization.
+            Sending Multiple Messages And Information To Organization.
           </p>
           <div
             className="d-flex align-items-center justify-content-center"
@@ -214,7 +214,7 @@ const ImportContact = () => {
                     : tableData.map((row, rowIndex) => (
                         <tr key={rowIndex} className={rowIndex === 0 && isFirstRowBold ? "bold-row" : ""}>
                           {row.map((cell, cellIndex) => (
-                            <td key={cellIndex}>{cell}</td>
+                            <td key={cellIndex} className="text-start">{cell}</td>
                           ))}
                         </tr>
                       ))}

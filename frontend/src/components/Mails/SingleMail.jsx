@@ -6,7 +6,8 @@ import PreviewMail from "./PreviewMail";
 import "react-quill/dist/quill.snow.css";
 import Tabs from "../HomePage/Tabs";
 import "./Mail.css";
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 const SingleMail = () => {
   const [value, setValue] = useState({
     to: "",
@@ -23,6 +24,7 @@ const SingleMail = () => {
   const [loading, setLoading] = useState(false);
   const [editorHtml, setEditorHtml] = useState("");
   const formRef = useRef(null);
+  const [showPassword, setShowPassword] = useState(false); 
 
   useEffect(() => {
     const storedUserName = localStorage.getItem("Login User");
@@ -39,7 +41,9 @@ const SingleMail = () => {
       [name]: value.trim(),
     }));
   };
-
+  const handlePasswordVisibilityToggle = () => {
+    setShowPassword((prev) => !prev); // Toggle password visibility
+  };
   // Quill's onChange will update editorHtml
   const handleQuillChange = (content, delta, source, editor) => {
     const htmlContent = editor.getHTML();
@@ -60,17 +64,24 @@ const SingleMail = () => {
   // Validate email and message content
   const validateSingleMail = () => {
     const form = formRef.current;
+   const emailRegex = /^(?=.*[a-zA-Z].*[a-zA-Z])(?=.*\d)[a-zA-Z\d._%+-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
+  
     if (
       !form.checkValidity() ||
       !editorHtml.trim() ||
-      editorHtml === "<p><br></p>"
+      editorHtml === "<p><br></p>" 
+      // !emailRegex.test(emailValue)
     ) {
       form.classList.add("was-validated");
-
+  
       if (!editorHtml.trim() || editorHtml === "<p><br></p>") {
         setError("The message field cannot be empty.");
       }
-
+  
+      // if (!emailRegex.test(emailValue)) {
+        // setError("The email must contain at least two letters, include numbers, and have a valid domain.");
+      // }
+  
       return false;
     }
     return true;
@@ -150,23 +161,24 @@ const SingleMail = () => {
         <div style="text-align: center; color: black;">
           <h3>${bannerData.companyName}</h3>
         </div>
-        <div style=" margin-top: 1rem; display:flex; justify-content:center">
+        <div style="text-align: center; margin-top: 1rem; display:flex; justify-content:center">
           ${
             bannerData.bannerUrl
-              ? `<img src="${bannerData.bannerUrl}" alt="Banner" style="width: 90%; height: auto; border-radius: 0.325rem; margin: 0 auto" />`
+              ? `<img src="${bannerData.bannerUrl}" alt="Banner" style="width: 90%; height: auto; border-radius: 0.325rem;" />`
               : `<span></span>`
           }
         </div>
-        <div style="margin: 1.25rem 0; padding: 0 1.5rem;">  
-          <div>${value.message || "No message provided."}</div>
+        <div style="margin: 2rem 0; padding: 0 1.5rem;">  
+          <div>${value.message}</div>
         </div>
         ${
           bannerData.buttonName
             ? `
-          <div style="text-align: center; margin-top: 2rem; ">
+          <div style="text-align: center; margin-top: 3rem;">
             <a href="${bannerData.buttonUrl}" style="text-decoration: none;">
-              <button style="background-color: #e8a303; border: none; border-radius: 1.25rem; padding: 0.75rem 1.5rem; cursor: pointer; font-weight: bold;"
-              };  >
+              <button style="background-color: ${
+                bannerData.selectedbuttonColor || "initial"
+              }; color: white; border: none; border-radius: 1.25rem; padding: 0.75rem 1.5rem; cursor: pointer; font-weight: bold;">
                 ${bannerData.buttonName}
               </button>
             </a>
@@ -174,9 +186,9 @@ const SingleMail = () => {
         `
             : ""
         }
-        <div style="margin: 1rem 0 1rem 1rem";>
+        <div style="margin: 1.5rem;">
           <p>Best regards,</p>
-          <h5 style="color: #4358f9; padding: 0 0 1.5rem 0 ">${userName}</h5> 
+          <h5 style="color: #4358f9; padding:0 0 1.5rem;">${userName}</h5>
         </div>
       </div>
     `,
@@ -284,7 +296,7 @@ const SingleMail = () => {
                         To <span style={{ color: "red" , marginLeft:"4px" }}> *</span>
                       </label>
                       <input
-                        type="text"
+                        type="email"
                         className="form-control"
                         id="to"
                         placeholder="Enter recipients email address"
@@ -303,7 +315,7 @@ const SingleMail = () => {
                         From  <span style={{ color: "red", marginLeft:"4px"  }}> *</span>
                       </label>
                       <input
-                        type="text"
+                        type="email"
                         className="form-control"
                         id="from"
                         placeholder="Enter sender email address"
@@ -318,10 +330,11 @@ const SingleMail = () => {
                     </div>
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="Password" className="form-label ">
-                        Password: <span style={{ color: "red" , marginLeft:"4px" }}> *</span>
+                        Password: <span style={{ color: "red" , marginLeft:"4px", position: "relative"  }}> *</span>
                       </label>
+                      {/* <div className="input-group toggleeye" style={{ position: "relative" }}></div> */}
                       <input
-                        type="password"
+                          type={showPassword ? "text" : "password"}
                         className="form-control"
                         id="Password"
                         placeholder="Enter your Password"
@@ -329,7 +342,23 @@ const SingleMail = () => {
                         value={value.password}
                         onChange={handleChange}
                         required
+                       
                       />
+                       <span
+        className="input-group-text eyeshow"
+        onClick={handlePasswordVisibilityToggle}
+        style={{
+          cursor: 'pointer',
+          backgroundColor: 'white',
+          position: "absolute",
+          right: "15px",
+          // zIndex: 11,
+          // bottom: "8px",
+          border: "none"
+        }}
+      >
+        {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+      </span>
                       <div className="invalid-feedback">
                         Please provide a password.
                       </div>

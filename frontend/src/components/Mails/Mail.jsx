@@ -39,7 +39,7 @@ const Mail = ({ emails }) => {
     const { name, value } = e.target;
     setValue((prevState) => ({
       ...prevState,
-      [name]: value,
+      [name]: value.trim(),
     }));
   };
 
@@ -243,7 +243,7 @@ const Mail = ({ emails }) => {
                         type="text"
                         className="form-control"
                         id="to"
-                        placeholder="name@gmail.com"
+                        placeholder="Enter recipients email address"
                         name="to"
                         value={value.to}
                         onChange={handleChange}
@@ -261,7 +261,7 @@ const Mail = ({ emails }) => {
                         type="email"
                         className="form-control"
                         id="from"
-                        placeholder="name@gmail.com"
+                        placeholder="Enter sender email address"
                         name="from"
                         value={value.from}
                         onChange={handleChange}
@@ -280,7 +280,7 @@ const Mail = ({ emails }) => {
                         type="password"
                         className="form-control"
                         id="Password"
-                        placeholder="Enter your Password"
+                        placeholder="Enter Your Password"
                         name="password"
                         value={value.password}
                         onChange={handleChange}

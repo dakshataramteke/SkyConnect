@@ -13,6 +13,7 @@ import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import LogoutIcon from '@mui/icons-material/Logout';
 import "./Navbar.css";
 import Swal from 'sweetalert2';
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const handleToggle = () => {
@@ -30,6 +31,7 @@ const Navbar = () => {
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
+
   const handleLogout = async () => {
     const result = await Swal.fire({
       title: 'Are you sure?',
@@ -43,11 +45,10 @@ const Navbar = () => {
     });
   
     if (result.isConfirmed) {
-      // Perform logout action here
-      // logout(); // Uncomment this line if you have a logout function
       window.location.href = '/'; // Redirect to login page
     }
   };
+
   const location = useLocation();
 
   return (
@@ -94,7 +95,7 @@ const Navbar = () => {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    <YouTubeIcon />
+                    <YouTubeIcon style={{fontSize:"2rem"}} />
                   </a>
                 </li>
               </ul>
@@ -119,53 +120,29 @@ const Navbar = () => {
               id="navbarNav"
             >
               <ul className="navbar-nav">
-                <li
-                  className="nav-item"
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                >
+                <li className="nav-item">
                   <NavLink
-                    className={({ isActive }) =>
-                      `nav-link text-white ${
-                        isActive || isHovered ? "activeLink" : ""
-                      }`
-                    }
+                    className={({ isActive }) => `nav-link text-white ${isActive ? "activeLink" : ""}`}
                     to="/home"
                     end
-                    onClick={handleLinkClick} 
+                    onClick={handleLinkClick}
                   >
                     Home
                   </NavLink>
                 </li>
-                <li
-                  className="nav-item"
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                >
+                <li className="nav-item">
                   <NavLink
-                    className={({ isActive }) =>
-                      `nav-link text-white ${
-                        isActive || isHovered ? "activeLink" : ""
-                      }`
-                    }
-                    to="Pricing" // Ensure this points to the correct route
+                    className={({ isActive }) => `nav-link text-white ${isActive ? "activeLink" : ""}`}
+                    to="/home/Pricing" // Ensure this points to the correct route
                     end
                     onClick={handleLinkClick}
                   >
                     Pricing
                   </NavLink>
                 </li>
-                <li
-                  className="nav-item"
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                >
+                <li className="nav-item">
                   <NavLink
-                    className={({ isActive }) =>
-                      `nav-link text-white ${
-                        isActive || isHovered ? "activeLink" : ""
-                      }`
-                    }
+                    className={({ isActive }) => `nav-link text-white ${isActive ? "activeLink" : ""}`}
                     to="/home/Contact" // Ensure this points to the correct route
                     end
                     onClick={handleLinkClick}
@@ -174,16 +151,14 @@ const Navbar = () => {
                   </NavLink>
                 </li>
 
-                <li
-                  className="nav-item logout_btn d-lg-none py-2"
-                >
-                 <Link href="#" onClick={handleLogout} >
-                  Log Out <LogoutIcon/>
-                 </Link>
+                <li className="nav-item logout_btn d-lg-none py-2">
+                  <Link href="#" onClick={handleLogout}>
+                    Log Out <LogoutIcon />
+                  </Link>
                 </li>
               </ul>
             </div>
-            <div className="d-lg-block d-none text-white order-lg-4 ms-5" title="Log Out" onClick={handleLogout} style={{cursor:"pointer"}}>
+            <div className="d-lg-block d-none text-white order-lg-4 ms-5" title="Log Out" onClick={handleLogout} style={{ cursor: "pointer" }}>
               <PowerSettingsNewIcon />
             </div>
           </div>
@@ -194,4 +169,5 @@ const Navbar = () => {
     </>
   );
 };
+
 export default Navbar;
