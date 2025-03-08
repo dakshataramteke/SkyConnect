@@ -4,13 +4,13 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import PreviewMail from "./PreviewMail";
 import { useLocation } from "react-router-dom"; // Import useLocation for routing
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import "./Mail.css";
 
 const Mail = ({ emails }) => {
   const location = useLocation(); // Get the location object
   const formRef = useRef(null); // Create a reference for the form
-
   const [value, setValue] = useState({
     to: emails.join(", "), // Initialize the to field with the passed emails
     from: "",
@@ -26,6 +26,7 @@ const Mail = ({ emails }) => {
   const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState(false); // Loading state for progress
   const [editorHtml, setEditorHtml] = useState("");
+  const [showPassword, setShowPassword] = useState(false); 
 
   useEffect(() => {
     // Retrieve the user's name from local storage
@@ -34,7 +35,9 @@ const Mail = ({ emails }) => {
       setUserName(storedUserName); // Set the user's name in state
     }
   }, []);
-
+  const handlePasswordVisibilityToggle = () => {
+    setShowPassword((prev) => !prev); // Toggle password visibility
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setValue((prevState) => ({
@@ -277,7 +280,7 @@ const Mail = ({ emails }) => {
                         Password  <span style={{ color: "red", marginLeft:"4px"  }}> *</span>
                       </label>
                       <input
-                        type="password"
+                         type={showPassword ? "text" : "password"}
                         className="form-control"
                         id="Password"
                         placeholder="Enter Your Password"
@@ -285,7 +288,22 @@ const Mail = ({ emails }) => {
                         value={value.password}
                         onChange={handleChange}
                         required
+                        pattern="^[a-zA-Z0-9]*$"
                       />
+                        <span
+        className="input-group-text eyeshow"
+        onClick={handlePasswordVisibilityToggle}
+        style={{
+          cursor: 'pointer',
+          backgroundColor: 'white',
+          position: "absolute",
+          right: "15px",
+          // zIndex: 11,
+          // bottom: "8px",
+          border: "none"
+        }}
+        
+      >{showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}</span>
                       <div className="invalid-feedback">
                         Please provide a password.
                       </div>
