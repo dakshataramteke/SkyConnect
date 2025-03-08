@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import upload from "../../assests/upload.png";
@@ -10,6 +10,7 @@ import "./ImportContact.css";
 import CircularProgress from "@mui/material/CircularProgress";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import Box from "@mui/material/Box";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
 const ImportContact = () => {
   const [tableData, setTableData] = useState([]);
@@ -22,6 +23,22 @@ const ImportContact = () => {
   const [showDownward, setShowDownward] = useState(true);
   const [isFirstRowBold, setIsFirstRowBold] = useState(true); // State to control bold styling of the first row
   const [noEmailsFound, setNoEmailsFound] = useState(false); // New state to track if no emails are found
+  const [showUpward, setShowUpward] = useState(false);
+
+  // Scroll event listener
+  useEffect(() => {
+    const handleScroll = () => {
+      const isAtBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 10;
+      const isAtTop = window.scrollY === 0; // Check if at the top of the page
+      setShowUpward(!isAtTop); // Show upward arrow if not at the top
+      setShowDownward(!isAtBottom); // Show downward arrow if not at the bottom
+    };
+  
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -38,9 +55,13 @@ const ImportContact = () => {
     if (file) processFile(file);
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const scrollToBottom = () => {
     window.scrollTo({
-      top: document.documentElement.scrollHeight,
+      top: document.documentElement.scrollHeight -20,
       behavior: "smooth",
     });
   };
@@ -91,7 +112,7 @@ const ImportContact = () => {
 
     const processedEmails = emails.map((email) => email.trim());
 
-    if (processedEmails.length === 0) {
+    if (processedEmails.length ===  0) {
       Swal.fire({
         title: "Error",
         text: "No valid mail to save",
@@ -236,9 +257,9 @@ const ImportContact = () => {
               <div className="alert alert-danger alert-dismissible fade show" role="alert">
                 <h2>There are No Emails in the Uploaded File</h2>
                 <p className="mt-3">Please upload another file that contains emails.</p>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
+                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
               </div>
             </div>
           )}
@@ -284,11 +305,20 @@ const ImportContact = () => {
             </div>
           )}
         </div>
-        {showDownward && (
-          <div className="downwardArrow" onClick={scrollToBottom}>
-            <ArrowDownwardIcon />
-          </div>
-        )}
+        <div className="d-flex justify-content-center fixed_Arrow">
+  <div className="scrollArrows">
+    {showUpward && (
+      <div className={`upwardArrow ${!showUpward ? 'hidden' : ''}`} onClick={scrollToTop}>
+        <ArrowUpwardIcon />
+      </div>
+    )}
+    {showDownward && (
+      <div className={`downwardArrow ${!showDownward ? 'hidden' : ''}`} onClick={scrollToBottom}>
+        <ArrowDownwardIcon />
+      </div>
+    )}
+  </div>
+</div>
       </section>
       {showMail && <Mail emails={toEmails} />}
     </>
