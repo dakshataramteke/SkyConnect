@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -15,6 +15,7 @@ import axios from "axios";
 import myImage from '../../assests/logo.jpg'; 
 import datanotFound from '../../assests/datanotfound.jpg';
 import SearchIcon from '@mui/icons-material/Search';
+
 const ContactMail = () => {
   const [emails, setEmails] = useState([]);
   const [selectedEmails, setSelectedEmails] = useState([]);
@@ -34,14 +35,14 @@ const ContactMail = () => {
   const [showDownward, setShowDownward] = useState(true);
   const [filteredEmails, setFilteredEmails] = useState([]);
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     const scrollY = window.scrollY;
     const windowHeight = window.innerHeight;
     const documentHeight = document.documentElement.scrollHeight;
 
     setShowUpward(scrollY > 0);
     setShowDownward(scrollY + windowHeight < documentHeight);
-  };
+  }, []);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -63,10 +64,8 @@ const ContactMail = () => {
           withCredentials: true,
         });
 
-        const fetchedData = response.data;
-
-        if (Array.isArray(fetchedData)) {
-          const emailList = fetchedData.flatMap((item) =>
+        if (Array.isArray(response.data)) {
+          const emailList = response.data.flatMap((item) =>
             item.email.split(",").map((email) => ({
               email: email.trim(),
               date: item.dates
@@ -75,10 +74,10 @@ const ContactMail = () => {
             }))
           );
           setEmails(emailList);
-          setFilteredEmails(emailList); // Initialize filtered emails
+          setFilteredEmails(emailList);
           window.addEventListener("scroll", handleScroll);
         } else {
-          console.error("Fetched data is not an array:", fetchedData);
+          console.error("Fetched data is not an array:", response.data);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -87,7 +86,7 @@ const ContactMail = () => {
 
     fetchData();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [handleScroll]);
 
   useEffect(() => {
     const updatedFilteredEmails = emails.filter((item) => {
@@ -100,7 +99,7 @@ const ContactMail = () => {
       );
     });
     setFilteredEmails(updatedFilteredEmails);
-    setCurrentPage(1); // Reset to first page on filter change
+    setCurrentPage(1);
   }, [searchInput, startDate, emails]);
 
   const handleCheckboxChange = (email) => {
@@ -128,16 +127,18 @@ const ContactMail = () => {
 
   const handleSubmit = () => {
     setLoading(true);
-    
-    // Create a unique list of emails
-    const uniqueEmails = [...new Set(selectedEmails)];
-    
-    setToEmails(uniqueEmails);
-    setSentEmails((prevSent) => [...new Set([...prevSent, ...uniqueEmails])]); // Ensure sentEmails also has unique emails
-
+    const uniqueEmails = [...new Set(selectedEmails)]; // Get unique selected emails
+    console.log(uniqueEmails);
+    setToEmails((prevToEmails) => [...new Set([...prevToEmails, ...uniqueEmails])]); // Append new unique emails to existing ones
+    console.log(setToEmails);
+    setSentEmails((prevSent) => [...new Set([...prevSent, ...uniqueEmails])]); // Update sent emails
+    console.log(setSentEmails);
+    setSelectedEmails([]); // Clear selected emails
+    // setShowSelectedEmails(false); // Hide selected emails
+  
     setTimeout(() => {
-      setShowMail(true);
-      setLoading(false);
+      setShowMail(true); // Show the Mail component
+      setLoading(false); // Stop loading
     }, 1000);
   };
 
@@ -145,9 +146,9 @@ const ContactMail = () => {
     const inputEmails = e.target.value.split(",").map((email) => email.trim());
     const uniqueEmails = [...new Set([...sentEmails, ...inputEmails])];
     setSelectedEmails(uniqueEmails);
+    console.log(setSelectedEmails);
   };
 
-  // Pagination logic
   const indexOfLastEmail = currentPage * emailsPerPage;
   const indexOfFirstEmail = indexOfLastEmail - emailsPerPage;
   const totalPages = Math.ceil(filteredEmails.length / emailsPerPage);
@@ -155,19 +156,19 @@ const ContactMail = () => {
 
   const toggleDatePicker = () => {
     if (showSearchInput) {
-      setShowSearchInput(false); // Close search input if it's open
+      setShowSearchInput(false);
     }
     setShowDatePicker(!showDatePicker);
   };
 
   const handleSearchInputChange = (e) => {
     setSearchInput(e.target.value);
-    setCurrentPage(1); // Reset to first page on search
+    setCurrentPage(1);
   };
 
   const handleSearchInputToggle = () => {
     if (showDatePicker) {
-      setShowDatePicker(false); // Close date picker if it's open
+      setShowDatePicker(false);
     }
     setShowSearchInput(!showSearchInput);
   };
@@ -191,6 +192,7 @@ const ContactMail = () => {
                       id="selectAllCheckbox"
                       onChange={handleSelectAllChange}
                       checked={selectAll}
+                      aria-label="Select all emails"
                     />
                     <label className="form-check-label" htmlFor="selectAllCheckbox"></label>
                   </div>
@@ -224,13 +226,13 @@ const ContactMail = () => {
                 {showDatePicker && (
                   <div className="date-picker-container">
                     <div>
-                      <img src={myImage} height={'180px'} width={'180px'} className="logoimg" />
+                      <img src={myImage} height={'180px'} width={'180px'} className="logoimg" alt="Logo" />
                     </div>
                     <DatePicker
                       selected={startDate}
                       onChange={(date) => {
-                        setStartDate(date); // Update the selected date
-                        setShowDatePicker(false); // Hide the date picker
+                        setStartDate(date);
+                        setShowDatePicker(false);
                       }}
                       inline
                     />
@@ -249,6 +251,7 @@ const ContactMail = () => {
                           id={`flexCheckDefault${index}`}
                           onChange={() => handleCheckboxChange(item.email)}
                           checked={selectedEmails.includes(item.email)}
+                          aria-label={`Select email ${item.email}`}
                         />
                       </div>
                       <div className="col text-start">{item.email}</div>
@@ -269,9 +272,9 @@ const ContactMail = () => {
           <div className="d-flex justify-content-center my-3">
             <Stack spacing={2}>
               <Pagination
-                count={totalPages} // Set the total number of pages based on filtered emails
-                page={currentPage} // Current page
-                onChange={(event, value) => setCurrentPage(value)} // Handle page change
+                count={totalPages}
+                page={currentPage}
+                onChange={(event, value) => setCurrentPage(value)}
                 color="primary"
               />
             </Stack>
@@ -281,7 +284,7 @@ const ContactMail = () => {
             <div className="col-12 py-3">
               {showSelectedEmails && (
                 <>
-                  <div className=" list-group mx-auto d-none">
+                  <div className="list-group mx-auto d-none">
                     {selectedEmails.length > 0 && (
                       <textarea
                         value={selectedEmails.join(", ")}

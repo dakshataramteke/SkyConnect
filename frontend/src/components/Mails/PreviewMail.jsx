@@ -31,7 +31,7 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
   const formRef = useRef(null);
   const validateUrl = (inputUrl) => {
     const pattern = /^(https?:\/\/)/; 
-    return ;
+    return pattern.test(inputUrl); // Ensure this returns true or false
   };
 
   const handleChanges = (e) => {
@@ -61,6 +61,9 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
     if (loading) return;
 
     setError('');
+    // Reset URL error states
+    setLogoUrlTouched(false);
+    setBannerUrlTouched(false);
 
     const companyNamePattern = /^[a-zA-Z ]*$/;
     if (!companyNamePattern.test(values.companyName)) {

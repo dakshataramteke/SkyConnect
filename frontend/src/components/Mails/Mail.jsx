@@ -3,16 +3,16 @@ import ReactQuill from "react-quill";
 import axios from "axios";
 import Swal from "sweetalert2";
 import PreviewMail from "./PreviewMail";
-import { useLocation } from "react-router-dom"; // Import useLocation for routing
+// import { useLocation } from "react-router-dom"; 
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import "./Mail.css";
 
 const Mail = ({ emails }) => {
-  const location = useLocation(); // Get the location object
-  const formRef = useRef(null); // Create a reference for the form
+  // const location = useLocation(); 
+  const formRef = useRef(null); 
   const [value, setValue] = useState({
-    to: emails.join(", "), // Initialize the to field with the passed emails
+    to: emails.join(", "),
     from: "",
     password: "",
     subject: "",
@@ -20,24 +20,25 @@ const Mail = ({ emails }) => {
   });
 
   const [error, setError] = useState("");
-  const [sentCount, setSentCount] = useState(0); // Count of sent emails
-  const [notSentCount, setNotSentCount] = useState(0); // Count of not sent emails
-  const [progress, setProgress] = useState(0); // Progress state
+  const [sentCount, setSentCount] = useState(0);
+  const [notSentCount, setNotSentCount] = useState(0);
+  const [progress, setProgress] = useState(0);
   const [userName, setUserName] = useState("");
-  const [loading, setLoading] = useState(false); // Loading state for progress
+  const [loading, setLoading] = useState(false);
   const [editorHtml, setEditorHtml] = useState("");
   const [showPassword, setShowPassword] = useState(false); 
 
   useEffect(() => {
-    // Retrieve the user's name from local storage
     const storedUserName = localStorage.getItem("Login User");
     if (storedUserName) {
-      setUserName(storedUserName); // Set the user's name in state
+      setUserName(storedUserName);
     }
   }, []);
+
   const handlePasswordVisibilityToggle = () => {
-    setShowPassword((prev) => !prev); // Toggle password visibility
+    setShowPassword((prev) => !prev);
   };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setValue((prevState) => ({
@@ -54,29 +55,23 @@ const Mail = ({ emails }) => {
       message: htmlContent,
     }));
 
-    // Clear the error if the editor content is valid
     if (htmlContent.trim() && htmlContent !== "<p><br></p>") {
       setError("");
     }
   };
 
-
   const validateSingleMail = () => {
     const form = formRef.current;
-
-    // Check for standard input validation
     const isFormValid = form.checkValidity();
     const isQuillValid = editorHtml.trim() && editorHtml !== "<p><br></p>";
 
-    // Apply was-validated class if needed
     if (!isFormValid || !isQuillValid) {
       form.classList.add("was-validated");
 
-      // Handle Quill validation
       if (!isQuillValid) {
         setError("The message field cannot be empty.");
       } else {
-        setError(""); // Clear the error if Quill is valid
+        setError("");
       }
 
       return false;
@@ -86,15 +81,14 @@ const Mail = ({ emails }) => {
   };
 
   const sendEmail = async (bannerData) => {
-    setLoading(true); // Start loading
-    setProgress(0); // Reset progress
+    setLoading(true);
+    setProgress(0);
 
-    // Split the "to" field by commas and trim whitespace
     const emailList = value.to
       .split(",")
       .map((email) => email.trim())
       .filter((email) => email);
-    const emailCount = emailList.length; // Count of emails to send
+    const emailCount = emailList.length;
 
     const emailPayload = {
       toList: emailList,
@@ -108,8 +102,8 @@ const Mail = ({ emails }) => {
         }; border-radius: 0.5rem 0.5rem 0 0; padding: 0.25rem 1rem; height:55px">
           ${
             bannerData.logoUrl
-              ? `<img src="${bannerData.logoUrl}" alt="Company Logo" style="width: 53px; height: 53px; border-radius: 50%; background-size:contain" />`
-              : `<span style="width:0; height:0"></span>`
+              ? `<img src="${bannerData.logoUrl}" alt="" style="width: 53px; height: 53px; border-radius: 50%; background-size:contain" />`
+              : `<span></span>`
           }
         </div>
         <div style="text-align: center; color: black;">
@@ -118,7 +112,7 @@ const Mail = ({ emails }) => {
         <div style="text-align: center; margin-top: 1rem; display:flex; justify-content:center">
           ${
             bannerData.bannerUrl
-              ? `<img src="${bannerData.bannerUrl}" alt="Banner" style="width: 90%; height: auto; border-radius: 0.325rem;" />`
+              ? `<img src="${bannerData.bannerUrl}" alt="" style="width: 90%; height: auto; border-radius: 0.325rem;" />`
               : `<span></span>`
           }
         </div>
@@ -145,23 +139,21 @@ const Mail = ({ emails }) => {
     `,
     };
 
-    console.log("Sending email with payload:", emailPayload); // Log the payload
+    console.log("Sending email with payload:", emailPayload);
 
     try {
-      let deliveredCount = 0; // Count of successfully sent emails
-      let undeliveredCount = 0; // Count of failed emails
+      let deliveredCount = 0;
+      let undeliveredCount = 0;
 
-      // Regular expression for validating email format
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       for (let i = 0; i < emailCount; i++) {
         const email = emailList[i];
 
-        // Validate email format
         if (!emailRegex.test(email)) {
           console.error("Invalid email format:", email);
-          undeliveredCount++; // Increment undelivered count
-          continue; // Skip sending this email
+          undeliveredCount++;
+          continue;
         }
 
         try {
@@ -169,19 +161,17 @@ const Mail = ({ emails }) => {
             ...emailPayload,
             toList: email,
           });
-          deliveredCount++; // Increment delivered count
+          deliveredCount++;
           setSentCount((prevCount) => prevCount + 1);
-
-          // Update progress based on the number of emails sent
           const progressPercentage = Math.round(((i + 1) / emailCount) * 100);
           setProgress(progressPercentage);
         } catch (error) {
-          undeliveredCount++; // Increment undelivered count
+          undeliveredCount++;
           console.error("Error sending email to:", email, error);
         }
       }
 
-      setNotSentCount(undeliveredCount); // Update not sent count
+      setNotSentCount(undeliveredCount);
       Swal.fire({
         title: "Success",
         html: `Total send Attempt: <strong style="color: green; font-size: 20px;">${deliveredCount}</strong><br>
@@ -189,7 +179,6 @@ const Mail = ({ emails }) => {
         icon: "success",
       }).then(() => {
         formRef.current.classList.remove("was-validated");
-        // Clear the form data
         setValue({
           to: "",
           from: "",
@@ -197,7 +186,7 @@ const Mail = ({ emails }) => {
           subject: "",
           message: "",
         });
-        setSentCount(0); // Update sent count
+        setSentCount(0);
         setNotSentCount(0);
       });
     } catch (err) {
@@ -208,8 +197,8 @@ const Mail = ({ emails }) => {
         icon: "error",
       });
     } finally {
-      setLoading(false); // Stop loading
-      setProgress(100); // Set progress to 100% after completion
+      setLoading(false);
+      setProgress(100);
     }
   };
 
@@ -288,20 +277,20 @@ const Mail = ({ emails }) => {
                         required
                         pattern="^[a-zA-Z0-9]*$"
                       />
-                        <span
-        className="input-group-text eyeshow"
-        onClick={handlePasswordVisibilityToggle}
-        style={{
-          cursor: 'pointer',
-          backgroundColor: 'white',
-          position: "absolute",
-          right: "15px",
-          zIndex: 11,
-          // bottom: "8px",
-          border: "none"
-        }}
-        
-      >{showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}</span>
+                      <span
+                        className="input-group-text eyeshow"
+                        onClick={handlePasswordVisibilityToggle}
+                        style={{
+                          cursor: 'pointer',
+                          backgroundColor: 'white',
+                          position: "absolute",
+                          right: "15px",
+                          zIndex: 11,
+                          border:"none"
+                        }}
+                      >
+                        {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                      </span>
                       <div className="invalid-feedback">
                         Please provide a password.
                       </div>
@@ -336,7 +325,6 @@ const Mail = ({ emails }) => {
                         value={value.message}
                         onChange={handleQuillChange}
                       />
-                      {/* Show error message */}
                       {error && (
                         <div
                           className="invalid-feedback"

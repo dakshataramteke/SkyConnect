@@ -150,8 +150,8 @@ const SingleMail = () => {
         }; border-radius: 0.5rem 0.5rem 0 0; padding: 0.25rem 1rem; height:55px">
           ${
             bannerData.logoUrl
-              ? `<img src="${bannerData.logoUrl}" alt="Company Logo" style="width: 53px; height: 53px; border-radius: 50%; background-size:contain" />`
-              : `<span style="width:0; height:0"></span>`
+              ? `<img src="${bannerData.logoUrl}" alt="" style="width: 53px; height: 53px; border-radius: 50%; background-size:contain" />`
+              : `<span></span>`
           }
         </div>
         <div style="text-align: center; color: black;">
@@ -160,7 +160,7 @@ const SingleMail = () => {
         <div style="text-align: center; margin-top: 1rem; display:flex; justify-content:center">
           ${
             bannerData.bannerUrl
-              ? `<img src="${bannerData.bannerUrl}" alt="Banner" style="width: 90%; height: auto; border-radius: 0.325rem;" />`
+              ? `<img src="${bannerData.bannerUrl}" alt="" style="width: 90%; height: auto; border-radius: 0.325rem;" />`
               : `<span></span>`
           }
         </div>
