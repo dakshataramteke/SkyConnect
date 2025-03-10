@@ -12,9 +12,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Mail from "../Mails/Mail.jsx";
 import axios from "axios";
-import myImage from '../../assests/logo.jpg'; 
-import datanotFound from '../../assests/datanotfound.jpg';
-import SearchIcon from '@mui/icons-material/Search';
+import myImage from "../../assests/logo.jpg";
+import datanotFound from "../../assests/datanotfound.jpg";
+import SearchIcon from "@mui/icons-material/Search";
 
 const ContactMail = () => {
   const [emails, setEmails] = useState([]);
@@ -69,7 +69,9 @@ const ContactMail = () => {
             item.email.split(",").map((email) => ({
               email: email.trim(),
               date: item.dates
-                ? new Date(item.dates.split("/").reverse().join("-")).toISOString()
+                ? new Date(
+                    item.dates.split("/").reverse().join("-")
+                  ).toISOString()
                 : null,
             }))
           );
@@ -95,7 +97,8 @@ const ContactMail = () => {
       return (
         item.email.toLowerCase().includes(searchInput.toLowerCase()) &&
         (!selectedDate ||
-          (emailDate && emailDate.toDateString() === selectedDate.toDateString()))
+          (emailDate &&
+            emailDate.toDateString() === selectedDate.toDateString()))
       );
     });
     setFilteredEmails(updatedFilteredEmails);
@@ -129,25 +132,25 @@ const ContactMail = () => {
     setLoading(true);
     const uniqueEmails = [...new Set(selectedEmails)]; // Get unique selected emails
     console.log("Unique Emails:", uniqueEmails);
-  
+
     // Append new unique emails to existing ones
     setToEmails((prevToEmails) => {
       const updatedToEmails = [...new Set([...prevToEmails, ...uniqueEmails])];
-      console.log("Updated To Emails in contact :", updatedToEmails); 
+      console.log("Updated To Emails in contact :", updatedToEmails);
       return updatedToEmails;
     });
-  
+
     // Update sent emails
     setSentEmails((prevSent) => {
       const updatedSentEmails = [...new Set([...prevSent, ...uniqueEmails])];
       console.log("Updated Sent Emails:", updatedSentEmails); // Log the updated sentEmails
       return updatedSentEmails;
     });
-  
+
     // Clear selected emails
-    setSelectedEmails([]); 
+    setSelectedEmails([]);
     setShowSelectedEmails(false); // Hide selected emails
-  
+
     setTimeout(() => {
       setShowMail(true); // Show the Mail component
       setLoading(false); // Stop loading
@@ -164,7 +167,10 @@ const ContactMail = () => {
   const indexOfLastEmail = currentPage * emailsPerPage;
   const indexOfFirstEmail = indexOfLastEmail - emailsPerPage;
   const totalPages = Math.ceil(filteredEmails.length / emailsPerPage);
-  const currentEmails = filteredEmails.slice(indexOfFirstEmail, indexOfLastEmail);
+  const currentEmails = filteredEmails.slice(
+    indexOfFirstEmail,
+    indexOfLastEmail
+  );
 
   const toggleDatePicker = () => {
     if (showSearchInput) {
@@ -182,6 +188,11 @@ const ContactMail = () => {
     if (showDatePicker) {
       setShowDatePicker(false);
     }
+    if (showSearchInput) {
+      setSearchInput(""); 
+    } else {
+      setSearchInput("");
+    }
     setShowSearchInput(!showSearchInput);
   };
 
@@ -192,11 +203,15 @@ const ContactMail = () => {
           <div className="col mt-3 mt-md-5 contact_alldata">
             <h2 className="text-center">All Emails Data</h2>
             <p className="text-center py-2">
-              This feature is designed to streamline the management of email communications.
+              This feature is designed to streamline the management of email
+              communications.
             </p>
             <ul className="list-group">
               <li className="list-group-item p-0">
-                <div className="row" style={{ backgroundColor: "#4ca2ff", padding: '0.925rem' }}>
+                <div
+                  className="row"
+                  style={{ backgroundColor: "#4ca2ff", padding: "0.925rem" }}
+                >
                   <div className="form-check">
                     <input
                       className="form-check-input"
@@ -206,18 +221,45 @@ const ContactMail = () => {
                       checked={selectAll}
                       aria-label="Select all emails"
                     />
-                    <label className="form-check-label" htmlFor="selectAllCheckbox"></label>
+                    <label
+                      className="form-check-label"
+                      htmlFor="selectAllCheckbox"
+                    ></label>
                   </div>
-                  <div className="col text-center text-white" onClick={handleSearchInputToggle}>
+                  <div className="col text-center text-white"  style={{ paddingRight: "5rem" }}>
                     <b>
                       Email{" "}
-                      {showSearchInput ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+                      {showSearchInput ? (
+                        <ArrowDropUpIcon
+                          style={{ cursor: "pointer" }}
+                          onClick={handleSearchInputToggle}
+                        />
+                      ) : (
+                        <ArrowDropDownIcon
+                          style={{ cursor: "pointer" }}
+                          onClick={handleSearchInputToggle}
+                        />
+                      )}
                     </b>
                   </div>
-                  <div className="col text-end text-white" style={{ paddingRight: "4rem" }} onClick={toggleDatePicker}>
+                  <div
+                    className="col text-end text-white"
+                    style={{ paddingRight: "3.225rem" }}
+                  >
                     <b>
                       Date{" "}
-                      {showDatePicker ? <ArrowDropUpIcon className="arrowdrop" /> : <ArrowDropDownIcon />}
+                      {showDatePicker ? (
+                        <ArrowDropUpIcon
+                          className="arrowdrop"
+                          style={{ cursor: "pointer" }}
+                          onClick={toggleDatePicker}
+                        />
+                      ) : (
+                        <ArrowDropDownIcon
+                          style={{ cursor: "pointer" }}
+                          onClick={toggleDatePicker}
+                        />
+                      )}
                     </b>
                   </div>
                 </div>
@@ -231,14 +273,22 @@ const ContactMail = () => {
                       placeholder="Search email..."
                       className="form-control position-relative "
                     />
-                    <span className="search_icon"><SearchIcon/></span>
+                    <span className="search_icon">
+                      <SearchIcon />
+                    </span>
                   </div>
                 )}
 
                 {showDatePicker && (
                   <div className="date-picker-container">
                     <div>
-                      <img src={myImage} height={'180px'} width={'180px'} className="logoimg" alt="Logo" />
+                      <img
+                        src={myImage}
+                        height={"180px"}
+                        width={"180px"}
+                        className="logoimg"
+                        alt="Logo"
+                      />
                     </div>
                     <DatePicker
                       selected={startDate}
@@ -267,7 +317,10 @@ const ContactMail = () => {
                         />
                       </div>
                       <div className="col text-start">{item.email}</div>
-                      <div className="col text-end" style={{ paddingRight: "3.545rem" }}>
+                      <div
+                        className="col text-end"
+                        style={{ paddingRight: "3.545rem" }}
+                      >
                         {item.date.split("").slice(0, 10).join("")}
                       </div>
                     </div>
@@ -275,7 +328,11 @@ const ContactMail = () => {
                 ))
               ) : (
                 <li className="list-group-item text-center text-muted">
-                  <img src={datanotFound} alt="No data found" style={{ width: '200px', height: 'auto' }} />
+                  <img
+                    src={datanotFound}
+                    alt="No data found"
+                    style={{ width: "200px", height: "auto" }}
+                  />
                 </li>
               )}
             </ul>

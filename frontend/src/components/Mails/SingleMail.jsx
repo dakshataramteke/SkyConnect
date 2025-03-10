@@ -147,7 +147,7 @@ const SingleMail = () => {
       <div style="width: 500px; margin: auto; background-color: whitesmoke">
         <div style="background-color: ${
           bannerData.selectedColor ? bannerData.selectedColor : "white"
-        }; border-radius: 0.5rem 0.5rem 0 0; padding: 0.25rem 1rem; height:55px">
+        };  padding: 0.25rem 1rem; height:55px">
           ${
             bannerData.logoUrl
               ? `<img src="${bannerData.logoUrl}" alt="" style="width: 53px; height: 53px; border-radius: 50%; background-size:contain" />`
