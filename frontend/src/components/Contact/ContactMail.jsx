@@ -128,13 +128,25 @@ const ContactMail = () => {
   const handleSubmit = () => {
     setLoading(true);
     const uniqueEmails = [...new Set(selectedEmails)]; // Get unique selected emails
-    console.log(uniqueEmails);
-    setToEmails((prevToEmails) => [...new Set([...prevToEmails, ...uniqueEmails])]); // Append new unique emails to existing ones
-    console.log(setToEmails);
-    setSentEmails((prevSent) => [...new Set([...prevSent, ...uniqueEmails])]); // Update sent emails
-    console.log(setSentEmails);
-    setSelectedEmails([]); // Clear selected emails
-    // setShowSelectedEmails(false); // Hide selected emails
+    console.log("Unique Emails:", uniqueEmails);
+  
+    // Append new unique emails to existing ones
+    setToEmails((prevToEmails) => {
+      const updatedToEmails = [...new Set([...prevToEmails, ...uniqueEmails])];
+      console.log("Updated To Emails in contact :", updatedToEmails); 
+      return updatedToEmails;
+    });
+  
+    // Update sent emails
+    setSentEmails((prevSent) => {
+      const updatedSentEmails = [...new Set([...prevSent, ...uniqueEmails])];
+      console.log("Updated Sent Emails:", updatedSentEmails); // Log the updated sentEmails
+      return updatedSentEmails;
+    });
+  
+    // Clear selected emails
+    setSelectedEmails([]); 
+    setShowSelectedEmails(false); // Hide selected emails
   
     setTimeout(() => {
       setShowMail(true); // Show the Mail component
@@ -217,7 +229,7 @@ const ContactMail = () => {
                       value={searchInput}
                       onChange={handleSearchInputChange}
                       placeholder="Search email..."
-                      className="form-control position-relative"
+                      className="form-control position-relative "
                     />
                     <span className="search_icon"><SearchIcon/></span>
                   </div>

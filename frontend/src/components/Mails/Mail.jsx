@@ -9,6 +9,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import "./Mail.css";
 
 const Mail = ({ emails }) => {
+  console.log("Contact EMail is ",emails);
   // const location = useLocation(); 
   const formRef = useRef(null); 
   const [value, setValue] = useState({
@@ -35,6 +36,13 @@ const Mail = ({ emails }) => {
     }
   }, []);
 
+  useEffect(() => {
+    setValue((prevState) => ({
+      ...prevState,
+      to: emails.join(", "),
+    }));
+  }, [emails]);
+
   const handlePasswordVisibilityToggle = () => {
     setShowPassword((prev) => !prev);
   };
@@ -47,14 +55,13 @@ const Mail = ({ emails }) => {
     }));
   };
 
-  const handleQuillChange = (content, delta, source, editor) => {
-    const htmlContent = editor.getHTML();
+  const handleQuillChange = (htmlContent) => {
     setEditorHtml(htmlContent);
     setValue((prevState) => ({
       ...prevState,
       message: htmlContent,
     }));
-
+  
     if (htmlContent.trim() && htmlContent !== "<p><br></p>") {
       setError("");
     }
