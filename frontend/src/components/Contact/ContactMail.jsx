@@ -150,7 +150,7 @@ const ContactMail = () => {
     // Clear selected emails
     setSelectedEmails([]);
     setShowSelectedEmails(false); // Hide selected emails
-
+    setSelectAll(false);
     setTimeout(() => {
       setShowMail(true); // Show the Mail component
       setLoading(false); // Stop loading
