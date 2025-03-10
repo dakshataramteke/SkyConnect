@@ -195,6 +195,7 @@ const Mail = ({ emails }) => {
         });
         setSentCount(0);
         setNotSentCount(0);
+        window.location.reload(); 
       });
     } catch (err) {
       console.error("Error sending email:", err);
