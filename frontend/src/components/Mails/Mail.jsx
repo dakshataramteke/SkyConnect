@@ -123,18 +123,15 @@ const Mail = ({ emails }) => {
           }
         </div>
         <div style="margin: 2rem 0; padding: 0 1.5rem;">  
-          <div>${value.message || "No message provided."}</div>
+          <div>${value.message}</div>
         </div>
         ${
-          bannerData.buttonName
+          bannerData.buttonUrl || bannerData.buttonName
             ? `
           <div style="text-align: center; margin-top: 3rem;">
             <a href="${bannerData.buttonUrl}" style="text-decoration: none;">
-              <button style="background-color: ${
-                bannerData.selectedbuttonColor || "initial"
-              }; color: white; border: none; border-radius: 1.25rem; padding: 0.75rem 1.5rem; cursor: pointer; font-weight: bold;">
-                ${bannerData.buttonName}
-              </button>
+              <button style="background-color: orange;  color: white; border: none; border-radius: 1.25rem; padding: 0.75rem 1.5rem; cursor: pointer; font-weight: bold;">
+                ${bannerData.buttonName || "Button"} 
             </a>
           </div>
         `

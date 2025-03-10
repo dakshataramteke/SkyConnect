@@ -143,7 +143,7 @@ const SingleMail = () => {
       from: value.from,
       password: value.password,
       subject: value.subject,
-      htmlContent: `
+      htmlContent:`
       <div style="width: 500px; margin: auto; background-color: whitesmoke">
         <div style="background-color: ${
           bannerData.selectedColor ? bannerData.selectedColor : "white"
@@ -168,15 +168,12 @@ const SingleMail = () => {
           <div>${value.message}</div>
         </div>
         ${
-          bannerData.buttonName
+          bannerData.buttonUrl || bannerData.buttonName
             ? `
           <div style="text-align: center; margin-top: 3rem;">
             <a href="${bannerData.buttonUrl}" style="text-decoration: none;">
-              <button style="background-color: ${
-                bannerData.selectedbuttonColor || "initial"
-              }; color: white; border: none; border-radius: 1.25rem; padding: 0.75rem 1.5rem; cursor: pointer; font-weight: bold;">
-                ${bannerData.buttonName}
-              </button>
+              <button style="background-color: orange;  color: white; border: none; border-radius: 1.25rem; padding: 0.75rem 1.5rem; cursor: pointer; font-weight: bold;">
+                ${bannerData.buttonName || "Button"} 
             </a>
           </div>
         `
