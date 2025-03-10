@@ -29,9 +29,9 @@ const ImportContact = () => {
   useEffect(() => {
     const handleScroll = () => {
       const isAtBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 10;
-      const isAtTop = window.scrollY === 0; // Check if at the top of the page
-      setShowUpward(!isAtTop); // Show upward arrow if not at the top
-      setShowDownward(!isAtBottom); // Show downward arrow if not at the bottom
+      const isAtTop = window.scrollY === 0; 
+      setShowUpward(!isAtTop); 
+      setShowDownward(!isAtBottom); 
     };
   
     window.addEventListener("scroll", handleScroll);
@@ -48,7 +48,7 @@ const ImportContact = () => {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
     if (file) {
-      setFilename(file.name); // Set the filename
+      setFilename(file.name); 
       processFile(file);
     }
   };
@@ -56,7 +56,7 @@ const ImportContact = () => {
   const handleFileInput = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setFilename(file.name); // Set the filename
+      setFilename(file.name); 
       processFile(file);
     }
   };
@@ -70,7 +70,6 @@ const ImportContact = () => {
       behavior: "smooth",
     });
   };
-
   const processFile = (file) => {
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -141,7 +140,7 @@ const ImportContact = () => {
         },
         {
           headers: { "Content-Type": "application/json" },
-          withCredentials: true, // This is important
+          withCredentials: true, 
         }
       );
 
@@ -158,11 +157,11 @@ const ImportContact = () => {
         icon: "error",
       });
     } finally {
-      // Simulate a loading period of 2 seconds
+      
       setTimeout(() => {
-        setLoading(false); // Stop loading
-        setIsSaving(false); // Reset saving state
-      }, 2000); // Added missing delay time
+        setLoading(false); 
+        setIsSaving(false); 
+      }, 2000); 
     }
   };
 
@@ -225,28 +224,18 @@ const ImportContact = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {emailsExtracted
-                    ? Array.from({ length: Math.ceil(tableData.length / 4) }, (_, rowIndex) => (
-                        <tr key={rowIndex}>
-                          {tableData
-                            .map((row) =>
-                              row.find((cell) => typeof cell === "string" && cell.includes("@")) || ""
-                            )
-                            .filter((email) => email)
-                            .slice(rowIndex * 4, rowIndex * 4 + 4)
-                            .map((email, index) => (
-                              <td key={index}>{email}</td>
-                            ))}
-                        </tr>
-                      ))
-                    : tableData.map((row, rowIndex) => (
-                        <tr key={rowIndex} className={rowIndex === 0 && isFirstRowBold ? "bold-row" : ""}>
-                          {row.map((cell, cellIndex) => (
-                            <td key={cellIndex} className="text-start">{cell}</td>
-                          ))}
-                        </tr>
-                      ))}
-                </tbody>
+  {tableData.map((row, rowIndex) => (
+    <tr key={rowIndex} className={rowIndex === 0 && isFirstRowBold ? "bold-row" : ""}>
+      {row.map((cell, cellIndex) => (
+        <td key={cellIndex} className="text-start">
+          <span className={cell === undefined }>
+            {cell !== undefined ? cell : "N/A"} {/* Display "N/A" for missing fields */}
+          </span>
+        </td>
+      ))}
+    </tr>
+  ))}
+</tbody>
               </table>
 
               <div className="text-center">

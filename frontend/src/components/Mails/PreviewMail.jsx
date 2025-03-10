@@ -14,12 +14,14 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
     companyName: "",
     buttonName: "",
     buttonUrl: "",
-    selectedColor: "",
-    selectedbuttonColor: "",
+    selectedColor: "#ffffff",
   });
+  
+  // State to track if the user has interacted with the URL fields
+  const [logoUrlTouched, setLogoUrlTouched] = useState(false);
+  const [bannerUrlTouched, setBannerUrlTouched] = useState(false);
 
   useEffect(() => {
-    // Retrieve the user's name from local storage
     const storedUserName = localStorage.getItem('Login User');
     if (storedUserName) {
       setUserName(storedUserName); 
@@ -29,8 +31,9 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
   const formRef = useRef(null);
   const validateUrl = (inputUrl) => {
     const pattern = /^(https?:\/\/)/; 
-    return pattern.test(inputUrl);
-};
+    return ;
+  };
+
   const handleChanges = (e) => {
     const { name, value } = e.target;
     setValues((prevState) => ({
@@ -42,19 +45,27 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
     setIsValid(validateUrl(inputUrl)); 
   };
 
+  const handleBlur = (field) => {
+    if (field === 'logoUrl') {
+      setLogoUrlTouched(true);
+      setIsValid(validateUrl(values.logoUrl));
+    } else if (field === 'bannerUrl') {
+      setBannerUrlTouched(true);
+      setIsValid(validateUrl(values.bannerUrl));
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const form = formRef.current;
     if (loading) return;
 
-    // Clear previous error message
     setError('');
 
-    // Custom validation for company name
-    const companyNamePattern = /^[a-zA-Z0-9]*$/;
+    const companyNamePattern = /^[a-zA-Z ]*$/;
     if (!companyNamePattern.test(values.companyName)) {
-      setError('only contain letters and numbers.');
-      return; // Stop the submission if there's an error
+      setError('only contain letters');
+      return; 
     }
    
     const isValid = validateSingleMail();
@@ -81,7 +92,6 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
       setLoading(true);
       await sendEmail(bannerData);
 
-      // Reset form values
       setValues({
         logoUrl: "",
         bannerUrl: "",
@@ -139,7 +149,7 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
                     name="companyName"
                     value={values.companyName}
                     onChange={handleChanges}
-                    pattern="^[a-zA-Z0-9 ]*$"
+                    pattern="^[a-zA-Z ]*$"
                   />
                   {error && <div style={{ color: 'red' }}>{error}</div>}
                 </div>
@@ -156,8 +166,9 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
                     name="logoUrl"
                     value={values.logoUrl}
                     onChange={handleChanges}
+                    onBlur={() => handleBlur('logoUrl')}
                   />
-                   {!isValid && <p style={{ color: 'red' }}>Please enter a valid URL starting with http or https.</p>}
+                  {logoUrlTouched && !isValid && <p style={{ color: 'red' }}>Please enter a valid URL starting with http or https.</p>}
                 </div>
 
                 <div className="mb-3">
@@ -172,8 +183,9 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
                     name="bannerUrl"
                     value={values.bannerUrl}
                     onChange={handleChanges}
+                    onBlur={() => handleBlur('bannerUrl')}
                   />
-                    {!isValid && <p style={{ color: 'red' }}>Please enter a valid URL starting with http or https.</p>}
+                  {bannerUrlTouched && !isValid && <p style={{ color: 'red' }}>Please enter a valid URL starting with http or https.</p>}
                 </div>
 
                 <div className="mb-3">

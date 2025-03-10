@@ -15,8 +15,7 @@
     border-radius: 1rem !important;
   }
 table {
-  border-collapse: collapse;
-  background-color: white;
+  /* border-collapse: collapse; */
   border-radius: 1rem !important;
 }
 .table td , .table th{
@@ -36,13 +35,13 @@ table {
     padding: 0.625rem 2rem !important;
     border-top: 1px solid #3d80c4;
     border-color: #3d80c4;
-    text-align: center;
+    /* border-bottom: 1px solid #3d80c4; */
   }
-
+/* 
 .table tr:first-child{
     font-weight: bold !important;
     text-transform: uppercase;
-  }
+  } */
 
 
   /* For Downward Arrow  */

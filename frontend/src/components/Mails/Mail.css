@@ -257,18 +257,20 @@ input[type="color"] {
 .ql-toolbar.ql-snow.active,
 .ql-container.ql-snow.active,
 .ql-container.ql-snow:focus-within {
-  border: 2px solid #4ca2ff;
+  border-right: 2px solid #4ca2ff !important;
+  border-bottom: 2px solid #4ca2ff !important;
+  border-left: 2px solid #4ca2ff !important;
+  border-top: 1px solid #4ca2ff !important;;
+
 }
 
 /* Change the border color when the Quill editor is focused */
 .ql-toolbar.ql-snow:focus-within,
-
-.ql-container.ql-snow.active:focus-within,
-.ql-container.ql-snow:focus-within ,
-.ql-toolbar.ql-snow.active:focus-within,
-.ql-container.ql-snow:focus-within {
-  border:2px solid  #4ca2ff !important; 
+.ql-toolbar.ql-snow.active:focus-within {
+  border-top: 2px solid #4ca2ff;;
 }
+
+
 /* Progress Bar  */
 .progress .progress-stacked{
  height:0.75rem !important;
