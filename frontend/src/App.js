@@ -11,6 +11,7 @@ import Pricing from './components/PricingPlans/Pricing';
 import SingleMail from './components/Mails/SingleMail';
 import ImportContact from './components/Mails/ImportContact.jsx';
 import ContactMail from './components/Contact/ContactMail.jsx';
+import ForgetPassword from './components/MainPage/ForgetPassword.jsx';
 
 function App() {
   return (
@@ -74,6 +75,7 @@ function AppWithAuthCheck() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/forget" element={<ForgetPassword />} />
         <Route path="/home" element={<Navbar />}>
           <Route path="Pricing" element={<Pricing />} />
           <Route path="SingleMail" element={<SingleMail />} />

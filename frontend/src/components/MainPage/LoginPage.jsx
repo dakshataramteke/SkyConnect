@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
@@ -30,19 +30,12 @@ const LoginPage = () => {
     }));
   };
 
-  const handleCheckboxChange = () => {
-    setIsAgreed((prev) => !prev); // Toggle checkbox state
-  };
-
   const handlePasswordVisibilityToggle = () => {
     setShowPassword((prev) => !prev); // Toggle password visibility
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-  
-
     console.log(values);
 
     try {
@@ -158,13 +151,16 @@ const LoginPage = () => {
       </span>
     </div>
                   </div>
-                
+                <p className="text-end me-5 ">
+                <Link to="/forget" className="text-decoration-none" style={{color: "gray"}}>forget password ?</Link>
+                </p>
+               
                   <div className="my-4 d-flex justify-content-center">
                     <button type="submit" className="me-2 btn btn-outline-secondary">
-                      Sign In
+                      Login
                     </button>
-                    <NavLink to="/signup" className="btn btn-primary  ms-md-3 ms-lg-5 ms-2">
-                      Sign Up
+                    <NavLink to="/signup" className="btn btn-outline-secondary ms-md-3 ms-lg-5 ms-2">
+                      Register
                     </NavLink>
                   </div>
                 </form>

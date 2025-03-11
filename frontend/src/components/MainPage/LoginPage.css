@@ -16,9 +16,6 @@
   background-color: #fff;
 }
 
-
-
-
 .home_wrapper .home_formPage {
   position:relative; 
 }
@@ -33,6 +30,11 @@
   min-height: 100vh;
   width:100vh;
 }
+.home_formPage .btn-outline-secondary:hover{
+background-color: white !important;
+color:gray !important;
+}
+
 
 .home_form {
   width: 100%;
@@ -157,6 +159,7 @@ transform: translate(-50%,-50%);
   height: 100vh;
   width: 100vw;
   overflow-x: hidden;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .signup_wrapper .signup_sidebar {
@@ -173,8 +176,12 @@ transform: translate(-50%,-50%);
   background-color: #fff;
   position: relative;
   z-index: 11;
-  border-radius: 0 1rem 1rem 0;
+  /* border-radius: 0 1rem 1rem 0; */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
 }
+
+
+
 
 .signup_righsidebar::after {
   content: "";
@@ -229,14 +236,11 @@ transform: translate(-50%,-50%);
   .home_wrapper .btn-primary,
 .home_wrapper .btn-outline-secondary,
 .signup_wrapper .btn-primary {
-
   border-radius: 2rem;
   padding: 0.5rem 1.75rem;
 }
 }
-.home_wrapper .btn-outline-secondary:hover{
-  background-color: #0b5ed7;
-}
+
 
 /*** 
 Responsive Image 
@@ -293,4 +297,37 @@ Responsive Image
 div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
     background-color: #4ca2ff!important;
     border: none !important;
+}
+
+
+/* Forget Password  */
+.forget_Page .forget_cols{
+  background-color: #fff;
+  /* height: 100vh; */
+ /* border:1px solid gray; */
+  overflow-x: hidden;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+.forget_Page::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 0 0 1rem 0;
+  background-color: #2664af;
+  z-index: -1;
+  clip-path: polygon(100% 0, 82% 0, 100% 29%);
+
+}
+.forget_psw{
+ display: flex;
+ justify-content: center;
+ align-items: center;
+}
+.forget_psw .btn{
+border: 2px solid gray !important;
+border-radius:30px;
+padding: 10px 60px;
 }

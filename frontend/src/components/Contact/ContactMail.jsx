@@ -284,7 +284,7 @@ const ContactMail = () => {
                     <div>
                       <img
                         src={myImage}
-                        height={"180px"}
+                        height={"200px"}
                         width={"180px"}
                         className="logoimg"
                         alt="Logo"
