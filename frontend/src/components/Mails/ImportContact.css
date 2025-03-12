@@ -37,6 +37,9 @@ table {
     border-color: #3d80c4;
     /* border-bottom: 1px solid #3d80c4; */
   }
+  tr{
+    border:2px solid #3d80c4;
+  }
 /* 
 .table tr:first-child{
     font-weight: bold !important;
