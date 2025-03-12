@@ -6,8 +6,8 @@ import PreviewMail from "./PreviewMail";
 import "react-quill/dist/quill.snow.css";
 import Tabs from "../HomePage/Tabs";
 import "./Mail.css";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 const SingleMail = () => {
   const [value, setValue] = useState({
     to: "",
@@ -24,13 +24,13 @@ const SingleMail = () => {
   const [loading, setLoading] = useState(false);
   const [editorHtml, setEditorHtml] = useState("");
   const formRef = useRef(null);
-  const [showPassword, setShowPassword] = useState(false); 
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     const storedUserName = localStorage.getItem("Login User");
     if (storedUserName) {
-      setUserName(storedUserName); 
-      console.log("Stored Single List : "+storedUserName);
+      setUserName(storedUserName);
+      console.log("Stored Single List : " + storedUserName);
     }
   }, []);
   // Update both value and editorHtml
@@ -45,12 +45,12 @@ const SingleMail = () => {
     setShowPassword((prev) => !prev); // Toggle password visibility
   };
   // Quill's onChange will update editorHtml
-  const handleQuillChange = (content, delta, source, editor) => {
+  const handleQuillChange = ( editor) => {
     const htmlContent = editor.getHTML();
     setEditorHtml(htmlContent);
     setValue((prevState) => ({
       ...prevState,
-      message: htmlContent, 
+      message: htmlContent,
     }));
     setError("");
   };
@@ -64,25 +64,31 @@ const SingleMail = () => {
   // Validate email and message content
   const validateSingleMail = () => {
     const form = formRef.current;
-   const emailRegex = /^(?=.*[a-zA-Z].*[a-zA-Z])(?=.*\d)[a-zA-Z\d._%+-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
-  
+    const emailRegex =
+      /^(?=.*[a-zA-Z].*[a-zA-Z])(?=.*\d)[a-zA-Z\d._%+-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
+
     if (
       !form.checkValidity() ||
       !editorHtml.trim() ||
-      editorHtml === "<p><br></p>" 
+      editorHtml === "<p><br></p>"
       // !emailRegex.test(emailValue)
     ) {
       form.classList.add("was-validated");
-  
+
       if (!editorHtml.trim() || editorHtml === "<p><br></p>") {
         setError("The message field cannot be empty.");
       }
-  
+
       return false;
     }
     return true;
   };
-
+  const handleKeyPress = (e) => {
+    // Prevent space character from being entered
+    if (e.key === " ") {
+      e.preventDefault();
+    }
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = formRef.current;
@@ -143,8 +149,8 @@ const SingleMail = () => {
       from: value.from,
       password: value.password,
       subject: value.subject,
-      htmlContent:`
-      <div style="width: 500px; margin: auto; background-color: whitesmoke">
+      htmlContent: `
+      <div style="width: 500px; margin: auto; background-color: "whitesmoke">
         <div style="background-color: ${
           bannerData.selectedColor ? bannerData.selectedColor : "white"
         };  padding: 0.25rem 1rem; height:55px">
@@ -222,7 +228,7 @@ const SingleMail = () => {
         html: `Total send Attempt: <strong style="color: green; font-size: 20px;">${deliveredCount}</strong><br>
                Total mail Failed: <strong style="color: red; font-size: 20px;">${undeliveredCount}</strong>`,
         icon: "success",
-    }).then(() => {
+      }).then(() => {
         formRef.current.classList.remove("was-validated");
 
         setValue({
@@ -259,7 +265,7 @@ const SingleMail = () => {
             className="text-center"
             style={{ padding: "0 2rem", lineHeight: "2rem" }}
           >
-            Sending single messages and information to organizations.
+            Sending Single Messages And Information To Organizations.
           </p>
           <div className="row form_body">
             <div
@@ -286,7 +292,11 @@ const SingleMail = () => {
                   <div className="col-12 col-md-11">
                     <div className="my-4 d-flex align-items-center">
                       <label htmlFor="to" className="form-label">
-                        To <span style={{ color: "red" , marginLeft:"4px" }}> *</span>
+                        To{" "}
+                        <span style={{ color: "red", marginLeft: "4px" }}>
+                          {" "}
+                          *
+                        </span>
                       </label>
                       <input
                         type="email"
@@ -296,6 +306,7 @@ const SingleMail = () => {
                         name="to"
                         value={value.to}
                         onChange={handleChange}
+                        onKeyPress={handleKeyPress}
                         required
                       />
                       <div className="invalid-feedback">
@@ -305,7 +316,11 @@ const SingleMail = () => {
 
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="to" className="form-label">
-                        From  <span style={{ color: "red", marginLeft:"4px"  }}> *</span>
+                        From{" "}
+                        <span style={{ color: "red", marginLeft: "4px" }}>
+                          {" "}
+                          *
+                        </span>
                       </label>
                       <input
                         type="email"
@@ -315,6 +330,7 @@ const SingleMail = () => {
                         name="from"
                         value={value.from}
                         onChange={handleChange}
+                        onKeyPress={handleKeyPress}
                         required
                       />
                       <div className="invalid-feedback">
@@ -323,42 +339,60 @@ const SingleMail = () => {
                     </div>
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="Password" className="form-label ">
-                        Password: <span style={{ color: "red" , marginLeft:"4px", position: "relative"  }}> *</span>
+                        Password:{" "}
+                        <span
+                          style={{
+                            color: "red",
+                            marginLeft: "4px",
+                            position: "relative",
+                          }}
+                        >
+                          {" "}
+                          *
+                        </span>
                       </label>
                       {/* <div className="input-group toggleeye" style={{ position: "relative" }}></div> */}
                       <input
-                          type={showPassword ? "text" : "password"}
+                        type={showPassword ? "text" : "password"}
                         className="form-control"
                         id="Password"
-                        placeholder="Enter your Password"
+                        placeholder="Enter Your Password"
                         name="password"
                         value={value.password}
                         onChange={handleChange}
                         required
-                       
+                        pattern="^[a-zA-Z0-9]*$"
                       />
-                       <span
-        className="input-group-text eyeshow"
-        onClick={handlePasswordVisibilityToggle}
-        style={{
-          cursor: 'pointer',
-          backgroundColor: 'white',
-          position: "absolute",
-          right: "15px",
-          // zIndex: 11,
-          // bottom: "8px",
-          border: "none"
-        }}
-      >
-        {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-      </span>
+                      <span
+                        className="input-group-text eyeshow"
+                        onClick={handlePasswordVisibilityToggle}
+                        style={{
+                          cursor: "pointer",
+                          backgroundColor: "white",
+                          position: "absolute",
+                          right: "15px",
+                          // zIndex: 11,
+                          // bottom: "8px",
+                          border: "none",
+                        }}
+                      >
+                        {showPassword ? (
+                          <VisibilityIcon />
+                        ) : (
+                          <VisibilityOffIcon />
+                        )}
+                      </span>
                       <div className="invalid-feedback">
                         Please provide a password.
                       </div>
                     </div>
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="subject" className="form-label ">
-                        Subject <span style={{ color: "red", marginLeft:"4px"  }}> *</span>
+                        Subject{" "}
+                        <span style={{ color: "red", marginLeft: "4px" }}>
+                          {" "}
+                          *
+                        </span>
                       </label>
                       <input
                         type="text"
@@ -369,6 +403,7 @@ const SingleMail = () => {
                         value={value.subject}
                         onChange={handleChange}
                         required
+                        pattern="^[a-zA-Z0-9 ]*$"
                       />
                       <div className="invalid-feedback">
                         Please provide a subject.
@@ -377,7 +412,11 @@ const SingleMail = () => {
 
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="message" className="form-label">
-                        Message <span style={{ color: "red" , marginLeft:"4px" }}> *</span>
+                        Message{" "}
+                        <span style={{ color: "red", marginLeft: "4px" }}>
+                          {" "}
+                          *
+                        </span>
                       </label>
                       <ReactQuill
                         theme="snow"

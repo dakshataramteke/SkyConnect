@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react"; // Import useEffect
 import "./LoginPage.css";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -8,31 +8,39 @@ import Swal from 'sweetalert2';
 import { useNavigate } from "react-router";
 
 const ForgetPassword = () => {
-    let navigate = useNavigate();
+  let navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [userEmail, setUserEmail] = useState(''); // State for user email
+
+  useEffect(() => {
+    const email = localStorage.getItem('userEmail'); // Extract email from local storage
+    if (email) {
+      setUserEmail(email);
+    }
+    console.log("forget email is :",email)
+  }, []);
 
   const handlePasswordVisibilityToggle = () => {
-    setShowPassword((prev) => !prev); 
+    setShowPassword((prev) => !prev);
   };
 
   const handleConfirmPasswordVisibilityToggle = () => {
-    setShowConfirmPassword((prev) => !prev); 
+    setShowConfirmPassword((prev) => !prev);
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
-    // Check if passwords match
     if (password === confirmPassword) {
       Swal.fire({
         icon: 'success',
         title: 'Success!',
         text: 'Your password has been reset successfully.',
       });
-      navigate('/'); 
+      navigate('/');
     } else {
       Swal.fire({
         icon: 'error',
@@ -56,7 +64,7 @@ const ForgetPassword = () => {
                   id="exampleInputPassword1"
                   placeholder='New password'
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)} 
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <span
                   className="input-group-text eyeshow"
@@ -81,7 +89,7 @@ const ForgetPassword = () => {
                   id="exampleInputConfirmPassword1"
                   placeholder='Confirm password'
                   value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)} 
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                 />
                 <span
                   className="input-group-text eyeshow"

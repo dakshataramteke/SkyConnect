@@ -51,11 +51,6 @@ app.use(session({
 Razorpay_API_key = "rzp_test_R6NFOlSSREnTyp";
 Razorpay_Secret_key = "cEnHN6HJfxi4LRgu5phXoEPh"
 
-// ==== PAYTM CHECKSUM ==== //
-//production api details
-// var mid = "Kkatvd34334425459416"
-// var key ="fgkmv_RHsi6R@QXm";
-
 //Routes 
 
 /*** 
@@ -157,7 +152,33 @@ app.post('/login', (req, res) => {
   });
 });
 
+// Forget Password 
 
+app.post('/reset-password', async (req, res) => {
+  const { email, newPassword } = req.body;
+  console.log("New Password", newPassword);
+  
+  try {
+      // Step 5: Find user in the database
+      const [user] = await db.execute('SELECT * FROM users WHERE email = ?', [email]);
+
+      if (user.length === 0) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+
+      // Step 6: Hash the new password
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+      // Step 7: Update user's password in the database
+      await db.execute('UPDATE users SET password = ? WHERE email = ?', [hashedPassword, email]);
+      console.log(object)
+      return res.status(200).json({ message: 'Password reset successfully!' });
+
+  } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Server error' });
+  }
+});
 
 /*** 
  * 

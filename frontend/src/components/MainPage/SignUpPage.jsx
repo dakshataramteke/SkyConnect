@@ -16,16 +16,16 @@ const SignUpPage = () => {
   const [redirect, setRedirect] = useState(false); // State to control redirection
   const handleChange = (e) => {
     const { name, value } = e.target;
-  
-    // If the input is empty or only contains whitespace, allow leading whitespace
-    if (value.trim() === "") {
-      setValues({ ...values, [name]: value });
-    } else {
-      // Otherwise, trim leading whitespace after the first character
-      setValues({ ...values, [name]: value.replace(/^\s+/, '') });
-    }
+    // console.log("All Values is : ",value)
+    setValues({ ...values, [name]: value.trim() });
   };
 
+  const handleKeyPress = (e) => {
+    // Prevent space character from being entered
+    if (e.key === ' ') {
+      e.preventDefault();
+    }
+  };
   const submitData = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -116,6 +116,7 @@ const SignUpPage = () => {
                     aria-describedby="email"
                     value={values.email}
                     onChange={handleChange}
+                    onKeyPress={handleKeyPress} 
                     required
                     pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                   />

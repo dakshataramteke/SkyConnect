@@ -67,7 +67,7 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
 
     const companyNamePattern = /^[a-zA-Z ]*$/;
     if (!companyNamePattern.test(values.companyName)) {
-      setError('only contain letters');
+      setError('The input must contain only letters');
       return; 
     }
    
@@ -102,7 +102,7 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
         buttonName: "",
         buttonUrl: "",
         selectedColor: "",
-        selectedbuttonColor: "",
+        // selectedbuttonColor: "",
       });
 
     } catch (error) {

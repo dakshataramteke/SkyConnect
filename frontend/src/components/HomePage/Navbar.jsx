@@ -95,7 +95,7 @@ const Navbar = () => {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    <YouTubeIcon style={{fontSize:"2rem"}} />
+                    <YouTubeIcon style={{fontSize:"1.875rem"}} />
                   </a>
                 </li>
               </ul>

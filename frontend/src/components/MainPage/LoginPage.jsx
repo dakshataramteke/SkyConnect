@@ -21,15 +21,20 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false); 
 
   const navigate = useNavigate();
-
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setValues((prevValues) => ({
       ...prevValues,
-      [name]: value,
+      [name]: value.trim(),
     }));
   };
-
+  const handleKeyPress = (e) => {
+    // Prevent space character from being entered
+    if (e.key === ' ') {
+      e.preventDefault();
+    }
+  };
   const handlePasswordVisibilityToggle = () => {
     setShowPassword((prev) => !prev); // Toggle password visibility
   };
@@ -107,6 +112,7 @@ const LoginPage = () => {
                       autoComplete="off"
                       value={values.email}
                       onChange={handleChange}
+                      onKeyPress={handleKeyPress} 
                     />
                   </div>
 
@@ -152,7 +158,7 @@ const LoginPage = () => {
     </div>
                   </div>
                 <p className="text-end me-5 ">
-                <Link to="/forget" className="text-decoration-none" style={{color: "gray"}}>forget password ?</Link>
+                {/* <Link to="/forget" className="text-decoration-none" style={{color: "gray"}}>forget password ?</Link> */}
                 </p>
                
                   <div className="my-4 d-flex justify-content-center">
