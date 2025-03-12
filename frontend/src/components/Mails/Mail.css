@@ -202,12 +202,7 @@ input[type="color"] {
 .logo_box{
   border-radius: 0.75 5.25 0 0 !important;
 }
-.company_Logo {
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  margin: 0.625rem 1.25rem;
-}
+
 
 .company_Name {
   text-align: center;
@@ -286,4 +281,7 @@ input[type="color"] {
 
 .ql-clean{
   display:none !important;
+}
+.ql-toolbar.ql-snow .ql-picker-label {
+  font-family: "Montserrat", serif !important;
 }

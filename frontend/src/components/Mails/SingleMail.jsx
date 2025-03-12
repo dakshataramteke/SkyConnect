@@ -8,7 +8,9 @@ import Tabs from "../HomePage/Tabs";
 import "./Mail.css";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { useNavigate } from "react-router";
 const SingleMail = () => {
+  let navigate = useNavigate();
   const [value, setValue] = useState({
     to: "",
     from: "",
@@ -40,6 +42,7 @@ const SingleMail = () => {
       ...prevState,
       [name]: value.trim(),
     }));
+   
   };
   const handlePasswordVisibilityToggle = () => {
     setShowPassword((prev) => !prev); // Toggle password visibility
@@ -52,6 +55,10 @@ const SingleMail = () => {
       message: html, // Update the message in the value state
     }));
     // setError("");
+    if (error) {
+      setError(""); // Reset the error state
+    }
+   
   };
 
   // Validate email format
@@ -239,6 +246,7 @@ const SingleMail = () => {
         });
         setSentCount(0);
         setNotSentCount(0);
+        navigate("http://localhost:3000/home")
       });
     } catch (err) {
       console.error("Error sending email:", err);
@@ -336,6 +344,7 @@ const SingleMail = () => {
                         Please provide a valid email address.
                       </div>
                     </div>
+                   
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="Password" className="form-label ">
                         Password:{" "}
@@ -369,9 +378,8 @@ const SingleMail = () => {
                           cursor: "pointer",
                           backgroundColor: "white",
                           position: "absolute",
-                          right: "15px",
-                          // zIndex: 11,
-                          // bottom: "8px",
+                          right: "2%",
+                         
                           border: "none",
                         }}
                       >
@@ -385,6 +393,7 @@ const SingleMail = () => {
                         Please provide a password.
                       </div>
                     </div>
+                     
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="subject" className="form-label ">
                         Subject{" "}
@@ -425,10 +434,18 @@ const SingleMail = () => {
                         onChange={handleQuillChange}
                         required
                       />
-                      {error && <div className="text-danger">{error}</div>}
+                      {error && (
+                        <div
+                          className="text-danger"
+                          style={{ fontSize: "14px", marginLeft: "5px" }}
+                        >
+                          {error}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
+                {/* </div> */}
               </form>
             </div>
           </div>

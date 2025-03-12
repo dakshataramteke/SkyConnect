@@ -3,7 +3,7 @@ Navbar.jsx file
  */
 
 :root{
-    --cream: #f0ece5;
+   --white: white;
 }
 li{
     list-style: none;
@@ -11,7 +11,7 @@ li{
     margin: 0 10px; 
 }
 li a{
-    color:  white;
+    color:  var(--white);
     font-size: 1em !important;
     text-decoration: none;
 }

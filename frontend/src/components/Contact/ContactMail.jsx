@@ -201,10 +201,9 @@ const ContactMail = () => {
       <div className="container">
         <div className="row mt-5">
           <div className="col mt-3 mt-md-5 contact_alldata">
-            <h2 className="text-center">All Emails Data</h2>
+            <h2 className="text-center">All E-mails Data</h2>
             <p className="text-center py-2">
-              This feature is designed to streamline the management of email
-              communications.
+              This feature is designed to streamline the management of email              communications.
             </p>
             <ul className="list-group">
               <li className="list-group-item p-0">
@@ -219,7 +218,7 @@ const ContactMail = () => {
                       id="selectAllCheckbox"
                       onChange={handleSelectAllChange}
                       checked={selectAll}
-                      aria-label="Select all emails"
+                      aria-label="Select all email"
                     />
                     <label
                       className="form-check-label"
@@ -228,7 +227,7 @@ const ContactMail = () => {
                   </div>
                   <div className="col text-center text-white"  style={{ paddingRight: "5rem" }}>
                     <b>
-                      Email{" "}
+                      E-mail{" "}
                       {showSearchInput ? (
                         <ArrowDropUpIcon
                           style={{ cursor: "pointer" }}

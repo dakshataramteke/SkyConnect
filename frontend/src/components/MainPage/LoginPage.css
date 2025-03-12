@@ -1,5 +1,5 @@
 /***
- == Login Page and SignUp Page ==
+ == Login Page and SignUp Page and Forget Password.jsx ==
 ***/
 
 
@@ -30,11 +30,11 @@
   min-height: 100vh;
   width:100vh;
 }
+
 .home_formPage .btn-outline-secondary:hover{
 background-color: white !important;
 color:gray !important;
 }
-
 
 .home_form {
   width: 100%;
@@ -72,9 +72,7 @@ position:relative;
 top:50%;
 left: 50%;
 transform: translate(-50%,-50%);
-
 }
-
 
 /* Input field border for Home and Sign up */
 .home_form input[type="email"] ,
@@ -98,13 +96,11 @@ transform: translate(-50%,-50%);
   border-bottom: 2px solid #2664af!important;
 }
 
-
 .login_Page .form-label {
   margin-left: 8px !important;
 }
 .login_Page .form-control{
   border-radius: 0 !important;
-  /* border: none !important; */
   border-bottom: 2px solid #84a6d6 !important;
 }
 .login_Page .form-control:focus {
@@ -176,12 +172,8 @@ transform: translate(-50%,-50%);
   background-color: #fff;
   position: relative;
   z-index: 11;
-  /* border-radius: 0 1rem 1rem 0; */
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
 }
-
-
-
 
 .signup_righsidebar::after {
   content: "";
@@ -242,9 +234,11 @@ transform: translate(-50%,-50%);
 }
 
 
-/*** 
-Responsive Image 
-***/
+/**
+* 
+===  Responsive Image ===
+*
+**/
 
 @media (max-width: 1024px) {
   .signup_wrapper {
@@ -300,11 +294,9 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
 }
 
 
-/* Forget Password  */
+/*  === Forget Password === */
 .forget_Page .forget_cols{
   background-color: #fff;
-  /* height: 100vh; */
- /* border:1px solid gray; */
   overflow-x: hidden;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
 }

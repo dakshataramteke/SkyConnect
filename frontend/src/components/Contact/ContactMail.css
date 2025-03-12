@@ -5,7 +5,7 @@
 
 .contact_maildata{
     min-height: calc(100vh - 2.5rem);
-    box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.8);
+    /* box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.8); */
     border-radius: 8px; 
 }
    
@@ -40,7 +40,7 @@
 .search_icon{
    position: absolute;
    right:15px; 
-  bottom: 2px;
+   bottom: 2px;
   }
   
   .search_icon svg{
@@ -90,11 +90,9 @@
     background-color: transparent; 
 }
 
-
 .react-datepicker {
     background-color: white; 
 }
-
 
 .react-datepicker__day:hover {
     background-color: transparent

@@ -7,8 +7,10 @@ import PreviewMail from "./PreviewMail";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import "./Mail.css";
+import { useNavigate } from "react-router";
 
 const Mail = ({ emails }) => {
+  let navigate = useNavigate();
   console.log("Contact EMail is ",emails);
   // const location = useLocation(); 
   const formRef = useRef(null); 
@@ -200,7 +202,9 @@ const Mail = ({ emails }) => {
         });
         setSentCount(0);
         setNotSentCount(0);
+        navigate("/home");
         window.location.reload(); 
+       
       });
     } catch (err) {
       console.error("Error sending email:", err);
@@ -340,14 +344,7 @@ const Mail = ({ emails }) => {
                         value={value.message}
                         onChange={handleQuillChange}
                       />
-                      {error && (
-                        <div
-                          className="invalid-feedback"
-                          style={{ display: "block" }}
-                        >
-                          {error}
-                        </div>
-                      )}
+                       {error && <div className="text-danger" style={{fontSize: '14px',marginLeft: '5px'}}>{error}</div>}
                     </div>
                   </div>
                 </div>

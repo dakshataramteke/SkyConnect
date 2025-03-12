@@ -3,9 +3,6 @@
   margin: 0;
   padding: 0;
 }
-body{
-  font-family: "Montserrat", serif !important;
-}
 :root{
   --navColor: #4ca2ff;
   --primary : #007bff;
