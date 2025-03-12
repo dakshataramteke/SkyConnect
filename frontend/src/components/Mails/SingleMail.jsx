@@ -45,14 +45,13 @@ const SingleMail = () => {
     setShowPassword((prev) => !prev); // Toggle password visibility
   };
   // Quill's onChange will update editorHtml
-  const handleQuillChange = ( editor) => {
-    const htmlContent = editor.getHTML();
-    setEditorHtml(htmlContent);
+  const handleQuillChange = (html) => {
+    setEditorHtml(html); // Set the HTML content directly
     setValue((prevState) => ({
       ...prevState,
-      message: htmlContent,
+      message: html, // Update the message in the value state
     }));
-    setError("");
+    // setError("");
   };
 
   // Validate email format

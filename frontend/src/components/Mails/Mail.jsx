@@ -86,7 +86,12 @@ const Mail = ({ emails }) => {
 
     return true;
   };
-
+  const handleKeyPress = (e) => {
+    // Prevent space character from being entered
+    if (e.key === " ") {
+      e.preventDefault();
+    }
+  };
   const sendEmail = async (bannerData) => {
     setLoading(true);
     setProgress(0);
@@ -245,6 +250,7 @@ const Mail = ({ emails }) => {
                         name="to"
                         value={value.to}
                         onChange={handleChange}
+                        onKeyPress={handleKeyPress}
                         required
                       />
                       <div className="invalid-feedback">
@@ -263,6 +269,7 @@ const Mail = ({ emails }) => {
                         name="from"
                         value={value.from}
                         onChange={handleChange}
+                        onKeyPress={handleKeyPress}
                         required
                       />
                       <div className="invalid-feedback">
