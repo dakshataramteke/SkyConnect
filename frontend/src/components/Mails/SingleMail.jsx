@@ -246,7 +246,7 @@ const SingleMail = () => {
         });
         setSentCount(0);
         setNotSentCount(0);
-        navigate("http://localhost:3000/home")
+        navigate("/home")
       });
     } catch (err) {
       console.error("Error sending email:", err);
@@ -297,7 +297,8 @@ const SingleMail = () => {
               >
                 <div className="row form_data">
                   <div className="col-12 col-md-11">
-                    <div className="my-4 d-flex align-items-center">
+               
+                  <div className="my-4 d-flex align-items-center">
                       <label htmlFor="to" className="form-label">
                         To{" "}
                         <span style={{ color: "red", marginLeft: "4px" }}>
@@ -316,10 +317,11 @@ const SingleMail = () => {
                         onKeyPress={handleKeyPress}
                         required
                       />
-                      <div className="invalid-feedback">
+                    <div className="invalid-feedback">
                         Please provide a valid email address.
                       </div>
-                    </div>
+                  </div>
+                  
 
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="to" className="form-label">

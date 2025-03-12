@@ -268,8 +268,8 @@ const ImportContact = () => {
               <div className="table-responsive">
                 <table className="table table-bordered">
                   <thead>
-                    <tr className="text-center">
-                      <th colSpan={"4"}>Email </th>
+                    <tr className="text-center" style={{border:"2px solid #3d80c4"}}>
+                      <th colSpan={"4"} style={{border:"2px solid #3d80c4"}}>Email </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -280,13 +280,13 @@ const ImportContact = () => {
                       rows[rows.length - 1].push(email); // Add email to the current row
                       return rows;
                     }, []).map((row, rowIndex) => (
-                      <tr key={rowIndex}>
+                      <tr key={rowIndex} style={{border:"2px solid #3d80c4"}}>
                         {row.map((email, emailIndex) => (
-                          <td key={emailIndex}>{email}</td>
+                          <td key={emailIndex} style={{border:'none'}}>{email}</td>
                         ))}
                         {/* Fill empty cells if the row has less than 4 emails */}
                         {Array.from({ length: 4 - row.length }).map((_, emptyIndex) => (
-                          <td key={emptyIndex}></td>
+                          <td key={emptyIndex} style={{border:'none'}}></td>
                         ))}
                       </tr>
                     ))}
@@ -328,7 +328,7 @@ const ImportContact = () => {
           )}
 
           {showProceedButton && !proceedClicked && ( // Add condition to check if proceed was clicked
-            <div className="text-center mt-4">
+            <div className="text-center my-4">
               <button className="btn btn-primary" onClick={handleProceed}>
                 Proceed
               </button>

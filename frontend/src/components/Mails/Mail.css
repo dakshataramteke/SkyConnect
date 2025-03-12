@@ -22,7 +22,7 @@ Single Mail & Multiple Mail & Preview.jsx
 
 .form_body .form-control {
   flex-grow: 1; 
-  padding: 20px 12px;
+  padding:20px 12px !important;
   
 } 
 
@@ -129,8 +129,6 @@ Single Mail & Multiple Mail & Preview.jsx
   
 
 
-
-
 /**** ===== Dummy Mail  ===== ****/
 .dummy_form input{
   margin-bottom: 2px !important;
@@ -167,6 +165,11 @@ Single Mail & Multiple Mail & Preview.jsx
 
   .form_body{
     padding-bottom: 1.75rem !important;
+  }
+  .eyeshow{
+    position: absolute;
+    right: 4% !important;
+    /* bottom: 0; */
   }
 }
 
