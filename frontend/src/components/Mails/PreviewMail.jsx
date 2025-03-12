@@ -307,13 +307,14 @@ const PreviewMail = ({
                         values.logoUrl ||
                         "https://www.shutterstock.com/image-photo/light-blue-flower-on-white-600nw-2391760867.jpg"
                       }
-                      alt="Company Logo&nbsp;&nbsp;"
+                      alt="&nbsp;Company Logo&nbsp;&nbsp;"
                       style={{
-                        width: "55px",
-                        height: "55px",
-                        borderRadius: "50%",
-                        margin: "0.625rem 1.25",
+                        width: "53px",
+                        height: "53px",
+                        borderRadius: validateUrl(values.logoUrl) || values.logoUrl === "" ? "50%" : "0",
+                        margin: "0.625rem 1.25rem",
                       }}
+                      className="border-2"
                     />
                   </div>
                 </div>
