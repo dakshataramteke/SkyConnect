@@ -25,6 +25,9 @@ const ImportContact = () => {
   const [noEmailsFound, setNoEmailsFound] = useState(false); // New state to track if no emails are found
   const [showUpward, setShowUpward] = useState(false);
   const [filename, setFilename] = useState(""); // State to hold the filename
+  const [showExtractedEmails, setShowExtractedEmails] = useState(false); // New state to control visibility of extracted emails
+  const [showProceedButton, setShowProceedButton] = useState(false); // New state for the Proceed button
+
   // Scroll event listener
   useEffect(() => {
     const handleScroll = () => {
@@ -60,16 +63,18 @@ const ImportContact = () => {
       processFile(file);
     }
   };
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const scrollToBottom = () => {
     window.scrollTo({
-      top: document.documentElement.scrollHeight -20,
+      top: document.documentElement.scrollHeight - 20,
       behavior: "smooth",
     });
   };
+
   const processFile = (file) => {
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -81,6 +86,8 @@ const ImportContact = () => {
       setTableData(json);
       setEmailsExtracted(false);
       setIsFirstRowBold(true); // Reset bold state when a new file is processed
+      setShowExtractedEmails(false); // Reset extracted emails visibility
+      setShowProceedButton(false); // Reset proceed button visibility
     };
     reader.readAsArrayBuffer(file);
   };
@@ -98,6 +105,8 @@ const ImportContact = () => {
     setToEmails(emailArray); // Store all extracted emails
     setEmailsExtracted(true); // Set to true after extracting emails
     setIsFirstRowBold(false); // Remove bold styling from the first row
+    setShowExtractedEmails(true); // Show extracted emails
+    setShowProceedButton(true); // Show the proceed button
 
     // Set noEmailsFound based on whether any emails were extracted
     setNoEmailsFound(emailArray.length === 0);
@@ -116,7 +125,7 @@ const ImportContact = () => {
 
     const processedEmails = emails.map((email) => email.trim());
 
-    if (processedEmails.length ===  0) {
+    if (processedEmails.length === 0) {
       Swal.fire({
         title: "Error",
         text: "No valid mail to save",
@@ -157,7 +166,6 @@ const ImportContact = () => {
         icon: "error",
       });
     } finally {
-      
       setTimeout(() => {
         setLoading(false); 
         setIsSaving(false); 
@@ -201,12 +209,11 @@ const ImportContact = () => {
                 style={{ display: "none" }}
                 onChange={handleFileInput}
               />
-                <p className="m-0 " style={{fontSize:'0.895rem'}}>{filename}</p>
+              <p className="m-0 " style={{ fontSize: '0.895rem' }}>{filename}</p>
             </div>
-           
           </div>
         
-          {tableData.length > 0 && (
+          {tableData.length > 0 && !showExtractedEmails && (
             <div className="table-responsive mt-4 table_section">
               <div className="mt-3 text-center mb-3">
                 <h1 className="fw-bold fs-6">Table Data</h1>
@@ -224,18 +231,18 @@ const ImportContact = () => {
                   </tr>
                 </thead>
                 <tbody>
-  {tableData.map((row, rowIndex) => (
-    <tr key={rowIndex} className={rowIndex === 0 && isFirstRowBold ? "bold-row" : ""}>
-      {row.map((cell, cellIndex) => (
-        <td key={cellIndex} className="text-start">
-          <span className={cell === undefined }>
-            {cell !== undefined ? cell : "N/A"} {/* Display "N/A" for missing fields */}
-          </span>
-        </td>
-      ))}
-    </tr>
-  ))}
-</tbody>
+                  {tableData.map((row, rowIndex) => (
+                    <tr key={rowIndex} className={rowIndex === 0 && isFirstRowBold ? "bold-row" : ""}>
+                      {row.map((cell, cellIndex) => (
+                        <td key={cellIndex} className="text-start">
+                          <span className={cell === undefined}>
+                            {cell !== undefined ? cell : "N/A"} {/* Display "N/A" for missing fields */}
+                          </span>
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
               </table>
 
               <div className="text-center">
@@ -244,6 +251,40 @@ const ImportContact = () => {
                     Extract Emails
                   </button>
                 )}
+              </div>
+            </div>
+          )}
+
+          {showExtractedEmails && (
+            <div className="mt-4 text-center">
+              <h3>Extracted Emails:</h3>
+              <div className="table-responsive">
+                <table className="table table-bordered">
+                  <thead>
+                    <tr className="text-center">
+                      <th colSpan={"4"}>Email </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {emails.reduce((rows, email, index) => {
+                      if (index % 4 === 0) {
+                        rows.push([]); // Start a new row
+                      }
+                      rows[rows.length - 1].push(email); // Add email to the current row
+                      return rows;
+                    }, []).map((row, rowIndex) => (
+                      <tr key={rowIndex}>
+                        {row.map((email, emailIndex) => (
+                          <td key={emailIndex}>{email}</td>
+                        ))}
+                        {/* Fill empty cells if the row has less than 4 emails */}
+                        {Array.from({ length: 4 - row.length }).map((_, emptyIndex) => (
+                          <td key={emptyIndex}></td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           )}
@@ -260,7 +301,7 @@ const ImportContact = () => {
             </div>
           )}
 
-          {emails.length > 0 && (
+          {emails.length > 0 && !showExtractedEmails && (
             <div className="mt-4 text-center">
               <textarea
                 value={emails.join(", ")}
@@ -276,45 +317,32 @@ const ImportContact = () => {
                   backgroundColor: "#e8eff7",
                 }}
               />
-
-              <div className="d-flex justify-content-center align-items-center">
-                <button
-                  className="btn btn-primary my-3"
-                  onClick={handleSaveEmails}
-                  disabled={isSaving}
-                  style={{ position: "relative" }}
-                >
-                  {isSaving ? "Saving..." : "Proceed"}
-                </button>
-                {loading && (
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      marginTop: "10px",
-                    }}
-                  >
-                    <CircularProgress size={24} />
-                  </Box>
-                )}
-              </div>
             </div>
           )}
+
+          {showProceedButton && ( // Show the Proceed button if emails have been extracted
+            <div className="text-center mt-4">
+              <button className="btn btn-primary" onClick={handleSaveEmails}>
+                Proceed
+              </button>
+            </div>
+          )}
+
+          <div className="d-flex justify-content-center fixed_Arrow">
+            <div className="scrollArrows">
+              {showUpward && (
+                <div className={`upwardArrow ${!showUpward ? 'hidden' : ''}`} onClick={scrollToTop}>
+                  <ArrowUpwardIcon />
+                </div>
+              )}
+              {showDownward && (
+                <div className={`downwardArrow ${!showDownward ? 'hidden' : ''}`} onClick={scrollToBottom}>
+                  <ArrowDownwardIcon />
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-        <div className="d-flex justify-content-center fixed_Arrow">
-  <div className="scrollArrows">
-    {showUpward && (
-      <div className={`upwardArrow ${!showUpward ? 'hidden' : ''}`} onClick={scrollToTop}>
-        <ArrowUpwardIcon />
-      </div>
-    )}
-    {showDownward && (
-      <div className={`downwardArrow ${!showDownward ? 'hidden' : ''}`} onClick={scrollToBottom}>
-        <ArrowDownwardIcon />
-      </div>
-    )}
-  </div>
-</div>
       </section>
       {showMail && <Mail emails={toEmails} />}
     </>

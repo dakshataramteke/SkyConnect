@@ -94,7 +94,7 @@ const Mail = ({ emails }) => {
     const emailList = value.to
       .split(",")
       .map((email) => email.trim())
-      .filter((email) => email);
+      .filter((email) => email.length > 0);
     const emailCount = emailList.length;
 
     const emailPayload = {

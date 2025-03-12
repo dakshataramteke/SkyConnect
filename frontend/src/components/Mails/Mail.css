@@ -276,10 +276,8 @@ input[type="color"] {
 
 /* Validation green tick  */
 .form-control.is-valid, .was-validated .form-control:valid{
-  background-image: none !important;;
+  background-image: none !important;
 }
-
-
 
 /* Quill Box  */
 .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg{
