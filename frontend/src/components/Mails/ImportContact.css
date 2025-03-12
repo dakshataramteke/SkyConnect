@@ -45,6 +45,7 @@ table {
   } */
   .bold-row {
     font-weight: bold;
+    text-transform: capitalize !important;
   }
 
   /* For Downward Arrow  */
