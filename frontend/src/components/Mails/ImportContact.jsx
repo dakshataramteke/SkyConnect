@@ -27,6 +27,7 @@ const ImportContact = () => {
   const [filename, setFilename] = useState(""); // State to hold the filename
   const [showExtractedEmails, setShowExtractedEmails] = useState(false); // New state to control visibility of extracted emails
   const [showProceedButton, setShowProceedButton] = useState(false); // New state for the Proceed button
+  const [proceedClicked, setProceedClicked] = useState(false); // New state to track if Proceed button is clicked
 
   // Scroll event listener
   useEffect(() => {
@@ -88,6 +89,7 @@ const ImportContact = () => {
       setIsFirstRowBold(true); // Reset bold state when a new file is processed
       setShowExtractedEmails(false); // Reset extracted emails visibility
       setShowProceedButton(false); // Reset proceed button visibility
+      setProceedClicked(false); // Reset proceed clicked state
     };
     reader.readAsArrayBuffer(file);
   };
@@ -173,6 +175,11 @@ const ImportContact = () => {
     }
   };
 
+  const handleProceed = () => {
+    setProceedClicked(true); // Set the state to indicate that Proceed was clicked
+    handleSaveEmails(); // Call the save emails function
+  };
+
   return (
     <>
       <section className="full_background import_background">
@@ -213,7 +220,7 @@ const ImportContact = () => {
             </div>
           </div>
         
-          {tableData.length > 0 && !showExtractedEmails && (
+          {tableData.length > 0 && !showExtractedEmails && !proceedClicked && ( // Add condition to check if proceed was clicked
             <div className="table-responsive mt-4 table_section">
               <div className="mt-3 text-center mb-3">
                 <h1 className="fw-bold fs-6">Table Data</h1>
@@ -255,7 +262,7 @@ const ImportContact = () => {
             </div>
           )}
 
-          {showExtractedEmails && (
+          {showExtractedEmails && !proceedClicked && ( // Add condition to check if proceed was clicked
             <div className="mt-4 text-center">
               <h3>Extracted Emails:</h3>
               <div className="table-responsive">
@@ -301,7 +308,7 @@ const ImportContact = () => {
             </div>
           )}
 
-          {emails.length > 0 && !showExtractedEmails && (
+          {emails.length > 0 && !showExtractedEmails && !proceedClicked && ( // Add condition to check if proceed was clicked
             <div className="mt-4 text-center">
               <textarea
                 value={emails.join(", ")}
@@ -320,9 +327,9 @@ const ImportContact = () => {
             </div>
           )}
 
-          {showProceedButton && ( // Show the Proceed button if emails have been extracted
+          {showProceedButton && !proceedClicked && ( // Add condition to check if proceed was clicked
             <div className="text-center mt-4">
-              <button className="btn btn-primary" onClick={handleSaveEmails}>
+              <button className="btn btn-primary" onClick={handleProceed}>
                 Proceed
               </button>
             </div>
