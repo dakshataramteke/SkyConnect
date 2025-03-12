@@ -96,13 +96,21 @@ const ImportContact = () => {
 
   const extractEmails = () => {
     const emailArray = [];
+    let maxColumns = 0; // Track the maximum number of columns
+
     tableData.forEach((row) => {
+      // Update maxColumns based on the current row length
+      if (row.length > maxColumns) {
+        maxColumns = row.length;
+      }
+
       row.forEach((cell) => {
         if (typeof cell === "string" && cell.includes("@")) {
           emailArray.push(cell.trim());
         }
       });
     });
+
     setEmails(emailArray);
     setToEmails(emailArray); // Store all extracted emails
     setEmailsExtracted(true); // Set to true after extracting emails
@@ -205,7 +213,7 @@ const ImportContact = () => {
             <div className="text-center">
               <img src={upload} alt="Upload Icon" style={{ width: "50px" }} />
               <p className="mb-1">Drag & Drop files here</p>
-              <p>or</p>
+              <p className="mb-2">or</p>
               <label htmlFor="fileInput" className="btn btn-outline-primary">
                 Browse Files
               </label>
@@ -220,7 +228,7 @@ const ImportContact = () => {
             </div>
           </div>
         
-          {tableData.length > 0 && !showExtractedEmails && !proceedClicked && ( // Add condition to check if proceed was clicked
+          {tableData.length > 0 && !showExtractedEmails && !proceedClicked && ( 
             <div className="table-responsive mt-4 table_section">
               <div className="mt-3 text-center mb-3">
                 <h1 className="fw-bold fs-6">Table Data</h1>
@@ -240,10 +248,10 @@ const ImportContact = () => {
                 <tbody>
                   {tableData.map((row, rowIndex) => (
                     <tr key={rowIndex} className={rowIndex === 0 && isFirstRowBold ? "bold-row" : ""}>
-                      {row.map((cell, cellIndex) => (
+                      {Array.from({ length: Math.max(...tableData.map(r => r.length)) }).map((_, cellIndex) => (
                         <td key={cellIndex} className="text-start">
-                          <span className={cell === undefined}>
-                            {cell !== undefined ? cell : "N/A"} {/* Display "N/A" for missing fields */}
+                          <span>
+                            {row[cellIndex] !== undefined ? row[cellIndex] : " "}
                           </span>
                         </td>
                       ))}
@@ -254,7 +262,7 @@ const ImportContact = () => {
 
               <div className="text-center">
                 {!emailsExtracted && ( // Only show the button if emails have not been extracted
-                  <button className="btn btn-primary mt-3 mb-2" onClick={extractEmails}>
+                  <button className="btn btn-primary my-3" onClick={extractEmails}>
                     Extract Emails
                   </button>
                 )}
