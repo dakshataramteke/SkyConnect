@@ -258,18 +258,15 @@ input[type="color"] {
 .ql-toolbar.ql-snow.active,
 .ql-container.ql-snow.active,
 .ql-container.ql-snow:focus-within {
-  border-right: 2px solid #4ca2ff !important;
-  border-bottom: 2px solid #4ca2ff !important;
-  border-left: 2px solid #4ca2ff !important;
-  border-top: 1px solid #4ca2ff !important;;
+  border: 1px solid #4ca2ff;
 
 }
 
 /* Change the border color when the Quill editor is focused */
-.ql-toolbar.ql-snow:focus-within,
+/* .ql-toolbar.ql-snow:focus-within,
 .ql-toolbar.ql-snow.active:focus-within {
-  border-top: 2px solid #4ca2ff;;
-}
+  border-top: 1px solid #4ca2ff;
+} */
 
 
 /* Progress Bar  */
@@ -286,7 +283,7 @@ input[type="color"] {
 .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg{
   display: none !important;;
 }
-.ql-snow .ql-toolbar button,
-.ql-snow .ql-toolbar button:last-child {
-  display: none !important;
+
+.ql-clean{
+  display:none !important;
 }
