@@ -130,7 +130,7 @@ li a{
     transition: all 0.3s ease;
 }
 .ul_links a:hover{
-color: var(--cream);
+color: rgb(240, 236, 236);
 
 }
 

@@ -103,6 +103,11 @@ Single Mail & Multiple Mail & Preview.jsx
   .btn_send{
     margin-top: 3rem !important;
   }
+  .eyeshow{
+    position: absolute;
+    right: 3.5% !important;
+    /* bottom: 0; */
+  }
 }
 /* Media query for smaller screens */
 @media (max-width: 767px) {
@@ -168,7 +173,7 @@ Single Mail & Multiple Mail & Preview.jsx
   }
   .eyeshow{
     position: absolute;
-    right: 4% !important;
+    right: 4.5% !important;
     /* bottom: 0; */
   }
 }
@@ -240,7 +245,7 @@ input[type="color"] {
 .spinner-border{
   border: none !important;
   --bs-spinner-width:0 !important;
-    --bs-spinner-height: 0 !important;
+  --bs-spinner-height: 0 !important;
 }
 
 

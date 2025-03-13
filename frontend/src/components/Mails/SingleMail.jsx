@@ -9,6 +9,7 @@ import "./Mail.css";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router";
+
 const SingleMail = () => {
   let navigate = useNavigate();
   const [value, setValue] = useState({
@@ -35,49 +36,37 @@ const SingleMail = () => {
       console.log("Stored Single List : " + storedUserName);
     }
   }, []);
-  // Update both value and editorHtml
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setValue((prevState) => ({
       ...prevState,
       [name]: value.trim(),
     }));
-   
   };
+
   const handlePasswordVisibilityToggle = () => {
-    setShowPassword((prev) => !prev); // Toggle password visibility
+    setShowPassword((prev) => !prev);
   };
-  // Quill's onChange will update editorHtml
+
   const handleQuillChange = (html) => {
-    setEditorHtml(html); // Set the HTML content directly
+    setEditorHtml(html);
     setValue((prevState) => ({
       ...prevState,
-      message: html, // Update the message in the value state
+      message: html,
     }));
-    // setError("");
     if (error) {
-      setError(""); // Reset the error state
+      setError("");
     }
-   
   };
 
-  // Validate email format
-  const isValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  // Validate email and message content
   const validateSingleMail = () => {
     const form = formRef.current;
-    const emailRegex =
-      /^(?=.*[a-zA-Z].*[a-zA-Z])(?=.*\d)[a-zA-Z\d._%+-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
 
     if (
       !form.checkValidity() ||
       !editorHtml.trim() ||
       editorHtml === "<p><br></p>"
-      // !emailRegex.test(emailValue)
     ) {
       form.classList.add("was-validated");
 
@@ -89,28 +78,56 @@ const SingleMail = () => {
     }
     return true;
   };
+
   const handleKeyPress = (e) => {
-    // Prevent space character from being entered
     if (e.key === " ") {
       e.preventDefault();
     }
   };
+
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const localPart = email.split("@")[0];
+    const domainPart = email.split("@")[1];
+    const consecutiveDotsRegex = /...+/;
+  
+    // List of valid domains (expanded list)
+    const validDomains = [
+      "gmail.com",
+      "yahoo.com",
+      "outlook.com",
+      "hotmail.com",
+      "in", // India
+      "uk", // United Kingdom
+      "ca", // Canada
+      "de", // Germany
+      "com", // Commercial
+      "org", // Organization
+      "net", // Network
+      "info", // Information
+      "biz", // Business
+    ];
+  
+    // Check if the email matches the regex and does not have consecutive dots
+    const isValidFormat = emailRegex.test(email) && !consecutiveDotsRegex.test(localPart);
+    const isValidDomain = validDomains.includes(domainPart);
+  
+    return isValidFormat && isValidDomain;
+  };
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = formRef.current;
-
-    // Validate single email
+  
     const emailList = [value.to.trim()];
-
+  
+    // Check for valid email addresses
     if (emailList.some((email) => !isValidEmail(email))) {
-      Swal.fire({
-        title: "Error",
-        text: "Please enter a valid email address.",
-        icon: "error",
-      });
+      setError("Please enter a valid email address without consecutive dots and with a valid domain.");
       return;
     }
-
+  
+    // Validate the form
     if (!validateSingleMail()) {
       event.stopPropagation();
       Swal.fire({
@@ -120,13 +137,14 @@ const SingleMail = () => {
       });
       return;
     }
-
+  
+    // Proceed to send the email
     sendEmail();
   };
 
   const sendEmail = async (bannerData) => {
-    setLoading(true); // Start loading
-    setProgress(0); // Reset progress
+    setLoading(true);
+    setProgress(0);
 
     const emailList = value.to
       .split(",")
@@ -156,10 +174,10 @@ const SingleMail = () => {
       password: value.password,
       subject: value.subject,
       htmlContent: `
-      <div style="width: 500px; margin: auto; background-color: "whitesmoke">
+      <div style="width: 500px; margin: auto; background-color: whitesmoke">
         <div style="background-color: ${
           bannerData.selectedColor ? bannerData.selectedColor : "white"
-        };  padding: 0.25rem 1rem; height:55px">
+        }; border-radius: 0.5rem 0.5rem 0 0; padding: 0.25rem 1rem; height:55px">
           ${
             bannerData.logoUrl
               ? `<img src="${bannerData.logoUrl}" alt="" style="width: 53px; height: 53px; border-radius: 50%; background-size:contain" />`
@@ -246,7 +264,7 @@ const SingleMail = () => {
         });
         setSentCount(0);
         setNotSentCount(0);
-        navigate("/home")
+        navigate("/home");
       });
     } catch (err) {
       console.error("Error sending email:", err);
@@ -297,8 +315,7 @@ const SingleMail = () => {
               >
                 <div className="row form_data">
                   <div className="col-12 col-md-11">
-               
-                  <div className="my-4 d-flex align-items-center">
+                    <div className="my-4 d-flex align-items-center">
                       <label htmlFor="to" className="form-label">
                         To{" "}
                         <span style={{ color: "red", marginLeft: "4px" }}>
@@ -317,14 +334,13 @@ const SingleMail = () => {
                         onKeyPress={handleKeyPress}
                         required
                       />
-                    <div className="invalid-feedback">
+                      <div className="invalid-feedback">
                         Please provide a valid email address.
                       </div>
-                  </div>
-                  
+                    </div>
 
                     <div className="mb-4 d-flex align-items-center">
-                      <label htmlFor="to" className="form-label">
+                      <label htmlFor="from" className="form-label">
                         From{" "}
                         <span style={{ color: "red", marginLeft: "4px" }}>
                           {" "}
@@ -346,7 +362,7 @@ const SingleMail = () => {
                         Please provide a valid email address.
                       </div>
                     </div>
-                   
+
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="Password" className="form-label ">
                         Password:{" "}
@@ -361,7 +377,6 @@ const SingleMail = () => {
                           *
                         </span>
                       </label>
-                      {/* <div className="input-group toggleeye" style={{ position: "relative" }}></div> */}
                       <input
                         type={showPassword ? "text" : "password"}
                         className="form-control"
@@ -381,7 +396,6 @@ const SingleMail = () => {
                           backgroundColor: "white",
                           position: "absolute",
                           right: "2%",
-                         
                           border: "none",
                         }}
                       >
@@ -395,7 +409,7 @@ const SingleMail = () => {
                         Please provide a password.
                       </div>
                     </div>
-                     
+
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="subject" className="form-label ">
                         Subject{" "}
@@ -447,7 +461,6 @@ const SingleMail = () => {
                     </div>
                   </div>
                 </div>
-                {/* </div> */}
               </form>
             </div>
           </div>
