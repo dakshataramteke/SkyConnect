@@ -28,7 +28,6 @@ const SingleMail = () => {
   const [editorHtml, setEditorHtml] = useState("");
   const formRef = useRef(null);
   const [showPassword, setShowPassword] = useState(false);
-
   useEffect(() => {
     const storedUserName = localStorage.getItem("Login User");
     if (storedUserName) {
@@ -41,7 +40,7 @@ const SingleMail = () => {
     const { name, value } = e.target;
     setValue((prevState) => ({
       ...prevState,
-      [name]: value.trim(),
+      [name]: value.trimStart(),
     }));
   };
 
@@ -85,47 +84,10 @@ const SingleMail = () => {
     }
   };
 
-  const isValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const localPart = email.split("@")[0];
-    const domainPart = email.split("@")[1];
-    const consecutiveDotsRegex = /...+/;
-  
-    // List of valid domains (expanded list)
-    const validDomains = [
-      "gmail.com",
-      "yahoo.com",
-      "outlook.com",
-      "hotmail.com",
-      "in", // India
-      "uk", // United Kingdom
-      "ca", // Canada
-      "de", // Germany
-      "com", // Commercial
-      "org", // Organization
-      "net", // Network
-      "info", // Information
-      "biz", // Business
-    ];
-  
-    // Check if the email matches the regex and does not have consecutive dots
-    const isValidFormat = emailRegex.test(email) && !consecutiveDotsRegex.test(localPart);
-    const isValidDomain = validDomains.includes(domainPart);
-  
-    return isValidFormat && isValidDomain;
-  };
   
   const handleSubmit = (event) => {
     event.preventDefault();
-    const form = formRef.current;
-  
-    const emailList = [value.to.trim()];
-  
-    // Check for valid email addresses
-    if (emailList.some((email) => !isValidEmail(email))) {
-      setError("Please enter a valid email address without consecutive dots and with a valid domain.");
-      return;
-    }
+    // const form = formRef.current;
   
     // Validate the form
     if (!validateSingleMail()) {
@@ -338,7 +300,7 @@ const SingleMail = () => {
                         Please provide a valid email address.
                       </div>
                     </div>
-
+            
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="from" className="form-label">
                         From{" "}
@@ -379,7 +341,7 @@ const SingleMail = () => {
                       </label>
                       <input
                         type={showPassword ? "text" : "password"}
-                        className="form-control"
+                        className="form-control position-relative"
                         id="Password"
                         placeholder="Enter Your Password"
                         name="password"
@@ -398,18 +360,20 @@ const SingleMail = () => {
                           right: "2%",
                           border: "none",
                         }}
+                       
                       >
-                        {showPassword ? (
-                          <VisibilityIcon />
+                        { showPassword ? (
+                          <VisibilityIcon className="show_eye" />
                         ) : (
-                          <VisibilityOffIcon />
+                          <VisibilityOffIcon className="hide_eye"/>
                         )}
                       </span>
-                      <div className="invalid-feedback">
-                        Please provide a password.
-                      </div>
+                 
+                      {<div className="invalid-feedback">Please provide a valid password.</div>}
+                 
                     </div>
 
+           
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="subject" className="form-label ">
                         Subject{" "}

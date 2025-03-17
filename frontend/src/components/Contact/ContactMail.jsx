@@ -227,7 +227,7 @@ const ContactMail = () => {
                   </div>
                   <div className="col text-center text-white"  style={{ paddingRight: "5rem" }}>
                     <b>
-                      E-mail{" "}
+                      Email{" "}
                       {showSearchInput ? (
                         <ArrowDropUpIcon
                           style={{ cursor: "pointer" }}
@@ -304,7 +304,7 @@ const ContactMail = () => {
               {currentEmails.length > 0 ? (
                 currentEmails.map((item, index) => (
                   <li key={index} className="list-group-item">
-                    <div className="row text-muted p-3">
+                    <div className="row text-muted p-md-3">
                       <div className="form-check">
                         <input
                           className="form-check-input"
@@ -349,10 +349,10 @@ const ContactMail = () => {
           </div>
 
           <div className="row">
-            <div className="col-12 py-3">
+            <div className="col-12 ">
               {showSelectedEmails && (
                 <>
-                  <div className="list-group mx-auto d-none">
+                  <div className="list-group mx-auto py-3 d-none">
                     {selectedEmails.length > 0 && (
                       <textarea
                         value={selectedEmails.join(", ")}

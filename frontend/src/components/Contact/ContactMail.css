@@ -35,6 +35,11 @@
 .contact_maildata li {
     margin: 0;
 }
+@media(max-width:430px){
+    .list-group-item div{
+        padding-right: 1rem !important;
+    }
+}
 
 /* Search Icons  */
 .search_icon{

@@ -53,7 +53,7 @@ const Mail = ({ emails }) => {
     const { name, value } = e.target;
     setValue((prevState) => ({
       ...prevState,
-      [name]: value.trim(),
+      [name]: value.trimStart(),
     }));
   };
 

@@ -13,8 +13,6 @@ const PreviewMail = ({
   const [loading, setLoading] = useState(false);
   const [userName, setUserName] = useState("");
   const [error, setError] = useState("");
-  const [url, setUrl] = useState("");
-  const [isValid, setIsValid] = useState(true);
   const [values, setValues] = useState({
     logoUrl: "",
     bannerUrl: "",
@@ -38,7 +36,7 @@ const PreviewMail = ({
   const formRef = useRef(null);
   const validateUrl = (inputUrl) => {
     const pattern = /^(https?:\/\/)/;
-    return pattern.test(inputUrl); // Ensure this returns true or false
+    return pattern.test(inputUrl); 
   };
 
   const handleChanges = (e) => {
@@ -47,18 +45,13 @@ const PreviewMail = ({
       ...prevState,
       [name]: value.trim(),
     }));
-    const inputUrl = e.target.value;
-    setUrl(inputUrl);
-    setIsValid(validateUrl(inputUrl));
   };
 
   const handleBlur = (field) => {
     if (field === "logoUrl") {
       setLogoUrlTouched(true);
-      setIsValid(validateUrl(values.logoUrl));
     } else if (field === "bannerUrl") {
       setBannerUrlTouched(true);
-      setIsValid(validateUrl(values.bannerUrl));
     }
   };
 
@@ -95,7 +88,6 @@ const PreviewMail = ({
       buttonName: values.buttonName.trim(),
       buttonUrl: values.buttonUrl.trim(),
       selectedColor: values.selectedColor,
-      selectedbuttonColor: values.selectedbuttonColor,
     };
 
     try {
@@ -108,8 +100,7 @@ const PreviewMail = ({
         companyName: "",
         buttonName: "",
         buttonUrl: "",
-        selectedColor: "",
-        // selectedbuttonColor: "",
+        selectedColor: "#ffffff",   
       });
     } catch (error) {
       Swal.fire({
@@ -182,7 +173,7 @@ const PreviewMail = ({
                     onChange={handleChanges}
                     onBlur={() => handleBlur("logoUrl")}
                   />
-                  {logoUrlTouched && !isValid && (
+                  {logoUrlTouched && !validateUrl(values.logoUrl) && (
                     <p style={{ color: "red" }}>
                       Please enter a valid URL starting with http or https.
                     </p>
@@ -203,7 +194,7 @@ const PreviewMail = ({
                     onChange={handleChanges}
                     onBlur={() => handleBlur("bannerUrl")}
                   />
-                  {bannerUrlTouched && !isValid && (
+                  {bannerUrlTouched && !validateUrl(values.bannerUrl) && (
                     <p style={{ color: "red" }}>
                       Please enter a valid URL starting with http or https.
                     </p>
@@ -318,10 +309,10 @@ const PreviewMail = ({
                     />
                   </div>
                 </div>
+                
                 <h5 className="company_Name">
                   {values.companyName || "Company Name"}
                 </h5>
-
                 <div className="d-flex justify-content-center">
                   <img
                     src={
