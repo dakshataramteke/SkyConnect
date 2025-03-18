@@ -18,7 +18,33 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
- 
+ <script>
+// (function () {
+//   var forms = document.querySelectorAll('.needs-validation');
+
+//   // Loop over them and prevent submission
+//   Array.prototype.slice.call(forms).forEach(function (form) {
+//     form.addEventListener('submit', function (event) {
+//       console.log("Clicked Submit");
+//       var passwordToggleIcon = document.querySelector('#eyeshow'); // Select the password toggle icon
+
+//       if (!form.checkValidity()) {
+//         event.preventDefault();
+//         event.stopPropagation();
+//         passwordToggleIcon.style.display = 'none'; // Enable the icon if the form is invalid
+//         console.log("Invalid Password")
+//       } else {
+//         passwordToggleIcon.style.display = 'none'; // Disable the icon if the form is valid
+//         console.log("Valid Password");
+//       }
+
+//       form.classList.add('was-validated');
+//     }, false);
+//   });
+// })();
+
+
+ </script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -39,25 +65,49 @@
       });
     }
    // Example starter JavaScript for disabling form submissions if there are invalid fields
-(function () {
-  // 'use strict'
+// (function () {
 
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  var forms = document.querySelectorAll('.needs-validation')
+//   var forms = document.querySelectorAll('.needs-validation')
+
+//   // Loop over them and prevent submission
+//   Array.prototype.slice.call(forms)
+//     .forEach(function (form) {
+//       form.addEventListener('submit', function (event) {
+//         if (!form.checkValidity()) {
+//           event.preventDefault()
+//           event.stopPropagation()
+//         }
+
+//         form.classList.add('was-validated')
+//       }, false)
+//     })
+// })()
+
+(function () {
+  var forms = document.querySelectorAll('.needs-validation');
 
   // Loop over them and prevent submission
-  Array.prototype.slice.call(forms)
-    .forEach(function (form) {
-      form.addEventListener('submit', function (event) {
-        if (!form.checkValidity()) {
-          event.preventDefault()
-          event.stopPropagation()
-        }
+  Array.prototype.slice.call(forms).forEach(function (form) {
+    form.addEventListener('submit', function (event) {
+      console.log("Clicked Submit");
+      var passwordToggleIcon = document.querySelector('#eyeshow'); // Select the password toggle icon
 
-        form.classList.add('was-validated')
-      }, false)
-    })
-})()
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+        passwordToggleIcon.style.display = 'none'; // Enable the icon if the form is invalid
+        console.log("Invalid Password")
+      } else {
+        passwordToggleIcon.style.display = 'none'; // Disable the icon if the form is valid
+        console.log("Valid Password");
+      }
+
+      form.classList.add('was-validated');
+      console.log("object is now valid");
+    }, false);
+  });
+})();
+
 
 </script>
   </body>

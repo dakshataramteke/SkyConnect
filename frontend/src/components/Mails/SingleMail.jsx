@@ -285,6 +285,7 @@ const SingleMail = () => {
                           *
                         </span>
                       </label>
+                      <div className="d-flex flex-column w-100">
                       <input
                         type="email"
                         className="form-control"
@@ -299,9 +300,11 @@ const SingleMail = () => {
                       <div className="invalid-feedback">
                         Please provide a valid email address.
                       </div>
+                      </div>
+                    
                     </div>
             
-                    <div className="mb-4 d-flex align-items-center">
+                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="from" className="form-label">
                         From{" "}
                         <span style={{ color: "red", marginLeft: "4px" }}>
@@ -309,22 +312,27 @@ const SingleMail = () => {
                           *
                         </span>
                       </label>
+                      <div className="d-flex flex-column w-100">
                       <input
+                    
                         type="email"
-                        className="form-control"
+                        className="form-control "
                         id="from"
                         placeholder="Enter sender email address"
                         name="from"
                         value={value.from}
                         onChange={handleChange}
                         onKeyPress={handleKeyPress}
+                        
                         required
                       />
-                      <div className="invalid-feedback">
+                      <div className="invalid-feedback" >
                         Please provide a valid email address.
+                      </div>
                       </div>
                     </div>
 
+         
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="Password" className="form-label ">
                         Password:{" "}
@@ -339,6 +347,7 @@ const SingleMail = () => {
                           *
                         </span>
                       </label>
+                      <div className="d-flex flex-column w-100">
                       <input
                         type={showPassword ? "text" : "password"}
                         className="form-control position-relative"
@@ -357,8 +366,10 @@ const SingleMail = () => {
                           cursor: "pointer",
                           backgroundColor: "white",
                           position: "absolute",
-                          right: "2%",
+                          right: "2.5%",
+                          top:"37%",
                           border: "none",
+                          padding:"0"
                         }}
                        
                       >
@@ -369,7 +380,9 @@ const SingleMail = () => {
                         )}
                       </span>
                  
-                      {<div className="invalid-feedback">Please provide a valid password.</div>}
+                      <div className="invalid-feedback">Please provide a valid password.</div>
+                      </div>
+                    
                  
                     </div>
 
@@ -382,6 +395,7 @@ const SingleMail = () => {
                           *
                         </span>
                       </label>
+                      <div className="d-flex flex-column w-100">
                       <input
                         type="text"
                         className="form-control"
@@ -396,6 +410,9 @@ const SingleMail = () => {
                       <div className="invalid-feedback">
                         Please provide a subject.
                       </div>
+                      </div>
+
+                     
                     </div>
 
                     <div className="mb-4 d-flex align-items-center">
@@ -406,6 +423,7 @@ const SingleMail = () => {
                           *
                         </span>
                       </label>
+                      <div className="d-flex flex-column w-100">
                       <ReactQuill
                         theme="snow"
                         style={{ height: "150px", width: "100%" }}
@@ -422,6 +440,8 @@ const SingleMail = () => {
                           {error}
                         </div>
                       )}
+                      </div>
+                     
                     </div>
                   </div>
                 </div>

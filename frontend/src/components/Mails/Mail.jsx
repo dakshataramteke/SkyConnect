@@ -3,7 +3,6 @@ import ReactQuill from "react-quill";
 import axios from "axios";
 import Swal from "sweetalert2";
 import PreviewMail from "./PreviewMail";
-// import { useLocation } from "react-router-dom"; 
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import "./Mail.css";
@@ -12,7 +11,6 @@ import { useNavigate } from "react-router";
 const Mail = ({ emails }) => {
   let navigate = useNavigate();
   console.log("Contact EMail is ",emails);
-  // const location = useLocation(); 
   const formRef = useRef(null); 
   const [value, setValue] = useState({
     to: emails.join(", "),
@@ -246,6 +244,7 @@ const Mail = ({ emails }) => {
                       <label htmlFor="to" className="form-label">
                         To  <span style={{ color: "red", marginLeft:"4px"  }}> *</span>
                       </label>
+                      <div className="d-flex flex-column w-100">
                       <input
                         type="text"
                         className="form-control"
@@ -260,11 +259,14 @@ const Mail = ({ emails }) => {
                       <div className="invalid-feedback">
                         Please provide a valid email address.
                       </div>
+                      </div>
+                      
                     </div>
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="from" className="form-label">
                         From  <span style={{ color: "red", marginLeft:"4px"  }}> *</span>{" "}
                       </label>
+                      <div className="d-flex flex-column w-100">
                       <input
                         type="email"
                         className="form-control"
@@ -279,12 +281,15 @@ const Mail = ({ emails }) => {
                       <div className="invalid-feedback">
                         Please provide a valid email address.
                       </div>
+                      </div>
+                    
                     </div>
 
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="Password" className="form-label">
                         Password  <span style={{ color: "red", marginLeft:"4px"  }}> *</span>
                       </label>
+                      <div className="d-flex flex-column w-100">
                       <input
                          type={showPassword ? "text" : "password"}
                         className="form-control"
@@ -303,9 +308,11 @@ const Mail = ({ emails }) => {
                           cursor: 'pointer',
                           backgroundColor: 'white',
                           position: "absolute",
-                          right: "15px",
+                          right: "2.5%",
+                          top: "31.5%",
                           zIndex: 11,
-                          border:"none"
+                          border:"none",
+                          padding:"0"
                         }}
                       >
                         {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
@@ -313,11 +320,14 @@ const Mail = ({ emails }) => {
                       <div className="invalid-feedback">
                         Please provide a password.
                       </div>
+                      </div>
+                     
                     </div>
                     <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="subject" className="form-label">
                         Subject <span style={{ color: "red", marginLeft:"4px"  }}> *</span>
                       </label>
+                      <div className="d-flex flex-column w-100">
                       <input
                         type="text"
                         className="form-control"
@@ -331,12 +341,15 @@ const Mail = ({ emails }) => {
                       <div className="invalid-feedback">
                         Please provide a subject.
                       </div>
+                      </div>
+                     
                     </div>
 
                     <div className="mb-5 d-flex align-items-center">
                       <label htmlFor="message" className="form-label">
                         Message <span style={{ color: "red" , marginLeft:"4px" }}> *</span>
                       </label>
+                      <div className="d-flex flex-column w-100">
                       <ReactQuill
                         theme="snow"
                         style={{ height: "150px", width: "100%" }}
@@ -344,7 +357,9 @@ const Mail = ({ emails }) => {
                         value={value.message}
                         onChange={handleQuillChange}
                       />
-                       {error && <div className="text-danger" style={{fontSize: '14px',marginLeft: '5px'}}>{error}</div>}
+                       {error && <div className="text-danger " style={{fontSize: '14px',marginLeft: '5px'}}>{error}</div>}
+                      </div>
+                     
                     </div>
                   </div>
                 </div>

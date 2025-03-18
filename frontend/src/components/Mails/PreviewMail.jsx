@@ -43,7 +43,7 @@ const PreviewMail = ({
     const { name, value } = e.target;
     setValues((prevState) => ({
       ...prevState,
-      [name]: value.trim(),
+      [name]: value.trimStart(),
     }));
   };
 
@@ -82,11 +82,11 @@ const PreviewMail = ({
     }
 
     const bannerData = {
-      logoUrl: values.logoUrl.trim(),
-      bannerUrl: values.bannerUrl.trim(),
-      companyName: values.companyName.trim(),
-      buttonName: values.buttonName.trim(),
-      buttonUrl: values.buttonUrl.trim(),
+      logoUrl: values.logoUrl.trimStart(),
+      bannerUrl: values.bannerUrl.trimStart(),
+      companyName: values.companyName.trimStart(),
+      buttonName: values.buttonName.trimStart(),
+      buttonUrl: values.buttonUrl.trimStart(),
       selectedColor: values.selectedColor,
     };
 

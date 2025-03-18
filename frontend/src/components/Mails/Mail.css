@@ -173,8 +173,8 @@ Single Mail & Multiple Mail & Preview.jsx
   }
   .eyeshow{
     position: absolute;
-    right: 4.5% !important;
-    /* bottom: 0; */
+    right: 5% !important;
+    top:38.5%  !important
   }
 }
 
