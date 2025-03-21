@@ -225,7 +225,9 @@ const ContactMail = () => {
                       htmlFor="selectAllCheckbox"
                     ></label>
                   </div>
-                  <div className="col text-center text-white"  style={{ paddingRight: "5rem" }}>
+                  <div className="col text-center text-white" 
+                  //  style={{ paddingRight: "5rem" }}
+                   >
                     <b>
                       Email{" "}
                       {showSearchInput ? (
