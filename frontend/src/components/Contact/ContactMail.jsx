@@ -201,7 +201,7 @@ const ContactMail = () => {
       <div className="container">
         <div className="row mt-5">
           <div className="col mt-3 mt-md-5 contact_alldata">
-            <h2 className="text-center">All E-mails Data</h2>
+            <h2 className="text-center">All Emails Data</h2>
             <p className="text-center py-2">
               This feature is designed to streamline the management of email              communications.
             </p>
@@ -242,7 +242,7 @@ const ContactMail = () => {
                     </b>
                   </div>
                   <div
-                    className="col text-end text-white"
+                    className="col text-end text-white "
                     style={{ paddingRight: "3.225rem" }}
                   >
                     <b>
@@ -305,7 +305,7 @@ const ContactMail = () => {
                 currentEmails.map((item, index) => (
                   <li key={index} className="list-group-item">
                     <div className="row text-muted p-md-3">
-                      <div className="form-check">
+                      <div className="form-check my-auto">
                         <input
                           className="form-check-input"
                           type="checkbox"
@@ -315,10 +315,10 @@ const ContactMail = () => {
                           aria-label={`Select email ${item.email}`}
                         />
                       </div>
-                      <div className="col text-start">{item.email}</div>
+                      <div className="col text-start my-auto">{item.email}</div>
                       <div
-                        className="col text-end"
-                        style={{ paddingRight: "3.545rem" }}
+                        className="col text-end Date_col"
+                        // style={{ paddingRight: "3.545rem" }}
                       >
                         {item.date.split("").slice(0, 10).join("")}
                       </div>

@@ -121,13 +121,13 @@ const Mail = ({ emails }) => {
         <div style="text-align: center; color: black;">
           <h3>${bannerData.companyName}</h3>
         </div>
-        <div style="text-align: center; margin-top: 1rem; display:flex; justify-content:center">
-          ${
-            bannerData.bannerUrl
-              ? `<img src="${bannerData.bannerUrl}" alt="" style="width: 90%; height: auto; border-radius: 0.325rem;" />`
-              : `<span></span>`
-          }
-        </div>
+       <div style="margin-top: 1rem; display: flex; justify-content: center;">
+  ${
+    bannerData.bannerUrl
+      ? `<img src="${bannerData.bannerUrl}" alt="" style="width: 90%; height: auto; border-radius: 0.325rem; margin:0 auto" />`
+      : `<span></span>`
+  }
+</div>
         <div style="margin: 2rem 0; padding: 0 1.5rem;">  
           <div>${value.message}</div>
         </div>
@@ -249,7 +249,7 @@ const Mail = ({ emails }) => {
                         type="text"
                         className="form-control"
                         id="to"
-                        placeholder="Enter recipients email address"
+                        placeholder="Enter Recipients Email Address"
                         name="to"
                         value={value.to}
                         onChange={handleChange}
@@ -271,7 +271,7 @@ const Mail = ({ emails }) => {
                         type="email"
                         className="form-control"
                         id="from"
-                        placeholder="Enter sender email address"
+                        placeholder="Enter Sender Email Address"
                         name="from"
                         value={value.from}
                         onChange={handleChange}
@@ -315,7 +315,7 @@ const Mail = ({ emails }) => {
                           padding:"0"
                         }}
                       >
-                        {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                        {showPassword ? <VisibilityIcon className="text-black"/> : <VisibilityOffIcon className="text-black"/>}
                       </span>
                       <div className="invalid-feedback">
                         Please provide a password.

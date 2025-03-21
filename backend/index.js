@@ -11,7 +11,6 @@ const bcrypt = require('bcrypt');
 const Razorpay = require('razorpay');
 const config = require('./config/config.js');
 const crypto = require('crypto');
-// const PaytmChecksum = require('paytmchecksum');
 
 // === Initialize the App === //
 const app = express();
@@ -20,7 +19,6 @@ const port = 8080;
 // === Configuration  MiddleWares === //
 
 app.use(cors({
-
   origin: 'http://localhost:3000',
   // origin: 'http://192.168.1.16:3000' ,
   credentials: true
@@ -186,55 +184,55 @@ app.post('/reset-password', async (req, res) => {
  *
 ***/
 
-const sendEmails = async (toList, from, password, subject, htmlContent) => {
-  try {
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false, // true for port 465, false for other ports
-      auth: {
-        user: from,
-        pass: password,
-      },
-    });
+// const sendEmails = async (toList, from, password, subject, htmlContent) => {
+//   try {
+//     const transporter = nodemailer.createTransport({
+//       host: "smtp.gmail.com",
+//       port: 587,
+//       secure: false, // true for port 465, false for other ports
+//       auth: {
+//         user: from,
+//         pass: password,
+//       },
+//     });
 
-    // Normalize toList: if it's a string, use it directly; if it's an array, use it as is
-    const emailList = typeof toList === 'string' ? [toList] : (Array.isArray(toList) ? toList : []);
+//     // Normalize toList: if it's a string, use it directly; if it's an array, use it as is
+//     const emailList = typeof toList === 'string' ? [toList] : (Array.isArray(toList) ? toList : []);
 
-    // Log the email list for debugging
-    console.log("Email list:", emailList);
+//     // Log the email list for debugging
+//     console.log("Email list:", emailList);
 
-    // Loop through each email address in the emailList
-    for (const to of emailList) {
-      // Check if the email is valid
-      if (!to || typeof to !== 'string' || !to.includes('@')) {
-        console.error(`Invalid email address: ${to}`);
-        continue; // Skip invalid email addresses
-      }
+//     // Loop through each email address in the emailList
+//     for (const to of emailList) {
+//       // Check if the email is valid
+//       if (!to || typeof to !== 'string' || !to.includes('@')) {
+//         console.error(`Invalid email address: ${to}`);
+//         continue; // Skip invalid email addresses
+//       }
 
-      const mailOptions = {
-        from,
-        to, 
-        subject,
-        html: htmlContent,
-      };
+//       const mailOptions = {
+//         from,
+//         to, 
+//         subject,
+//         html: htmlContent,
+//       };
 
-      await transporter.sendMail(mailOptions);
-      console.log(`Email sent to: ${to}`);
-    }
+//       await transporter.sendMail(mailOptions);
+//       console.log(`Email sent to: ${to}`);
+//     }
 
-    return { status: 200, message: "All emails sent successfully" };
-  } catch (error) {
-    console.error("Error sending email:", error);
-    throw new Error("Failed to send email");
-  }
-};
+//     return { status: 200, message: "All emails sent successfully" };
+//   } catch (error) {
+//     console.error("Error sending email:", error);
+//     throw new Error("Failed to send email");
+//   }
+// };
 
 
 
 /**
  * 
- * ====  For Username =====
+ ====  For Username =====
  * 
  **/
 
@@ -245,7 +243,7 @@ app.get('/username', (req, res) => {
 
 /*** 
  *
- *==== Contact Mails for Contact 
+ ==== Contact Mails for Contact ====
  *  
  ***/
 
@@ -270,7 +268,52 @@ app.get("/contactMails", (req, res) => {
  ***/
 
  app.post('/singleMail', async (req, res) => {
-  const { toList, from, password, subject, htmlContent, username } = req.body; // Added username to the destructured body
+
+  const sendEmails = async (toList, from, password, subject, htmlContent) => {
+    try {
+      const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false, // true for port 465, false for other ports
+        auth: {
+          user: from,
+          pass: password,
+        },
+      });
+  
+      // Normalize toList: if it's a string, use it directly; if it's an array, use it as is
+      const emailList = typeof toList === 'string' ? [toList] : (Array.isArray(toList) ? toList : []);
+  
+      // Log the email list for debugging
+      console.log("Email list:", emailList);
+  
+      // Loop through each email address in the emailList
+      for (const to of emailList) {
+        // Check if the email is valid
+        if (!to || typeof to !== 'string' || !to.includes('@')) {
+          console.error(`Invalid email address: ${to}`);
+          continue; // Skip invalid email addresses
+        }
+  
+        const mailOptions = {
+          from,
+          to, 
+          subject,
+          html: htmlContent,
+        };
+  
+        await transporter.sendMail(mailOptions);
+        console.log(`Email sent to: ${to}`);
+      }
+  
+      return { status: 200, message: "All emails sent successfully" };
+    } catch (error) {
+      console.error("Error sending email:", error);
+      throw new Error("Failed to send email");
+    }
+  };
+
+  const { toList, from, password, subject, htmlContent, username } = req.body; 
   console.log("Received toList:", toList);
 
   // Check if toList is a single email
@@ -307,16 +350,6 @@ app.get("/contactMails", (req, res) => {
 
 
 // Define the route to send emails for Multiple Mail
-app.post('/send-emails', async (req, res) => {
-  const { toList, from, password, subject, htmlContent } = req.body;
-
-  try {
-    const result = await sendEmails(toList, from, password, subject, htmlContent);
-    res.status(result.status).json(result);
-  } catch (error) {
-    res.status(500).json({ status: 500, message: error.message });
-  }
-});
 
 
 // Example usage in your route handler
@@ -342,7 +375,7 @@ app.post("/contact", async (req, res) => {
 app.post('/save-emails', (req, res) => {
 
   console.log("Server is running ");
-  console.log(req.body);
+  // console.log(req.body);
   const emails = req.body.emails;
   const username = req.body.username; // Get the username from the request body
 
@@ -373,6 +406,75 @@ app.post('/save-emails', (req, res) => {
   });
 });
 
+
+
+/***
+ * 
+ ==== For sending Mail ====
+ *
+***/
+
+const sendEmails = async (toList, from, password, subject, htmlContent) => {
+  try {
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false, // true for port 465, false for other ports
+      auth: {
+        user: from,
+        pass: password,
+      },
+    });
+
+    // Normalize toList: if it's a string, use it directly; if it's an array, use it as is
+    const emailList = typeof toList === 'string' ? [toList] : (Array.isArray(toList) ? toList : []);
+
+    // Log the email list for debugging
+    console.log("Email list:", emailList);
+
+    // Loop through each email address in the emailList
+    for (const to of emailList) {
+      // Check if the email is valid
+      if (!to || typeof to !== 'string' || !to.includes('@')) {
+        console.error(`Invalid email address: ${to}`);
+        continue; // Skip invalid email addresses
+      }
+
+      const mailOptions = {
+        from,
+        to, 
+        subject,
+        html: htmlContent,
+      };
+
+      // Send the email
+      await transporter.sendMail(mailOptions);
+      console.log(`Email sent to: ${to}`);
+    }
+
+    return { status: 200, message: "All emails sent successfully" };
+  } catch (error) {
+    console.error("Error sending email:", error);
+    throw new Error("Failed to send email");
+  }
+};
+app.post('/send-emails', async (req, res) => {
+  const { toList, from, password, subject, htmlContent } = req.body;
+  
+  // Validate input
+  if (!toList || !from || !password || !subject || !htmlContent) {
+    return res.status(400).json({ status: 400, message: "All fields are required." });
+  }
+
+  try {
+  
+    const result = await sendEmails(toList, from, password, subject, htmlContent);
+    res.status(result.status).json(result);
+  } catch (error) {
+    console.error("Error sending emails:", error); // Log the error for debugging
+    res.status(500).json({ status: 500, message: error.message });
+  }
+});
 
 
 /***

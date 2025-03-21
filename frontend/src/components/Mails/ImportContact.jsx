@@ -7,9 +7,9 @@ import axios from "axios";
 import Mail from "./Mail.jsx"; // Import the Mail component
 import Tabs from "../HomePage/Tabs.jsx";
 import "./ImportContact.css";
-import CircularProgress from "@mui/material/CircularProgress";
+// import CircularProgress from "@mui/material/CircularProgress";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import Box from "@mui/material/Box";
+// import Box from "@mui/material/Box";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
 const ImportContact = () => {
@@ -195,7 +195,7 @@ const ImportContact = () => {
         <div className="container shadow-none" style={{ marginTop: "1rem" }}>
           <h2 className="text-center title">Multiple Mail Wave</h2>
           <p className="text-center" style={{ padding: "0 2rem", lineHeight: "2rem" }}>
-            Sending Multiple Messages And Information To Organization.
+            Sending Multiple Messages And Information To Organizations.
           </p>
           <div
             className="d-flex align-items-center justify-content-center"

@@ -67,7 +67,7 @@ const PreviewMail = ({
 
     const companyNamePattern = /^[a-zA-Z ]*$/;
     if (!companyNamePattern.test(values.companyName)) {
-      setError("The input must contain only letters");
+      setError("The Company Name only contain letters");
       return;
     }
 

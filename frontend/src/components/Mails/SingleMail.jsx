@@ -149,13 +149,14 @@ const SingleMail = () => {
         <div style="text-align: center; color: black;">
           <h3>${bannerData.companyName}</h3>
         </div>
-        <div style="text-align: center; margin-top: 1rem; display:flex; justify-content:center">
-          ${
-            bannerData.bannerUrl
-              ? `<img src="${bannerData.bannerUrl}" alt="" style="width: 90%; height: auto; border-radius: 0.325rem;" />`
-              : `<span></span>`
-          }
-        </div>
+     
+      <div style="margin-top:1rem; display:flex; justify-content: center;">
+  ${
+    bannerData.bannerUrl
+      ? `<img src="${bannerData.bannerUrl}" alt="" style="width: 90%; height: auto; border-radius: 0.325rem; margin:0 auto" />`
+      : `<span></span>`
+  }
+</div>
         <div style="margin: 2rem 0; padding: 0 1.5rem;">  
           <div>${value.message}</div>
         </div>
@@ -196,7 +197,7 @@ const SingleMail = () => {
 
       for (const email of emailList) {
         try {
-          await axios.post("http://localhost:8080/SingleMail", {
+          await axios.post("http://localhost:8080/singleMail", {
             ...emailPayload,
             toList: email,
           });
@@ -275,9 +276,9 @@ const SingleMail = () => {
                 noValidate
                 onSubmit={handleSubmit}
               >
-                <div className="row form_data">
-                  <div className="col-12 col-md-11">
-                    <div className="my-4 d-flex align-items-center">
+                <div className="row form_data single_mail">
+                  <div className="col-12 col-md-11 ">
+                    <div className="my-md-4 my-3 d-flex align-items-center">
                       <label htmlFor="to" className="form-label">
                         To{" "}
                         <span style={{ color: "red", marginLeft: "4px" }}>
@@ -290,7 +291,7 @@ const SingleMail = () => {
                         type="email"
                         className="form-control"
                         id="to"
-                        placeholder="Enter recipients email address"
+                        placeholder="Enter Recipients Email Address"
                         name="to"
                         value={value.to}
                         onChange={handleChange}
@@ -304,7 +305,7 @@ const SingleMail = () => {
                     
                     </div>
             
-                     <div className="mb-4 d-flex align-items-center">
+                     <div className="mb-md-4 mb-3 d-flex align-items-center">
                       <label htmlFor="from" className="form-label">
                         From{" "}
                         <span style={{ color: "red", marginLeft: "4px" }}>
@@ -318,7 +319,7 @@ const SingleMail = () => {
                         type="email"
                         className="form-control "
                         id="from"
-                        placeholder="Enter sender email address"
+                        placeholder="Enter Sender Email Address"
                         name="from"
                         value={value.from}
                         onChange={handleChange}
@@ -333,9 +334,9 @@ const SingleMail = () => {
                     </div>
 
          
-                    <div className="mb-4 d-flex align-items-center">
+                    <div className="mb-md-4 mb-3 d-flex align-items-center">
                       <label htmlFor="Password" className="form-label ">
-                        Password:{" "}
+                        Password{" "}
                         <span
                           style={{
                             color: "red",
@@ -366,17 +367,17 @@ const SingleMail = () => {
                           cursor: "pointer",
                           backgroundColor: "white",
                           position: "absolute",
-                          right: "2.5%",
-                          top:"37%",
+                          right: "3%",
+                          top:"36.5%",
                           border: "none",
                           padding:"0"
                         }}
                        
                       >
                         { showPassword ? (
-                          <VisibilityIcon className="show_eye" />
+                          <VisibilityIcon className="show_eye text-black" />
                         ) : (
-                          <VisibilityOffIcon className="hide_eye"/>
+                          <VisibilityOffIcon className="hide_eye text-black"/>
                         )}
                       </span>
                  
@@ -387,7 +388,7 @@ const SingleMail = () => {
                     </div>
 
            
-                    <div className="mb-4 d-flex align-items-center">
+                    <div className="mb-md-4 mb-3 d-flex align-items-center">
                       <label htmlFor="subject" className="form-label ">
                         Subject{" "}
                         <span style={{ color: "red", marginLeft: "4px" }}>
@@ -415,7 +416,7 @@ const SingleMail = () => {
                      
                     </div>
 
-                    <div className="mb-4 d-flex align-items-center">
+                    <div className="mb-md-4 mb-3 d-flex align-items-center">
                       <label htmlFor="message" className="form-label">
                         Message{" "}
                         <span style={{ color: "red", marginLeft: "4px" }}>
