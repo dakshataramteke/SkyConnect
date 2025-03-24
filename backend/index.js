@@ -241,25 +241,7 @@ app.get('/username', (req, res) => {
   console.log("User Email from session:", username); // Log the user email
 });
 
-/*** 
- *
- ==== Contact Mails for Contact ====
- *  
- ***/
 
-
-app.get("/contactMails", (req, res) => {
-  const email = req.query.email; 
-  // const sql = `SELECT email, dates FROM excelsheetdata WHERE username = ?`;
-  const sql = `SELECT email, DATE_FORMAT(dates, '%Y-%m-%d') AS dates FROM excelsheetdata WHERE username = ?`;
-  connection.query(sql, email, (err, results) => {
-    if (err) {
-      console.error("Error executing query:", err);
-      return res.status(500).send("Internal Server Error");
-    }
-    res.json(results);
-  });
-});
 
 /***
  * 
@@ -348,21 +330,6 @@ app.get("/contactMails", (req, res) => {
 });
 
 
-
-// Define the route to send emails for Multiple Mail
-
-
-// Example usage in your route handler
-app.post("/contact", async (req, res) => {
-  const { toList, from, password, subject, htmlContent } = req.body;
-
-  try {
-    const result = await sendEmails(toList, from, password, subject, htmlContent);
-    res.status(result.status).send(result.message);
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-});
 
 
 /***
@@ -459,6 +426,7 @@ const sendEmails = async (toList, from, password, subject, htmlContent) => {
   }
 };
 app.post('/send-emails', async (req, res) => {
+
   const { toList, from, password, subject, htmlContent } = req.body;
   
   // Validate input
@@ -476,6 +444,41 @@ app.post('/send-emails', async (req, res) => {
   }
 });
 
+
+/*** 
+ * 
+ ==== Contact Page ====
+ *
+ ***/
+app.post("/contact", async (req, res) => {
+  const { toList, from, password, subject, htmlContent } = req.body;
+
+  try {
+    const result = await sendEmails(toList, from, password, subject, htmlContent);
+    res.status(result.status).send(result.message);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+/*** 
+ *
+ ==== Contact Mails for Contact ====
+ *  
+ ***/
+
+
+ app.get("/contactMails", (req, res) => {
+  const email = req.query.email; 
+  // const sql = `SELECT email, dates FROM excelsheetdata WHERE username = ?`;
+  const sql = `SELECT email, DATE_FORMAT(dates, '%Y-%m-%d') AS dates FROM excelsheetdata WHERE username = ?`;
+  connection.query(sql, email, (err, results) => {
+    if (err) {
+      console.error("Error executing query:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+    res.json(results);
+  });
+});
 
 /***
 * 
