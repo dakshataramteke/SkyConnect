@@ -29,7 +29,7 @@ function AppWithAuthCheck() {
   useEffect(() => {
     const fetchValidEmails = async () => {
       try {
-        const response = await fetch('/api/send-emails'); 
+        const response = await fetch('http://localhost:8080/send-emails'); 
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

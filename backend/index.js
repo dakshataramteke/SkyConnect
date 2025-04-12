@@ -17,10 +17,22 @@ const app = express();
 const port = 8080;
 
 // === Configuration  MiddleWares === //
+const allowedOrigins = [
+  'https://skyconnect.skyvisionshopify.in',
+  'http://localhost:3000'
+];
 
 app.use(cors({
-  origin: 'http://localhost:3000',
-  // origin: 'http://192.168.1.16:3000' ,
+  origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      
+      if (allowedOrigins.includes(origin)) {
+          callback(null, true); // Allow the request
+      } else {
+          callback(new Error('Not allowed by CORS')); // Reject the request
+      }
+  },
   credentials: true
 }));
 app.use(express.json());
