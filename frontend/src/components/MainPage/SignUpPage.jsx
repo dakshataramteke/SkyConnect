@@ -17,7 +17,7 @@ const SignUpPage = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     // console.log("All Values is : ",value)
-    setValues({ ...values, [name]: value.trim() });
+    setValues({ ...values, [name]: value.trimStart() });
   };
 
   const handleKeyPress = (e) => {
